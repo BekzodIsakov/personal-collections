@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/userModel");
 
 const checkAuth = async (req, res, next) => {
   try {
@@ -11,12 +11,12 @@ const checkAuth = async (req, res, next) => {
     });
 
     if (!user) throw new Error("User is not authenticated!");
-    if (user.isBlocked) throw new Error("User is blocked!")
+    if (user.isBlocked) throw new Error("User is blocked!");
     req.token = token;
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).send({message: error.message});
+    res.status(401).send({ message: error.message });
   }
 };
 

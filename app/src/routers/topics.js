@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const checkAuth = require("../middlewares/checkAuth");
-const Topic = require("../models/topic");
+const Topic = require("../models/topicModel");
 
 router.post("/topics/new", checkAuth, async (req, res) => {
   const topic = new Topic(req.body);

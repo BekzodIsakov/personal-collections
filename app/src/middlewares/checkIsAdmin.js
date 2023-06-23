@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/userModel");
 
 const checkIsAdmin = async (req, res, next) => {
   if (!req.user.isAdmin)
