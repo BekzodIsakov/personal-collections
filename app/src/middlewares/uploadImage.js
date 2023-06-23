@@ -1,25 +1,28 @@
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-const { S3Client } = require("@aws-sdk/client-s3");
+const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 require("dotenv").config();
 
-console.log({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.S3_REGION,
-  bucket: process.env.S3_BUCKET,
-});
+// console.log({
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//   region: process.env.S3_REGION,
+//   bucket: process.env.S3_BUCKET,
+// });
 
-const s3Config = new S3Client({
+const config = {
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
   region: process.env.S3_REGION,
-});
+}
+
+const client = new S3Client(config);
+// console.log(s3Config);
 
 const s3Storage = multerS3({
-  s3: s3Config,
+  s3: client,
   bucket: process.env.S3_BUCKET,
   acl: "public-read",
   metadata: (req, file, cb) => {
@@ -51,4 +54,16 @@ const uploadImage = multer({
   },
 });
 
-module.exports = uploadImage;
+
+const deleteImage = async (key, bucket) => {
+  const input = {
+    Bucket: bucket || process.env.S3_BUCKET,
+    Key: key,
+  }
+  const command = new DeleteObjectCommand(input);
+  const response = await client.send(command);
+  return response;
+}
+
+
+module.exports = {uploadImage, deleteImage};
