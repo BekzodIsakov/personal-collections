@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 const checkAuth = require("../middlewares/checkAuth");
 const Collection = require("../models/collectionModel");
 const mongoose = require("mongoose");
-const uploadImage = require("../middlewares/uploadImage");
+const { uploadImage } = require("../middlewares/uploadImage");
 
+const multer = require("multer");
 const upload = multer({
   fileFilter: function (req, file, cb) {
     if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
@@ -22,7 +22,8 @@ router.post(
   checkAuth,
   uploadImage.single("image"),
   async (req, res) => {
-    const { originalname, mimetype, size, location } = req.file;
+    console.log({ file: req.file });
+    const { originalname, mimetype, size, location, key } = req.file;
     try {
       const collection = new Collection({
         ...req.body,
@@ -32,17 +33,9 @@ router.post(
           mimetype,
           size,
           location,
+          key,
         },
       });
-      // const imageObject = {
-      //   file: {
-      //     data: req.file.buffer,
-      //     contentType: req.file.mimetype,
-      //   },
-      //   fileName: req.file.originalname,
-      // };
-      // collection.image = imageObject;
-      // res.redirect("/collections/" + collection._id.toString());
       await collection.save();
       res.status(201).send(collection);
     } catch (error) {
@@ -50,6 +43,25 @@ router.post(
     }
   }
 );
+
+// UPDATE
+// router.patch(
+//   "/collections/:id",
+//   checkAuth,
+//   upload.single("image"),
+//   async (req, res) => {
+//     try {
+//       // const collections = await Collection.find({ author: req.user._id })
+//       //   .populate("items")
+//       //   .exec();
+//       // res.send(collections);
+//       // const collection = await Collection.findByIdAndUpdate(req.params.id, {req.})
+//       console.log({ body: req.body });
+//     } catch (error) {
+//       res.status(500).send(error);
+//     }
+//   }
+// );
 
 router.get("/collections", checkAuth, async (req, res) => {
   try {
