@@ -65,5 +65,4 @@ const deleteImage = async (key, bucket) => {
   return response;
 }
 
-
 module.exports = {uploadImage, deleteImage};

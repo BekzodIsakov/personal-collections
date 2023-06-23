@@ -3,15 +3,14 @@ const router = express.Router();
 const checkAuth = require("../middlewares/checkAuth");
 const Collection = require("../models/collectionModel");
 const mongoose = require("mongoose");
-const { uploadImage } = require("../middlewares/uploadImage");
+const { uploadImage, deleteImage } = require("../middlewares/uploadImage");
 
 const multer = require("multer");
 const upload = multer({
   fileFilter: function (req, file, cb) {
-    if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
-      return cb(
-        new Error("Ivalid image format. Valid formats: jpg, jpeg and png")
-      );
+    if (file) {
+      console.log("there is file");
+      uploadImage.single("image");
     }
     cb(null, true);
   },
@@ -23,7 +22,7 @@ router.post(
   uploadImage.single("image"),
   async (req, res) => {
     console.log({ file: req.file });
-    const { originalname, mimetype, size, location, key } = req.file;
+    const { originalname, mimetype, size, location, key } = req.file || {};
     try {
       const collection = new Collection({
         ...req.body,
@@ -45,23 +44,45 @@ router.post(
 );
 
 // UPDATE
-// router.patch(
-//   "/collections/:id",
-//   checkAuth,
-//   upload.single("image"),
-//   async (req, res) => {
-//     try {
-//       // const collections = await Collection.find({ author: req.user._id })
-//       //   .populate("items")
-//       //   .exec();
-//       // res.send(collections);
-//       // const collection = await Collection.findByIdAndUpdate(req.params.id, {req.})
-//       console.log({ body: req.body });
-//     } catch (error) {
-//       res.status(500).send(error);
-//     }
-//   }
-// );
+router.patch(
+  "/collections/:id",
+  checkAuth,
+  uploadImage.single("image"),
+  async (req, res) => {
+    try {
+      // console.log({ file: req.file });
+      // console.log({ body: req.body });
+      // res.send(req.file?.originalname);
+      const update = { ...req.body };
+      if (req.file) {
+        const { originalname, mimetype, size, location, key } = req.file;
+
+        update.image = {
+          originalname,
+          mimetype,
+          size,
+          location,
+          key,
+        };
+
+        const collection = await Collection.findById(req.params.id);
+        collection.image && deleteImage(collection.image.key);
+      }
+
+      const collection = await Collection.findByIdAndUpdate(
+        req.params.id,
+        update,
+        { new: true }
+      )
+        .populate("items")
+        .exec();
+      if (!collection) return res.status(404).send({ message: "Not found!" });
+      res.send(collection);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+);
 
 router.get("/collections", checkAuth, async (req, res) => {
   try {

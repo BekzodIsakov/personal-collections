@@ -32,13 +32,13 @@ const CollectionSchema = new mongoose.Schema({
     mimetype: String,
     size: Number,
     location: String,
+    key: String,
   },
   itemsLength: {
     type: Number,
     default: 0,
   },
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
-  
 });
 
 // CollectionSchema.virtual("items", {
