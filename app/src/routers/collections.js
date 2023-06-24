@@ -50,9 +50,6 @@ router.patch(
   uploadImage.single("image"),
   async (req, res) => {
     try {
-      // console.log({ file: req.file });
-      // console.log({ body: req.body });
-      // res.send(req.file?.originalname);
       const update = { ...req.body };
       if (req.file) {
         const { originalname, mimetype, size, location, key } = req.file;

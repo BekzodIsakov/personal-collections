@@ -23,7 +23,15 @@ router.post("/items/new", checkAuth, async (req, res) => {
 
 router.get("/items/:id", checkAuth, async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
+    const item = await Item.findById(req.params.id).populate({
+      path: "comments",
+      options: {
+        limit: 5,
+      },
+      populate: {
+        path: "user",
+      },
+    });
     if (!item) return res.status(404).send({ message: "Not found!" });
     res.send(item);
   } catch (error) {
@@ -88,6 +96,22 @@ router.post("/items/:id", checkAuth, async (req, res) => {
   }
 });
 
-router.get("/items/:id/comments", items.getItemComments);
+router.get("/items/:id/comments", async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+  try {
+    const comments = await Item.findById(req.params.id)
+      .populate({
+        path: "comments",
+        options: {
+          skip: (page - 1) * limit,
+          limit,
+        },
+      })
+      .select("comments");
+    res.send(comments);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 module.exports = router;
