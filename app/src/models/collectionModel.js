@@ -23,13 +23,7 @@ const collectionSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  // image: Buffer,
   image: {
-    // file: {
-    //   data: Buffer,
-    //   contentType: String,
-    // },
-    // fileName: String,
     originalname: String,
     mimetype: String,
     size: Number,
@@ -42,12 +36,6 @@ const collectionSchema = new mongoose.Schema({
   },
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
 });
-
-// collectionSchema.virtual("items", {
-//   ref: "Item",
-//   localField: "_id",
-//   foreignField: "parentCollection",
-// });
 
 collectionSchema.pre(
   "deleteOne",
