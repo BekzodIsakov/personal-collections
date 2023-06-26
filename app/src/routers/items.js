@@ -21,23 +21,9 @@ router.post("/items/new", checkAuth, async (req, res) => {
   }
 });
 
-router.get("/items/:id", checkAuth, async (req, res) => {
-  try {
-    const item = await Item.findById(req.params.id).populate({
-      path: "comments",
-      options: {
-        limit: 5,
-      },
-      populate: {
-        path: "user",
-      },
-    });
-    if (!item) return res.status(404).send({ message: "Not found!" });
-    res.send(item);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+router.get("/items/:id", checkAuth, items.getItems);
+
+router.post("/items/:id/comments/new", checkAuth, items.addNewComment);
 
 router.patch("/items/:id/react", checkAuth, async (req, res) => {
   try {
@@ -110,7 +96,7 @@ router.get("/items/:id/comments", async (req, res) => {
       .select("comments");
     res.send(comments);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: error.message });
   }
 });
 

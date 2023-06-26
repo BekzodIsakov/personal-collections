@@ -1,6 +1,27 @@
 const mongoose = require("mongoose");
 
-const ItemSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema(
+  {
+    comment: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    item: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+const itemSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,16 +36,11 @@ const ItemSchema = new mongoose.Schema({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
   },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  // comments: [
-  //   {
-  //     comment: String,
-  //     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  //   },
-  // ],
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  comments: [commentSchema],
+  // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   optionalFields: {
     type: [{ key: "String", value: mongoose.Schema.Types.Mixed }],
   },
 });
 
-module.exports = new mongoose.model("Item", ItemSchema);
+module.exports = new mongoose.model("Item", itemSchema);

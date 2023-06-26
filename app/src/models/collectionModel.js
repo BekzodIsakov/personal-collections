@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const CollectionSchema = new mongoose.Schema({
+const Item = require("../models/itemModel");
+
+const collectionSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
@@ -41,11 +43,21 @@ const CollectionSchema = new mongoose.Schema({
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
 });
 
-// CollectionSchema.virtual("items", {
+// collectionSchema.virtual("items", {
 //   ref: "Item",
 //   localField: "_id",
 //   foreignField: "parentCollection",
 // });
 
-const Collection = new mongoose.model("Collection", CollectionSchema);
+collectionSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    const collection = this;
+    await Item.deleteMany({ _id: { $in: collection.items } });
+    next();
+  }
+);
+
+const Collection = new mongoose.model("Collection", collectionSchema);
 module.exports = Collection;
