@@ -47,5 +47,4 @@ collectionSchema.pre(
   }
 );
 
-const Collection = new mongoose.model("Collection", collectionSchema);
-module.exports = Collection;
+module.exports = new mongoose.model("Collection", collectionSchema);

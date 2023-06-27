@@ -21,26 +21,34 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const itemSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
+const itemSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    tags: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
+    },
+    collectionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collection",
+      required: true,
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    comments: [commentSchema],
+    // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    optionalFields: {
+      type: [{ key: "String", value: mongoose.Schema.Types.Mixed }],
+    },
   },
-  collectionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Collection",
-    required: true,
-  },
-  tags: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
-  },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  comments: [commentSchema],
-  // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-  optionalFields: {
-    type: [{ key: "String", value: mongoose.Schema.Types.Mixed }],
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = new mongoose.model("Item", itemSchema);

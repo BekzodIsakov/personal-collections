@@ -114,7 +114,6 @@ const updateCollection = async (req, res) => {
 const deleteCollection = async (req, res) => {
   const collection = await Collection.findOne({ _id: req.params.id });
   collection.deleteOne();
-  // await collection.remove();
 
   res.status(204).send();
 };
