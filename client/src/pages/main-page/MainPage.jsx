@@ -8,8 +8,17 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import CustomLink from "../../components/CustomLink";
+import { useEffect } from "react";
+import { fetchLatestItems } from "../../store/slices/latestItemsSlice";
+import { useDispatch } from "react-redux";
 
 const MainPage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchLatestItems(5));
+    console.log("useEffect main page");
+  });
+
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb='2'>

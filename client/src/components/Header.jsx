@@ -17,7 +17,7 @@ const Header = () => {
 
         <HStack alignItems='center' h='40%'>
           <HStack mr={3}>
-            <Avatar src='https://bit.ly/broken-link' size='xs' />
+            <Avatar name='User Name' src='' size='xs' />
             <Text whiteSpace='nowrap'>User Name</Text>
           </HStack>
           <Divider
