@@ -1,22 +1,30 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import ParentRoute from "./ParentRoute";
+import MainPage from "../pages/main-page/MainPage";
 
 const Routes = () => {
   const { token } = useAuth();
 
   const routesForPublic = [
     {
-      path: "main",
-      element: <div>main page</div>,
+      path: "/",
+      element: <ParentRoute />,
+      children: [
+        { path: "/items/:itemId", element: <div>particual item page</div> },
+        { path: "/", element: <MainPage /> },
+      ],
     },
     {
-      path: "/items/*",
-      element: <div>particual item page</div>,
+      path: "/signin",
+      element: <SignIn />,
     },
     {
-      path: "/login",
-      element: <div>Login page</div>,
+      path: "/signup",
+      element: <SignUp />,
     },
     {
       path: "*",
@@ -54,6 +62,10 @@ const Routes = () => {
     {
       path: "/admins/:id",
       element: <div>admin page</div>,
+    },
+    {
+      path: "/users/:id",
+      element: <div>user page</div>,
     },
   ];
 

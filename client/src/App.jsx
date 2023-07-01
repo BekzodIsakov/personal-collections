@@ -6,7 +6,9 @@ import Routes from "./routes";
 
 function App() {
   return (
+    
     <AuthProvider>
+      {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
       <Routes />
     </AuthProvider>
     /* // <Routes>
