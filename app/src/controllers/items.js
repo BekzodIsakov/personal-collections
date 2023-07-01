@@ -6,7 +6,7 @@ const getItems = async (req, res) => {
   try {
     const { page, limit } = req.query;
     const items = await Item.find()
-      .populate("author")
+      .populate("author collection")
       .select({ comments: 0 })
       .sort("-updatedAt")
       .skip((page - 1) * limit)
@@ -34,7 +34,7 @@ const createNewItem = async (req, res) => {
     const item = new Item({ ...req.body, author: req.user._id });
     await item.save();
     await collection.updateOne(
-      { _id: req.body.collectionId },
+      { _id: req.body.parentCollection },
       { $push: { items: item._id }, $inc: { itemsLength: 1 } }
     );
     res.status(201).send(item);
@@ -64,7 +64,7 @@ const deleteItem = async (req, res) => {
     if (!item) return res.status(404).send({ message: "Not found!" });
 
     // if (!(req.user.isAdmin || item.author.equals(req.user._id))) {
-    //   return res.status(401).send({ message: "Unauthorized request!" });
+    //   return res.status(401).send({ message: "Unauthorized request!"});
     // }
 
     // if (isUnauthorized(req.user, item.author)) {

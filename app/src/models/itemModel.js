@@ -31,7 +31,7 @@ const itemSchema = new mongoose.Schema(
     tags: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     },
-    collectionId: {
+    parentCollection: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Collection",
       required: true,
