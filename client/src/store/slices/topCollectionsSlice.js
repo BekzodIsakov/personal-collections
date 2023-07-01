@@ -2,17 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  latestItems: [],
+  topCollections: [],
   status: "idle",
   error: null,
 };
 
-export const fetchLatestItems = createAsyncThunk(
-  "latestItems/fetchLatestItems",
-  async (limit, thunkAPI) => {
+export const fetchTopFiveCollections = createAsyncThunk(
+  "topCollections/fetchTop5Collections",
+  async (thunkAPI) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/items?limit=${limit}`
+        `${import.meta.env.VITE_DEV_URL}/collections/topFive`
       );
       return response.data;
     } catch (error) {
@@ -21,24 +21,24 @@ export const fetchLatestItems = createAsyncThunk(
   }
 );
 
-export const latestItemsSlice = createSlice({
+export const topCollectionsSlice = createSlice({
   name: "latestItems",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchLatestItems.pending, (state) => {
+      .addCase(fetchTopFiveCollections.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(fetchLatestItems.fulfilled, (state, action) => {
-        state.latestItems = action.payload;
+      .addCase(fetchTopFiveCollections.fulfilled, (state, action) => {
+        state.topCollections = action.payload;
         state.status = "succeeded";
       })
-      .addCase(fetchLatestItems.rejected, (state, action) => {
+      .addCase(fetchTopFiveCollections.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
 
-export default latestItemsSlice.reducer;
+export default topCollectionsSlice.reducer;
