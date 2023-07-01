@@ -6,7 +6,7 @@ const getItems = async (req, res) => {
   try {
     const { page, limit } = req.query;
     const items = await Item.find()
-      .populate("author collection")
+      .populate("author parentCollection")
       .select({ comments: 0 })
       .sort("-updatedAt")
       .skip((page - 1) * limit)

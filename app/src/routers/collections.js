@@ -7,11 +7,7 @@ const collections = require("../controllers/collection");
 
 router.get("/collections", checkAuth, collections.getCollections);
 
-router.get(
-  "/collections/topFive",
-  checkAuth,
-  collections.getTopFiveCollections
-);
+router.get("/collections/topFive", collections.getTopFiveCollections);
 
 router.get("/collections/:id", checkAuth, collections.getCollectionById);
 
