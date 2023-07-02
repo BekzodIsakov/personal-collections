@@ -3,26 +3,27 @@ import axios from "axios";
 
 const initialState = {
   currentUser: {
-    data: null,
+    // data: null,
+    data: { name: "User Name" },
     status: "idle",
     error: null,
   },
   users: [],
 };
 
-export const createUser = createAsyncThunk(
-  "users/createUser",
-  async (thunkAPI) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/collections/topFive`
-      );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue({ error: error.message });
-    }
-  }
-);
+// export const createUser = createAsyncThunk(
+//   "users/createUser",
+//   async (thunkAPI) => {
+//     try {
+//       const response = await axios.get(
+//         `${import.meta.env.VITE_DEV_URL}/collections/topFive`
+//       );
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue({ error: error.message });
+//     }
+//   }
+// );
 
 const usersSlice = createSlice({
   name: "users",

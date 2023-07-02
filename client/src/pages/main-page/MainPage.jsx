@@ -117,15 +117,17 @@ const itemsArray = [
 const MainPage = () => {
   const dispatch = useDispatch();
 
-  const reducers = useSelector((state) => state);
-  const { latestItems, status: itemsStatus } = reducers.latestItemsReducer;
-  const { topCollections, status: collectionsStatus } =
-    reducers.topCollectionsReducer;
+  const { latestItems, status: itemsStatus } = useSelector(
+    (state) => state.latestItemsReducer
+  );
+  const { topCollections, status: collectionsStatus } = useSelector(
+    (state) => state.topCollectionsReducer
+  );
 
   React.useEffect(() => {
     dispatch(fetchLatestItems(5));
     dispatch(fetchTopFiveCollections());
-  }, []);
+  }, [dispatch]);
 
   // Here's the signature
   const tagColorMode = useColorModeValue("blackAlpha", "gray");
