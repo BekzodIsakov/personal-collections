@@ -28,30 +28,31 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.usersReducer.currentUser);
 
-  const {setToken} = useAuth();
+  const { setToken } = useAuth();
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userCredentials = {
-      email,
-      password,
-    };
-    
-    dispatch(signInUser(userCredentials));
+
+    dispatch(
+      signInUser({
+        email,
+        password,
+      })
+    );
   };
 
   React.useEffect(() => {
     if (currentUser.data) {
-      setToken(currentUser.data.token)
-      navigate("/", {replace: true})
+      setToken(currentUser.data.token);
+      navigate("/", { replace: true });
     }
-  }, [currentUser, setToken, navigate])
+  }, [currentUser, setToken, navigate]);
 
   return (
     <Flex
@@ -66,10 +67,10 @@ const SignIn = () => {
         </Stack>
 
         <Box
-          rounded='lg'
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow='lg'
           p={8}
+          rounded='lg'
+          boxShadow='lg'
+          bg={useColorModeValue("white", "gray.700")}
         >
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
@@ -111,7 +112,7 @@ const SignIn = () => {
                   {currentUser.error}
                 </Text>
                 <Button
-                  isLoading={currentUser.state === "idle"}
+                  isLoading={currentUser.status === "idle"}
                   loadingText='Submitting'
                   type='submit'
                   bg={"blue.400"}
