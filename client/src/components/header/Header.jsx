@@ -15,7 +15,7 @@ import { signOutUser } from "../../store/slices/usersSlice";
 import { useAuth } from "../../provider/authProvider";
 
 const Header = () => {
-  const { currentUser } = useSelector((state) => state.usersReducer);
+  const currentUser = useSelector((state) => state.usersReducer.currentUser);
   const dispatch = useDispatch();
 
   const { setToken } = useAuth();
@@ -24,6 +24,8 @@ const Header = () => {
     dispatch(signOutUser());
     setToken(null);
   };
+
+  console.log({ currentUser });
 
   return (
     <Box
@@ -38,9 +40,9 @@ const Header = () => {
         {currentUser.data ? (
           <HStack alignItems='center' h='40%'>
             <HStack mr={3}>
-              <Avatar name={currentUser.data.name} src='' size='xs' />
+              <Avatar name={currentUser.data.user.name} src='' size='xs' />
               <Text whiteSpace='nowrap' display={{ base: "none", md: "block" }}>
-                {currentUser.data.name}
+                {currentUser.data.user.name}
               </Text>
             </HStack>
             <Divider
