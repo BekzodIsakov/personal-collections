@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -11,9 +11,20 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Navigation from "./Navigations/Navigation";
+import { signOutUser } from "../../store/slices/usersSlice";
+import { useAuth } from "../../provider/authProvider";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.usersReducer);
+  const dispatch = useDispatch();
+
+  const { setToken } = useAuth();
+
+  const handleSignOut = () => {
+    dispatch(signOutUser());
+    setToken(null);
+  };
+
   return (
     <Box
       position={"sticky"}
@@ -37,7 +48,14 @@ const Header = () => {
               variant='solid'
               borderColor='gray.400'
             />
-            <Button variant={"ghost"} colorScheme={"red"} size={"sm"}>
+            <Button
+              isLoading={currentUser.status === "pending"}
+              loadingText={"Sign out"}
+              variant={"ghost"}
+              colorScheme={"red"}
+              size={"sm"}
+              onClick={handleSignOut}
+            >
               Sign out
             </Button>
           </HStack>
