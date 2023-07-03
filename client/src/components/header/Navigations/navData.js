@@ -1,18 +1,7 @@
 export default [
   {
-    label: "Inspiration",
-    children: [
-      {
-        label: "Explore design work",
-        subLabel: "Trending design to inspire you",
-        to: "/trending",
-      },
-      {
-        label: "New & networthy",
-        subLabel: "Up-and-coming Designers",
-        to: "/new",
-      },
-    ],
+    label: "My collections",
+    to: "/me/collections",
   },
 ];
 

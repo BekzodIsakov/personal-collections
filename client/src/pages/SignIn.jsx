@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -12,15 +12,46 @@ import {
   Stack,
   useColorModeValue,
   Link,
+  Text,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { signInUser } from "../store/slices/usersSlice";
+import { useAuth } from "../provider/authProvider";
 
 const SignIn = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.usersReducer.currentUser);
+
+  const {setToken} = useAuth();
+
+  const navigate = useNavigate()
+  
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const userCredentials = {
+      email,
+      password,
+    };
+    
+    dispatch(signInUser(userCredentials));
+  };
+
+  React.useEffect(() => {
+    if (currentUser.data) {
+      setToken(currentUser.data.token)
+      navigate("/", {replace: true})
+    }
+  }, [currentUser, setToken, navigate])
 
   return (
     <Flex
@@ -40,16 +71,26 @@ const SignIn = () => {
           boxShadow='lg'
           p={8}
         >
-          <form>
+          <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl id='email'>
                 <FormLabel>Email address</FormLabel>
-                <Input type='email' required />
+                <Input
+                  type='email'
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </FormControl>
               <FormControl id='password'>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? "text" : "password"} required />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                   <InputRightElement width='4.5rem'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
                       {showPassword ? "Hide" : "Show"}
@@ -57,7 +98,7 @@ const SignIn = () => {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <Stack spacing={10}>
+              <Stack spacing={1}>
                 {/*<Stack
                 direction={{ base: "column", sm: "row" }}
                 align={"start"}
@@ -66,7 +107,12 @@ const SignIn = () => {
                 <Checkbox>Remember me</Checkbox>
                 <Link color={"blue.400"}>Forgot password?</Link>
               </Stack>*/}
+                <Text color={"tomato"} fontSize={"sm"}>
+                  {currentUser.error}
+                </Text>
                 <Button
+                  isLoading={currentUser.state === "idle"}
+                  loadingText='Submitting'
                   type='submit'
                   bg={"blue.400"}
                   color={"white"}

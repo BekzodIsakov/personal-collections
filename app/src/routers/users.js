@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const checkAuth = require("../middlewares/checkAuth");
 const checkIsAdmin = require("../middlewares/checkIsAdmin");
 const router = express.Router();
+const users = require("../controllers/users");
 
 router.post("/users/new", async (req, res) => {
   console.log({ body: req.body });
@@ -21,7 +22,7 @@ router.post("/users/new", async (req, res) => {
         });
       }
     }
-    res.status(400).send(error);
+    res.status(400).send({ message: error.message });
   }
 });
 
@@ -35,7 +36,7 @@ router.post("/users/signin", async (req, res) => {
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (error) {
-    res.status(400).send(error.toString());
+    res.status(400).send({ message: error.message });
   }
 });
 
@@ -72,15 +73,18 @@ router.delete("/users/me", checkAuth, checkIsAdmin, async (req, res) => {
   }
 });
 
-router.post("/users/signout", checkAuth, async (req, res) => {
-  try {
-    req.user.tokens = req.user.tokens.filter((token) => token != req.token);
-    await req.user.save();
-    res.send();
-  } catch {
-    res.status(500).send();
-  }
-});
+router.post("/users/signout", checkAuth, users.signOutUser);
+// router.post("/users/signout", checkAuth, async (req, res) => {
+//   try {
+//     req.user.tokens = req.user.tokens.filter((token) => token != req.token);
+//     req.user.lastSeenAt = new Date();
+//     console.log({ lastSeenAt: req.user.lastSeenAt });
+//     await req.user.save();
+//     res.status(204).send();
+//   } catch (error) {
+//     res.status(500).send({ message: error.message });
+//   }
+// });
 
 router.get("/users", checkAuth, checkIsAdmin, async (req, res) => {
   try {

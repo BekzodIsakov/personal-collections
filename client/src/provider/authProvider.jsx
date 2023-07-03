@@ -4,10 +4,12 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, _setToken] = useState(localStorage.getItem("token"));
 
-  const setUserToken = (newToken) => {
-    setToken(newToken);
+  
+
+  const setToken = (newToken) => {
+    _setToken(newToken);
   };
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const AuthProvider = ({ children }) => {
   const contextValue = useMemo(
     () => ({
       token,
-      setUserToken,
+      setToken,
     }),
     [token]
   );

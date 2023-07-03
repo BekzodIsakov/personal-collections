@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -5,19 +7,9 @@ import {
   Divider,
   Flex,
   HStack,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
-import DesktopNav from "./Navigations/DesktopNav";
-import MobileNav from "./Navigations/MobileNav";
-import navItems from "./Navigations/navData";
 import Navigation from "./Navigations/Navigation";
 
 const Header = () => {
@@ -30,7 +22,7 @@ const Header = () => {
       bg={useColorModeValue("gray.50", "gray.700")}
     >
       <Flex h={14} px={4} alignItems={"center"} justifyContent='space-between'>
-        <Navigation />
+        {currentUser.data ? <Navigation /> : <div></div>}
 
         {currentUser.data ? (
           <HStack alignItems='center' h='40%'>

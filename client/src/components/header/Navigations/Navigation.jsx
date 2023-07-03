@@ -49,7 +49,7 @@ const Navigation = () => {
           )}
         </Menu>
       </Flex>
-      <Flex display={{ base: "none", md: "flex" }} ml={10}>
+      <Flex display={{ base: "none", md: "flex" }} ml={3}>
         <DesktopNav
           navItems={navItems}
           linkColor={linkColor}
