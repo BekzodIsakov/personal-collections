@@ -112,7 +112,7 @@ const SignIn = () => {
                   {currentUser.error}
                 </Text>
                 <Button
-                  isLoading={currentUser.status === "idle"}
+                  isLoading={currentUser.status === "pending"}
                   loadingText='Submitting'
                   type='submit'
                   bg={"blue.400"}

@@ -14,9 +14,9 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import CustomLink from "../../components/CustomLink";
-import { fetchLatestItems } from "../../store/slices/latestItemsSlice";
-import { fetchTopFiveCollections } from "../../store/slices/topCollectionsSlice";
+import CustomLink from "../components/CustomLink";
+import { fetchLatestItems } from "../store/slices/latestItemsSlice";
+import { fetchTopFiveCollections } from "../store/slices/topCollectionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const MainPage = () => {
