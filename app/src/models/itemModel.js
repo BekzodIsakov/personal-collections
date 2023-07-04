@@ -41,7 +41,6 @@ const itemSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    liked: { type: Boolean, default: false },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     comments: [commentSchema],
     // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
