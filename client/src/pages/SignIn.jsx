@@ -15,22 +15,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
-import { signInUser } from "../store/slices/usersSlice";
 import { useAuth } from "../provider/authProvider";
+import { useUserSignIn } from "../hooks/user";
 
 const SignIn = () => {
+  const { data, loading, errorMessage, onSignIn } = useUserSignIn();
+  const { setToken, setUser } = useAuth();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.usersReducer.currentUser);
-
-  const { setToken } = useAuth();
-
-  const navigate = useNavigate();
 
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
@@ -38,21 +34,20 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(
-      signInUser({
-        email,
-        password,
-      })
-    );
+    onSignIn({ email, password });
   };
 
   React.useEffect(() => {
-    if (currentUser.data) {
-      setToken(currentUser.data.token);
+    if (data) {
+      setToken(data.token);
+      setUser({
+        name: data.user.name,
+        isAdmin: data.user.isAdmin,
+        id: data.user._id,
+      });
       navigate("/", { replace: true });
     }
-  }, [currentUser, setToken, navigate]);
+  }, [data, setToken, setUser, navigate]);
 
   return (
     <Flex
@@ -100,19 +95,11 @@ const SignIn = () => {
                 </InputGroup>
               </FormControl>
               <Stack spacing={1}>
-                {/*<Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-                >
-                <Checkbox>Remember me</Checkbox>
-                <Link color={"blue.400"}>Forgot password?</Link>
-              </Stack>*/}
                 <Text color={"tomato"} fontSize={"sm"}>
-                  {currentUser.error}
+                  {errorMessage}
                 </Text>
                 <Button
-                  isLoading={currentUser.status === "pending"}
+                  isLoading={loading}
                   loadingText='Submitting'
                   type='submit'
                   bg={"blue.400"}

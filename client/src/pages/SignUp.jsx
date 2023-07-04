@@ -14,18 +14,14 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { signUpUser } from "../store/slices/usersSlice";
+
 import { useAuth } from "../provider/authProvider";
+import { useUserSignUp } from "../hooks/user";
 
 const SignUp = () => {
-  const currentUser = useSelector((state) => state.usersReducer.currentUser);
-  const dispatch = useDispatch();
-
-  const { setToken } = useAuth();
-
+  const { data, loading, errorMessage, onSignUp } = useUserSignUp();
+  const { setToken, setUser } = useAuth();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -39,17 +35,20 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signUpUser({ name, email, password }));
+    onSignUp({ name, email, password });
   };
 
-  console.log({ currentUser });
-
   React.useEffect(() => {
-    if (currentUser.data) {
-      setToken(currentUser.data.token);
+    if (data) {
+      setToken(data.token);
+      setUser({
+        name: data.user.name,
+        isAdmin: data.user.isAdmin,
+        id: data.user._id,
+      });
       navigate("/", { replace: true });
     }
-  }, [currentUser, setToken, navigate]);
+  }, [data, setToken, setUser, navigate]);
 
   return (
     <Flex
@@ -105,20 +104,12 @@ const SignUp = () => {
                 </InputGroup>
               </FormControl>
               <Stack spacing={1}>
-                {/*<Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-                >
-                <Checkbox>Remember me</Checkbox>
-                <Link color={"blue.400"}>Forgot password?</Link>
-              </Stack>*/}
                 <Text color={"tomato"} fontSize={"sm"}>
-                  {currentUser.error}
+                  {errorMessage}
                 </Text>
                 <Button
                   type='submit'
-                  isLoading={currentUser.status === "pending"}
+                  isLoading={loading}
                   loadingText='Submitting'
                   bg={"blue.400"}
                   color={"white"}
@@ -134,9 +125,6 @@ const SignUp = () => {
         </Box>
         <Box color='gray.500'>
           Already have an account?&nbsp;&nbsp;
-          {/* <RouterLink to='/signin' color={"blue.400"} fontWeight='bold'>
-            Sign in
-          </RouterLink> */}
           <Link
             as={RouterLink}
             to='/signin'

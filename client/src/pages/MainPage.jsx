@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Button,
   Divider,
   HStack,
   Heading,
@@ -13,11 +14,13 @@ import {
   UnorderedList,
   VStack,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import CustomLink from "../components/CustomLink";
 import { fetchLatestItems } from "../store/slices/latestItemsSlice";
 import { fetchTopFiveCollections } from "../store/slices/topCollectionsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ItemModal from "./ItemModal";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -29,7 +32,18 @@ const MainPage = () => {
     (state) => state.topCollectionsReducer
   );
 
+  const [currentItemId, setCurrentItemId] = React.useState("");
+  const [currentItemName, setCurrentItemName] = React.useState("");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const tagColorMode = useColorModeValue("blackAlpha", "gray");
+
+  const openItemModal = (itemId, itemName) => {
+    setCurrentItemId(itemId);
+    setCurrentItemName(itemName);
+    onOpen();
+  };
 
   React.useEffect(() => {
     dispatch(fetchLatestItems(5));
@@ -57,13 +71,22 @@ const MainPage = () => {
       itemsList = latestItems.map((item) => (
         <ListItem key={item._id} mb='4'>
           <Box>
-            <CustomLink to={`/items/${item._id}`}>{item.name}</CustomLink>
+            <Text>{item.name}</Text>
             <HStack>
               <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
                 {item.parentCollection.title}
               </Tag>
               <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
               <Text fontWeight={"medium"}>{item.author.name}</Text>
+              <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
+              <Button
+                size={"xs"}
+                variant={"outline"}
+                colorScheme='blue.400'
+                onClick={() => openItemModal(item._id, item.name)}
+              >
+                View
+              </Button>
             </HStack>
           </Box>
         </ListItem>
@@ -113,27 +136,39 @@ const MainPage = () => {
   }
 
   return (
-    <VStack spacing={"8"} align='stretch'>
-      <Box>
-        <Heading as='h2' fontSize='2xl' mb='4'>
-          Latest items
-        </Heading>
-        <UnorderedList>{itemsList}</UnorderedList>
-      </Box>
+    <>
+      <VStack spacing={"8"} align='stretch'>
+        <Box>
+          <Heading as='h2' fontSize='2xl' mb='4'>
+            Latest items
+          </Heading>
+          <UnorderedList>{itemsList}</UnorderedList>
+        </Box>
 
-      <Box>
-        <Heading as='h2' fontSize='2xl' mb='4'>
-          Top 5 collections
-        </Heading>
-        <OrderedList>{collectionsList}</OrderedList>
-      </Box>
+        <Box>
+          <Heading as='h2' fontSize='2xl' mb='4'>
+            Top 5 collections
+          </Heading>
+          <OrderedList>{collectionsList}</OrderedList>
+        </Box>
 
-      <Box>
-        <Heading as='h2' fontSize='2xl' mb='4'>
-          Tags cloud
-        </Heading>
-      </Box>
-    </VStack>
+        <Box>
+          <Heading as='h2' fontSize='2xl' mb='4'>
+            Tags cloud
+          </Heading>
+        </Box>
+      </VStack>
+      {isOpen && (
+        <ItemModal
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onClose={onClose}
+          itemId={currentItemId}
+          setItemId={setCurrentItemId}
+          itemName={currentItemName}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -11,21 +10,18 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Navigation from "./Navigations/Navigation";
-import { signOutUser } from "../../store/slices/usersSlice";
 import { useAuth } from "../../provider/authProvider";
+import { useUserSignOut } from "../../hooks/user";
 
 const Header = () => {
-  const currentUser = useSelector((state) => state.usersReducer.currentUser);
-  const dispatch = useDispatch();
+  const { loading, onSignOut } = useUserSignOut();
 
-  const { setToken } = useAuth();
+  const { token, user, setToken } = useAuth();
 
   const handleSignOut = () => {
-    dispatch(signOutUser());
+    onSignOut();
     setToken(null);
   };
-
-  console.log({ currentUser });
 
   return (
     <Box
@@ -35,14 +31,14 @@ const Header = () => {
       bg={useColorModeValue("gray.50", "gray.700")}
     >
       <Flex h={14} px={4} alignItems={"center"} justifyContent='space-between'>
-        {currentUser.data ? <Navigation /> : <div></div>}
+        {token ? <Navigation /> : <div></div>}
 
-        {currentUser.data ? (
+        {token ? (
           <HStack alignItems='center' h='40%'>
             <HStack mr={3}>
-              <Avatar name={currentUser.data.user.name} src='' size='xs' />
+              <Avatar name={user.name} src='' size='xs' />
               <Text whiteSpace='nowrap' display={{ base: "none", md: "block" }}>
-                {currentUser.data.user.name}
+                {user.name}
               </Text>
             </HStack>
             <Divider
@@ -51,7 +47,7 @@ const Header = () => {
               borderColor='gray.400'
             />
             <Button
-              isLoading={currentUser.status === "pending"}
+              isLoading={loading}
               loadingText={"Sign out"}
               variant={"ghost"}
               colorScheme={"red"}
