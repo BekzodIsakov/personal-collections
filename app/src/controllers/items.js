@@ -85,14 +85,16 @@ const likeUnlikeItem = async (req, res) => {
       _id: req.params.id,
     });
 
-    if (item.likes.includes(req.user._id)) {
+    if (item.liked) {
+      item.liked = false;
       item.likes.pull(req.user._id);
     } else {
+      item.liked = true;
       item.likes.push(req.user._id);
     }
 
     await item.save();
-    res.send(item);
+    res.send({liked: item.liked, likes: item.likes});
 
     // if (item) await Item.findByIdAndUpdate(req.params.id , { $pull: { likes: {user: req.user._id} } });
     // else await Item.findByIdAndUpdate(req.params.id , { $push: { likes: {user: req.user._id} } });
