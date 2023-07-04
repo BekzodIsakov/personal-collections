@@ -26,6 +26,7 @@ const Header = () => {
   return (
     <Box
       position={"sticky"}
+      zIndex={"docked"}
       top={0}
       boxShadow='md'
       bg={useColorModeValue("gray.50", "gray.700")}
