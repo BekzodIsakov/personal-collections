@@ -119,7 +119,7 @@ const addNewComment = async (req, res) => {
   try {
     const comment = {
       comment: req.body.comment,
-      user: req.user._id,
+      author: req.user._id,
       item: req.params.id,
     };
     await Item.findByIdAndUpdate(req.params.id, {
@@ -146,7 +146,7 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const result = await Item.updateOne(
+    await Item.updateOne(
       { _id: req.params.id, author: req.user._id },
       {
         $pull: {
