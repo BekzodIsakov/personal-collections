@@ -3,12 +3,17 @@ const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
 
 const getItems = async (req, res) => {
+  const sort = {}
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split("_")
+    sort[parts[0]] = parts[1]
+  }
   try {
     const { page, limit } = req.query;
     const items = await Item.find()
       .populate("author parentCollection")
       .select({ comments: 0 })
-      .sort("-updatedAt")
+      .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
