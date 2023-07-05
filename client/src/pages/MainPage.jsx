@@ -46,7 +46,7 @@ const MainPage = () => {
   };
 
   React.useEffect(() => {
-    dispatch(fetchLatestItems(5));
+    dispatch(fetchLatestItems({ sortBy: "updatedAt_desc", limit: 10 }));
     dispatch(fetchTopFiveCollections());
   }, [dispatch]);
 
