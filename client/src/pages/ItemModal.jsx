@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -19,6 +20,8 @@ import {
   Skeleton,
   Text,
   Textarea,
+  VStack,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -38,7 +41,7 @@ const ItemModal = ({
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
 
   // const currentUser = useSelector((state) => state.usersReducer.user)
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const toast = useToast();
 
   const { loading, item, onItemFetch, updateItem } = useItemFetch();
@@ -95,6 +98,10 @@ const ItemModal = ({
     setItemId("");
   };
 
+  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
+  const commentTextBg = useColorModeValue("gray.200", "gray.600");
+  const commentTextColor = useColorModeValue("black", "gray.50");
+
   React.useEffect(() => {
     if (itemId) {
       onItemFetch(itemId);
@@ -116,7 +123,7 @@ const ItemModal = ({
     modalContent = (
       <>
         <Card variant='outline'>
-          <CardBody>
+          <CardBody p={3}>
             <List>
               <ListItem>Author - {item.author.name}</ListItem>
               {item.optionalFields.length &&
@@ -152,16 +159,54 @@ const ItemModal = ({
           </Button>
         </HStack>
         <Collapse in={isCollapsed} animateOpacity>
-          <Box p={3} mb={2} color='gray.600' bg='gray.50' rounded='md'>
-            {item.comments.length ? (
-              item.comments.map((c) => <Box key={c._id}>{c.comment}</Box>)
-            ) : (
-              <Text fontSize={"sm"}>No comments</Text>
-            )}
-          </Box>
-          <Box>
-            <Textarea />
-            <Button>Comment</Button>
+          <Box p={3} bg={commentsSectionBg} rounded={"md"}>
+            <Box mb={4}>
+              {token ? (
+                <HStack align={"start"}>
+                  <Avatar name={user?.name} size={"xs"} />
+                  <Textarea rows={2} rounded={"lg"} />
+                  <Button size={"xs"} colorScheme={"blue"} px={3}>
+                    comment
+                  </Button>
+                </HStack>
+              ) : (
+                <Box>
+                  <Text fontWeight={"medium"}>
+                    You must be logged in to comment.
+                  </Text>{" "}
+                  &nbsp;
+                  <Link href='/signin' color='blue.400'>
+                    Sign in
+                  </Link>{" "}
+                  |{" "}
+                  <Link href='/signup' color='blue.400'>
+                    Sign up
+                  </Link>
+                </Box>
+              )}
+            </Box>
+            <VStack spacing={3} align={"stretch"} rounded='md'>
+              {item.comments.length ? (
+                item.comments.map((c) => (
+                  <HStack key={c._id} align={"start"}>
+                    <Avatar name={c.author.name} size={"xs"} />
+                    <Text
+                      color={commentTextColor}
+                      bg={commentTextBg}
+                      fontSize={"sm"}
+                      rounded={"md"}
+                      py={1}
+                      px={2}
+                      w={"100%"}
+                    >
+                      {c.comment}
+                    </Text>
+                  </HStack>
+                ))
+              ) : (
+                <Text fontSize={"sm"}>No comments</Text>
+              )}
+            </VStack>
           </Box>
         </Collapse>
       </>
