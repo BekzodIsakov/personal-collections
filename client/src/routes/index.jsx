@@ -14,7 +14,7 @@ const Routes = () => {
       path: "/",
       element: <ParentRoute />,
       children: [
-        { path: "/items/:itemId", element: <div>particual item page</div> },
+        // { path: "/items/:itemId", element: <ItemPage /> },
         { path: "/", element: <MainPage /> },
       ],
     },

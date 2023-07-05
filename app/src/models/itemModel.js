@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

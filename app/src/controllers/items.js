@@ -3,12 +3,17 @@ const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
 
 const getItems = async (req, res) => {
+  const sort = {};
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split("_");
+    sort[parts[0]] = parts[1];
+  }
   try {
     const { page, limit } = req.query;
     const items = await Item.find()
       .populate("author parentCollection")
       .select({ comments: 0 })
-      .sort("-updatedAt")
+      .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
@@ -20,7 +25,12 @@ const getItems = async (req, res) => {
 
 const getItemById = async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
+    const item = await Item.findById(req.params.id)
+      .populate({
+        path: "author",
+        select: "name",
+      })
+      .populate({ path: "comments.author", select: "name" });
 
     if (!item) return res.status(400).send({ message: "Not found!" });
     res.send(item);
@@ -92,7 +102,7 @@ const likeUnlikeItem = async (req, res) => {
     }
 
     await item.save();
-    res.send(item);
+    res.send(item.likes);
 
     // if (item) await Item.findByIdAndUpdate(req.params.id , { $pull: { likes: {user: req.user._id} } });
     // else await Item.findByIdAndUpdate(req.params.id , { $push: { likes: {user: req.user._id} } });
@@ -119,7 +129,7 @@ const addNewComment = async (req, res) => {
   try {
     const comment = {
       comment: req.body.comment,
-      user: req.user._id,
+      author: req.user._id,
       item: req.params.id,
     };
     await Item.findByIdAndUpdate(req.params.id, {
@@ -146,7 +156,7 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const result = await Item.updateOne(
+    await Item.updateOne(
       { _id: req.params.id, author: req.user._id },
       {
         $pull: {

@@ -5,7 +5,7 @@ const checkAuth = require("../middlewares/checkAuth");
 
 router.get("/items", items.getItems);
 
-router.get("/items/:id", checkAuth, items.getItemById);
+router.get("/items/:id", items.getItemById);
 
 router.post("/items/new", checkAuth, items.createNewItem);
 

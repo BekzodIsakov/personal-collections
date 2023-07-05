@@ -38,7 +38,7 @@ const Navigation = () => {
                   )
                 }
               />
-              <MenuList p={0} w={"100vw"} boxShadow={"md"}>
+              <MenuList p={0} w={"100vw"} boxShadow={"lg"} border={"none"}>
                 <MobileNav
                   navItems={navItems}
                   linkColor={linkColor}

@@ -9,10 +9,10 @@ const initialState = {
 
 export const fetchLatestItems = createAsyncThunk(
   "latestItems/fetchLatestItems",
-  async (limit, thunkAPI) => {
+  async (queries, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/items?limit=${limit}`
+        `${import.meta.env.VITE_DEV_URL}/items?sortBy=${queries.sortBy}&limit=${queries.limit}`
       );
       return response.data;
     } catch (error) {

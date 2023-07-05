@@ -5,7 +5,7 @@ const checkIsAdmin = require("../middlewares/checkIsAdmin");
 const router = express.Router();
 const users = require("../controllers/users");
 
-router.post("/users/new", async (req, res) => {
+router.post("/users/signup", async (req, res) => {
   console.log({ body: req.body });
   const user = new User(req.body);
 
