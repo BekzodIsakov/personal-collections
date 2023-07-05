@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import {
   Box,
   Button,
   Card,
   CardBody,
   Collapse,
-  Flex,
   HStack,
   IconButton,
   Link,
+  List,
+  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Text,
   Textarea,
   useDisclosure,
@@ -24,6 +25,7 @@ import {
 import axios from "axios";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../provider/authProvider";
+import { useItemFetch } from "../hooks/useItemFetch";
 
 const ItemModal = ({
   isOpen,
@@ -37,31 +39,26 @@ const ItemModal = ({
 
   // const currentUser = useSelector((state) => state.usersReducer.user)
   const { user } = useAuth();
-
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [likeLoading, setLikeLoading] = React.useState(false);
-  const [item, setItem] = React.useState(null);
-
   const toast = useToast();
 
-  const likeUnlikeItem = async () => {
+  const { loading, item, onItemFetch, updateItem } = useItemFetch();
+  console.log({ item });
+  const likeUnlikeItem = async (itemId) => {
     try {
       setLikeLoading(true);
       const result = await axios.patch(
         `${import.meta.env.VITE_DEV_URL}/items/${itemId}/react`
       );
-      // console.log({ likeResult: result });
-      updateItemLikes(result.data);
+      updateItem({ likes: result.data });
     } catch (error) {
-      console.log({ error });
       if (error.response.status === 401) {
-        setErrorMessage("Unauthorized");
+        setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
             <Box p={3} bg='white' borderRadius={"md"} boxShadow={"lg"}>
               <HStack justify={"space-between"} align={"center"} mb={2}>
                 <Text fontSize={"md"} fontWeight={"semibold"}>
-                  <WarningIcon w={5} h={5} color='orange' mr={1} /> Unauthorized
+                  <WarningIcon w={5} h={5} color='orange' mr={1} /> {errorTitle}
                 </Text>
                 <IconButton
                   size={"xs"}
@@ -80,7 +77,7 @@ const ItemModal = ({
               .
             </Box>
           ),
-          duration: 5000,
+          duration: 4000,
         });
       }
     } finally {
@@ -88,24 +85,8 @@ const ItemModal = ({
     }
   };
 
-  function updateItemLikes(update) {
-    const updatedItem = {
-      ...item,
-      ...update,
-    };
-    setItem(updatedItem);
-  }
-
-  const fetchCurrentItem = useCallback(async () => {
-    try {
-      const result = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/items/${itemId}`
-      );
-      setItem(result.data);
-    } catch (error) {
-      setErrorMessage("Unauthorized");
-    }
-  }, [itemId]);
+  const [errorTitle, setErrorTitle] = React.useState("");
+  const [likeLoading, setLikeLoading] = React.useState(false);
 
   console.log({ item });
 
@@ -116,66 +97,88 @@ const ItemModal = ({
 
   React.useEffect(() => {
     if (itemId) {
-      fetchCurrentItem();
+      onItemFetch(itemId);
     }
-  }, [itemId, fetchCurrentItem]);
+  }, [itemId]);
+
+  let modalContent = null;
+  if (loading) {
+    modalContent = (
+      <>
+        <Skeleton h={"64px"} />
+        <HStack my={1}>
+          <Skeleton w={"75px"} h={"32px"} />
+          <Skeleton w={"97px"} h={"32px"} />
+        </HStack>
+      </>
+    );
+  } else if (item) {
+    modalContent = (
+      <>
+        <Card variant='outline'>
+          <CardBody>
+            <List>
+              <ListItem>Author - {item.author.name}</ListItem>
+              {item.optionalFields.length &&
+                item.optionalFields.map((field, index) => (
+                  <ListItem key={index}>
+                    {field.key} - {field.value}
+                  </ListItem>
+                ))}
+            </List>
+          </CardBody>
+        </Card>
+
+        <HStack my={1}>
+          <Button
+            isLoading={likeLoading}
+            isDisabled={likeLoading}
+            onClick={() => likeUnlikeItem(item._id)}
+            variant='ghost'
+            size={"sm"}
+            color={item.likes.includes(user?.id) ? "blue.400" : ""}
+          >
+            {item.likes.includes(user?.id) ? "Liked" : "Like"}
+            <Text
+              color='blue.400'
+              fontSize={"sm"}
+              ml={item.likes.length ? 2 : 0}
+            >
+              {item.likes.length || null}
+            </Text>
+          </Button>
+          <Button size={"sm"} variant='ghost' onClick={onToggle}>
+            Comments
+          </Button>
+        </HStack>
+        <Collapse in={isCollapsed} animateOpacity>
+          <Box p={3} mb={2} color='gray.600' bg='gray.50' rounded='md'>
+            {item.comments.length ? (
+              item.comments.map((c) => <Box key={c._id}>{c.comment}</Box>)
+            ) : (
+              <Text fontSize={"sm"}>No comments</Text>
+            )}
+          </Box>
+          <Box>
+            <Textarea />
+            <Button>Comment</Button>
+          </Box>
+        </Collapse>
+      </>
+    );
+  }
 
   return (
     <Modal isOpen={isOpen} scrollBehavior='inside' onClose={handleModalClose}>
       <ModalOverlay />
       <ModalContent mx={3}>
-        <ModalHeader>{itemName}</ModalHeader>
-        <ModalCloseButton />
-        {item && (
-          <ModalBody>
-            <Card>
-              <CardBody>
-                <Text fontSize={"md"} fontWeight={"semibold"}>
-                  Title in view
-                </Text>
-              </CardBody>
-            </Card>
-            <HStack py={1}>
-              <Flex mr='8' justify={"center"} align={"baseline"}>
-                <Button
-                  isDisabled={likeLoading}
-                  onClick={likeUnlikeItem}
-                  variant={"unstyled"}
-                  size={"sm"}
-                  color={item.likes.includes(user.id) ? "blue.400" : ""}
-                >
-                  {item.likes.includes(user.id) ? "Liked" : "Like"}
-                </Button>
-                &nbsp;
-                <Text color='blue.400' fontSize={"sm"}>
-                  {item.likes.length || null}
-                </Text>
-              </Flex>
-              <Flex justify={"center"}>
-                <Button size={"sm"} variant={"unstyled"} onClick={onToggle}>
-                  Comments
-                </Button>
-              </Flex>
-            </HStack>
-            <Collapse in={isCollapsed} animateOpacity>
-              <Box
-                p='40px'
-                color='white'
-                bg='teal.500'
-                rounded='md'
-                shadow='md'
-              >
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam,
-                sapiente!
-              </Box>
-            </Collapse>
-          </ModalBody>
-        )}
-
-        <ModalFooter>
-          <Textarea />
-          <Button>Comment</Button>
-        </ModalFooter>
+        <ModalHeader>
+          <Text fontSize={"md"} mr={5}>
+            {itemName}
+          </Text>
+        </ModalHeader>
+        <ModalCloseButton ml={2} />
+        <ModalBody>{modalContent}</ModalBody>
       </ModalContent>
     </Modal>
   );
