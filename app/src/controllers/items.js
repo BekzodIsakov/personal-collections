@@ -3,10 +3,10 @@ const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
 
 const getItems = async (req, res) => {
-  const sort = {}
+  const sort = {};
   if (req.query.sortBy) {
-    const parts = req.query.sortBy.split("_")
-    sort[parts[0]] = parts[1]
+    const parts = req.query.sortBy.split("_");
+    sort[parts[0]] = parts[1];
   }
   try {
     const { page, limit } = req.query;
@@ -102,7 +102,7 @@ const likeUnlikeItem = async (req, res) => {
     }
 
     await item.save();
-    res.send({ liked: item.liked, likes: item.likes });
+    res.send(item.likes);
 
     // if (item) await Item.findByIdAndUpdate(req.params.id , { $pull: { likes: {user: req.user._id} } });
     // else await Item.findByIdAndUpdate(req.params.id , { $push: { likes: {user: req.user._id} } });
