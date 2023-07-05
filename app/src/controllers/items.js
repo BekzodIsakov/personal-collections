@@ -20,7 +20,12 @@ const getItems = async (req, res) => {
 
 const getItemById = async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id).populate("author", "name");
+    const item = await Item.findById(req.params.id)
+      .populate({
+        path: "author",
+        select: "name",
+      })
+      .populate({ path: "comments.author", select: "name" });
 
     if (!item) return res.status(400).send({ message: "Not found!" });
     res.send(item);
