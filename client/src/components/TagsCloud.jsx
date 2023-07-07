@@ -16,7 +16,6 @@ import CustomList from "./CustomList";
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
   const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
-  console.log({ tags });
 
   const {
     loading: itemsLoading,

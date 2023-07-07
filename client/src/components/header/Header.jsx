@@ -6,17 +6,34 @@ import {
   Divider,
   Flex,
   HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Navigation from "./Navigations/Navigation";
 import { useAuth } from "../../provider/authProvider";
 import { useUserSignOut } from "../../hooks/user";
+import SVG from "../SVG";
+import React from "react";
 
 const Header = () => {
+  const [searchText, setSearchText] = React.useState("");
+
   const { loading, onSignOut } = useUserSignOut();
 
   const { token, user, setToken } = useAuth();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSignOut = () => {
     onSignOut();
@@ -33,6 +50,44 @@ const Header = () => {
     >
       <Flex h={14} px={4} alignItems={"center"} justifyContent='space-between'>
         {token ? <Navigation /> : <div></div>}
+
+        <IconButton
+          icon={<SVG iconId={"search"} size={"20px"} />}
+          variant={"ghost"}
+          size={"sm"}
+          onClick={onOpen}
+          aria-label='Search database'
+          title={"Search"}
+          _hover={{ bg: "transparent" }}
+        />
+
+        <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
+          <ModalOverlay />
+          <ModalContent mx={3}>
+            <ModalHeader>Search items</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={5}>
+              <InputGroup>
+                <Input
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+                <InputRightElement>
+                  <IconButton
+                    onClick={onOpen}
+                    aria-label='Search database'
+                    size={"sm"}
+                    isLoading={false}
+                    isDisabled={searchText.length < 2}
+                    title={"Search"}
+                    icon={<SVG iconId={"search"} size={"20px"} />}
+                    colorScheme={"blue"}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
 
         {token ? (
           <HStack alignItems='center' h='40%'>
@@ -62,7 +117,6 @@ const Header = () => {
           <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
             <Link to='/signin'>Sign in</Link>
           </Button>
-          // <CustomLink>Sign in</CustomLink>
         )}
       </Flex>
     </Box>
