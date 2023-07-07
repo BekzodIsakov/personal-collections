@@ -9,9 +9,23 @@ const getItems = async (req, res) => {
     sort[parts[0]] = parts[1];
   }
   try {
-    const { page, limit } = req.query;
-    const items = await Item.find()
-      .populate("author parentCollection")
+    const { page, limit, findBy } = req.query;
+
+    let parts = [];
+    const query = {};
+    
+    if (findBy) {
+      parts = findBy.split("_");
+    }
+
+    const allowedFields = ["name", "author", "tags"];
+
+    if (allowedFields.includes(parts[0])) {
+      query[parts[0]] = parts[1];
+    }
+
+    const items = await Item.find(query)
+      .populate("author parentCollection", "-items")
       .select({ comments: 0 })
       .sort(sort)
       .skip((page - 1) * limit)
