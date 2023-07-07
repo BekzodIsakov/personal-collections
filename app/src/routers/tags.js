@@ -13,7 +13,16 @@ router.post("/tags/new", checkAuth, async (req, res) => {
   }
 });
 
-router.get("/tags", checkAuth, async (req, res) => {
+router.get("/tags", async (req, res) => {
+  try {
+    const tags = await Tag.find();
+    res.send(tags);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/tags/mine", async (req, res) => {
   try {
     const tags = await Tag.find({ authorId: req.user._id });
     res.send(tags);
