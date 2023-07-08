@@ -6,7 +6,7 @@ const config = {
 };
 
 const breakpoints = {
-  xs: "23.5em", // 376px
+  xs: "23em", // 368px
   sm: "30em", // 480px
   md: "48em", // 768px
   lg: "62em", // 992px
