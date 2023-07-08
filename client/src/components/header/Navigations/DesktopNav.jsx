@@ -13,51 +13,57 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../../providers/authProvider";
 
 const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
+  const { token } = useAuth();
+
   const popoverContentBgColor = useColorModeValue("white", "gray.600");
 
   return (
     <Stack direction={"row"} spacing={4}>
-      {navItems?.length && navItems.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
-              <Link
-                as={NavLink}
-                p={2}
-                to={navItem.to}
-                fontSize={"md"}
-                fontWeight={navItem.children ? 600 : 500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: "none",
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
+      {token &&
+        navItems?.length &&
+        navItems.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={"hover"} placement={"bottom-start"}>
+              <PopoverTrigger>
+                <Link
+                  as={NavLink}
+                  p={2}
+                  to={navItem.to}
+                  fontSize={"md"}
+                  fontWeight={navItem.children ? 600 : 500}
+                  color={linkColor}
+                  textDecoration={"underline"}
+                  _hover={{
+                    color: linkHoverColor,
+                    textDecoration: "none",
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
 
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))}
     </Stack>
   );
 };

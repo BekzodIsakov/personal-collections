@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Collapse,
   Flex,
   Icon,
@@ -11,16 +12,19 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../../providers/authProvider";
 
 const MobileNav = ({ navItems = [], linkColor }) => {
+  const { token } = useAuth();
   return (
     <Stack
-      bg={useColorModeValue("white", "gray.800")}
+      // bg={useColorModeValue("white", "gray.800")}
       px={4}
       py={2}
       display={{ md: "none" }}
     >
-      {navItems?.length &&
+      {token &&
+        navItems?.length &&
         navItems.map((navItem) => (
           <MobileNavItem
             key={navItem.label}
@@ -54,6 +58,7 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
         to={to}
         justify={"space-between"}
         align={"center"}
+        textDecoration={"underline"}
         _hover={{
           textDecoration: "none",
         }}
@@ -83,9 +88,11 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
         >
           {children &&
             children.map((child) => (
-              <Link as={NavLink} key={child.label} to={child.to} color={linkColor} py={0.5}>
-                {child.label}
-              </Link>
+              <Box key={child.label}>
+                <Link as={NavLink} to={child.to} color={linkColor} py={0.5}>
+                  {child.label}
+                </Link>
+              </Box>
             ))}
         </Stack>
       </Collapse>
