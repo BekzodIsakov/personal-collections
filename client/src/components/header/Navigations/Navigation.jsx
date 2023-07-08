@@ -1,19 +1,26 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Flex,
+  HStack,
   IconButton,
   Menu,
   MenuButton,
   MenuList,
+  Select,
   useColorModeValue,
 } from "@chakra-ui/react";
 import MobileNav from "./MobileNav";
 import navItems from "./navData";
 import DesktopNav from "./DesktopNav";
+import { useI18n } from "../../../providers/i18nProvider";
 
 const Navigation = () => {
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
+  const menuBgColor = useColorModeValue("white", "gray.700");
+
+  const { languages, setSelectedLanguage, selectedLanguage } = useI18n();
 
   return (
     <>
@@ -38,12 +45,38 @@ const Navigation = () => {
                   )
                 }
               />
-              <MenuList p={0} w={"100vw"} boxShadow={"lg"} border={"none"}>
-                <MobileNav
-                  navItems={navItems}
-                  linkColor={linkColor}
-                  linkHoverColor={linkHoverColor}
-                />
+              <MenuList
+                p={0}
+                w={"100vw"}
+                boxShadow={"xl"}
+                border={"none"}
+                bg={menuBgColor}
+                borderTopRadius={0}
+              >
+                <HStack justifyContent={"space-between"}>
+                  <MobileNav
+                    navItems={navItems}
+                    linkColor={linkColor}
+                    linkHoverColor={linkHoverColor}
+                  />
+                  <Box p={4}>
+                    <Select
+                      value={selectedLanguage}
+                      onChange={(e) => setSelectedLanguage(e.target.value)}
+                      size={"sm"}
+                      w='max-content'
+                      mr='0'
+                      ml='auto'
+                      display={{ base: "auto", xs: "none" }}
+                      variant={"filled"}
+                      rounded={"md"}
+                    >
+                      {Object.values(languages).map((language) => (
+                        <option key={language}>{language}</option>
+                      ))}
+                    </Select>
+                  </Box>
+                </HStack>
               </MenuList>
             </>
           )}
