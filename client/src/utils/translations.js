@@ -1,5 +1,5 @@
 const translations = {
-  uz: {
+  Uzbek: {
     auth: {
       signin: "Kirish",
       signup: "Ro'yxatdan o'tish",
@@ -27,7 +27,7 @@ const translations = {
       hide: "Yashir",
     },
   },
-  en: {
+  English: {
     auth: {
       signin: "Sign in",
       signup: "Sign up",
