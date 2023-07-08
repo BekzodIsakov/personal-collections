@@ -43,8 +43,8 @@ const TagsCloud = () => {
     }
   }, [selectedTagId]);
 
-  console.log("TagCloud");
-  console.log({ items });
+  // console.log("TagCloud");
+  // console.log({ items });
 
   React.useEffect(() => {
     fetchTags();
