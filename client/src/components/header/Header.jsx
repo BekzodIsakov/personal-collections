@@ -36,7 +36,7 @@ const Header = () => {
 
   const { token, user, setToken } = useAuth();
 
-  const { languageCodes, language } = useI18n();
+  const { languages, selectedLanguage, setSelectedLanguage } = useI18n();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -58,18 +58,20 @@ const Header = () => {
       bg={useColorModeValue("gray.50", "gray.700")}
     >
       <Flex h={14} px={4} alignItems={"center"} justifyContent='space-between'>
-        {token ? <Navigation /> : <div></div>}
+        <Navigation />
 
         <HStack alignItems='center' h='40%'>
           <Select
+            value={selectedLanguage}
+            onChange={(e) => setSelectedLanguage(e.target.value)}
             ml={15}
             size={"sm"}
             display={{ base: "none", xs: "block" }}
             variant={"filled"}
             rounded={"md"}
           >
-            {Object.keys(languageCodes).map((key) => (
-              <option key={key}>{languageCodes[key]}</option>
+            {Object.values(languages).map((language) => (
+              <option key={language}>{language}</option>
             ))}
           </Select>
 
@@ -120,7 +122,8 @@ const Header = () => {
                 colorScheme={"red"}
                 size={"sm"}
                 onClick={handleSignOut}
-                px={{base: "2px", xs: "12px"}}
+                px={{ base: "2px", xs: "12px" }}
+                minW={"max-content"}
               >
                 Sign out
               </Button>
