@@ -1,23 +1,35 @@
-import React, { useContext } from "react";
+import React from "react";
 
 const I18nContext = React.createContext();
 
 const I18nProvider = ({ children }) => {
-  const [selectedLanguage, setSelectedLanguage] = React.useState("uz");
+  const languages = React.useMemo(() => ({ en: "English", uz: "Uzbek" }), []);
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState("");
 
   React.useEffect(() => {
-    localStorage.setItem("language", selectedLanguage);
-    // localStorage.setToken("language", language);
+    const storedLanguage = localStorage.getItem("language");
+    if (storedLanguage) {
+      console.log({ storedLanguage });
+      setSelectedLanguage(storedLanguage);
+    } else {
+      setSelectedLanguage(languages.en);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (selectedLanguage) {
+      localStorage.setItem("language", selectedLanguage);
+    }
   }, [selectedLanguage]);
 
   const contextValue = React.useMemo(() => {
-    const languageCodes = { en: "English", uz: "Uzbek" };
     return {
-      languageCodes,
+      languages,
       selectedLanguage,
       setSelectedLanguage,
     };
-  }, [selectedLanguage]);
+  }, [selectedLanguage, languages]);
 
   return (
     <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>
@@ -25,7 +37,7 @@ const I18nProvider = ({ children }) => {
 };
 
 export const useI18n = () => {
-  return useContext(I18nContext);
+  return React.useContext(I18nContext);
 };
 
 export default I18nProvider;
