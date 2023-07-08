@@ -16,13 +16,18 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../provider/authProvider";
+import { useAuth } from "../providers/authProvider";
 import { useUserSignUp } from "../hooks/user";
+import { useI18n } from "../providers/i18nProvider";
+// import languages from "../utils/"
+import translations from "../utils/translations";
 
 const SignUp = () => {
   const { data, loading, errorMessage, onSignUp } = useUserSignUp();
   const { setToken, setUser } = useAuth();
   const navigate = useNavigate();
+
+  const { selectedLanguage } = useI18n();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
@@ -59,7 +64,9 @@ const SignUp = () => {
     >
       <Stack spacing={8} mx='auto' maxW='lg' py={12} px={6}>
         <Stack align='center'>
-          <Heading fontSize='4xl'>Create your account</Heading>
+          <Heading fontSize='4xl'>
+            {translations[selectedLanguage].auth.mainHeadings.signup}
+          </Heading>
         </Stack>
 
         <Box
@@ -71,7 +78,9 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl id='name'>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage].auth.name}
+                </FormLabel>
                 <Input
                   required
                   value={name}
@@ -79,7 +88,9 @@ const SignUp = () => {
                 />
               </FormControl>
               <FormControl id='email'>
-                <FormLabel>Email address</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage].auth.emailAddress}
+                </FormLabel>
                 <Input
                   type='email'
                   required
@@ -88,7 +99,9 @@ const SignUp = () => {
                 />
               </FormControl>
               <FormControl id='password'>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage].auth.password}
+                </FormLabel>
                 <InputGroup>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -98,7 +111,9 @@ const SignUp = () => {
                   />
                   <InputRightElement width='4.5rem'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword ? "Hide" : "Show"}
+                      {showPassword
+                        ? translations[selectedLanguage].general.hide
+                        : translations[selectedLanguage].general.show}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
@@ -117,21 +132,21 @@ const SignUp = () => {
                     bg: "blue.500",
                   }}
                 >
-                  Sign up
+                  {translations[selectedLanguage].auth.signup}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
         <Box color='gray.500'>
-          Already have an account?&nbsp;&nbsp;
+          {translations[selectedLanguage].auth.noAccountYet}&nbsp;&nbsp;
           <Link
             as={RouterLink}
             to='/signin'
             color={"blue.400"}
             fontWeight='bold'
           >
-            Sign in
+            {translations[selectedLanguage].auth.signin}
           </Link>
         </Box>
       </Stack>

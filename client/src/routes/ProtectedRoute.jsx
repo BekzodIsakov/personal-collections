@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 // import Header from "../components/header/Header";
-import { useAuth } from "../provider/authProvider";
+import { useAuth } from "../providers/authProvider";
 
 export const ProtectedRoute = ({ children, redirectPath = "/login" }) => {
   const { token } = useAuth();
