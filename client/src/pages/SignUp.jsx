@@ -13,6 +13,7 @@ import {
   useColorModeValue,
   Link,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
@@ -24,10 +25,13 @@ import translations from "../utils/translations";
 
 const SignUp = () => {
   const { data, loading, errorMessage, onSignUp } = useUserSignUp();
-  const { setToken, setUser } = useAuth();
-  const navigate = useNavigate();
 
-  const { selectedLanguage } = useI18n();
+  const { setToken, setUser } = useAuth();
+  const { selectedLanguage, setSelectedLanguage, languages } = useI18n();
+
+  console.log({ selectedLanguage });
+
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
@@ -65,7 +69,7 @@ const SignUp = () => {
       <Stack spacing={8} mx='auto' maxW='lg' py={12} px={6}>
         <Stack align='center'>
           <Heading fontSize='4xl'>
-            {translations[selectedLanguage].auth.mainHeadings.signup}
+            {translations[selectedLanguage]?.auth.mainHeadings.signup}
           </Heading>
         </Stack>
 
@@ -79,7 +83,7 @@ const SignUp = () => {
             <Stack spacing={4}>
               <FormControl id='name'>
                 <FormLabel>
-                  {translations[selectedLanguage].auth.name}
+                  {translations[selectedLanguage]?.auth.name}
                 </FormLabel>
                 <Input
                   required
@@ -89,7 +93,7 @@ const SignUp = () => {
               </FormControl>
               <FormControl id='email'>
                 <FormLabel>
-                  {translations[selectedLanguage].auth.emailAddress}
+                  {translations[selectedLanguage]?.auth.emailAddress}
                 </FormLabel>
                 <Input
                   type='email'
@@ -100,7 +104,7 @@ const SignUp = () => {
               </FormControl>
               <FormControl id='password'>
                 <FormLabel>
-                  {translations[selectedLanguage].auth.password}
+                  {translations[selectedLanguage]?.auth.password}
                 </FormLabel>
                 <InputGroup>
                   <Input
@@ -112,8 +116,8 @@ const SignUp = () => {
                   <InputRightElement width='4.5rem'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
                       {showPassword
-                        ? translations[selectedLanguage].general.hide
-                        : translations[selectedLanguage].general.show}
+                        ? translations[selectedLanguage]?.general.hide
+                        : translations[selectedLanguage]?.general.show}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
@@ -132,22 +136,38 @@ const SignUp = () => {
                     bg: "blue.500",
                   }}
                 >
-                  {translations[selectedLanguage].auth.signup}
+                  {translations[selectedLanguage]?.auth.signup}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
         <Box color='gray.500'>
-          {translations[selectedLanguage].auth.noAccountYet}&nbsp;&nbsp;
+          {translations[selectedLanguage]?.auth.noAccountYet}&nbsp;&nbsp;
           <Link
             as={RouterLink}
             to='/signin'
             color={"blue.400"}
             fontWeight='bold'
           >
-            {translations[selectedLanguage].auth.signin}
+            {translations[selectedLanguage]?.auth.signin}
           </Link>
+        </Box>
+
+        <Box pos={"fixed"} right={12} bottom={12}>
+          <Select
+            value={selectedLanguage}
+            onChange={(e) => setSelectedLanguage(e.target.value)}
+            ml={15}
+            size={"sm"}
+            display={{ base: "none", xs: "block" }}
+            variant={"filled"}
+            rounded={"md"}
+          >
+            {Object.values(languages).map((language) => (
+              <option key={language}>{language}</option>
+            ))}
+          </Select>
         </Box>
       </Stack>
     </Flex>
