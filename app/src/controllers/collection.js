@@ -1,8 +1,14 @@
 const Collection = require("../models/collectionModel");
 
 const getCollections = async (req, res) => {
+  const query = {};
+  if (req.query.getBy) {
+    const parts = req.query.getBy.split("_");
+    query[parts[0]] = parts[1];
+  }
+
   try {
-    const collections = await Collection.find({ author: req.user._id });
+    const collections = await Collection.find(query);
     // .populate("items")
     // .exec();
     res.send(collections);
@@ -27,8 +33,8 @@ const getCollectionById = async (req, res) => {
   try {
     const collection = await Collection.findOne({
       _id: req.params.id,
-      author: req.user._id,
-    });
+      // author: req.user._id,
+    }).populate("author items topic");
 
     if (!collection) return res.status(404).send({ message: "Not found!" });
     res.send(collection);
