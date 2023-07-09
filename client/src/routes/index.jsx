@@ -5,6 +5,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import ParentRoute from "./ParentRoute";
 import MainPage from "../pages/MainPage";
+import CollectionPage from "../pages/CollectionPage";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -14,8 +15,8 @@ const Routes = () => {
       path: "/",
       element: <ParentRoute />,
       children: [
-        // { path: "/items/:itemId", element: <ItemPage /> },
         { path: "/", element: <MainPage /> },
+        { path: "/collections/:id", element: <CollectionPage /> },
       ],
     },
     {
