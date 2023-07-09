@@ -7,7 +7,7 @@ const ParentRoute = () => {
     <>
       <Header />
       {/* <div>Parent route</div> */}
-      <Box maxW={"90rem"} py='4' px='8' m='auto'>
+      <Box maxW={"60rem"} py='4' px='8' m='auto'>
         <Outlet />
       </Box>
     </>
