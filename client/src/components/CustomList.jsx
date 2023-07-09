@@ -17,7 +17,13 @@ import {
 } from "@chakra-ui/react";
 import ItemModal from "../pages/ItemModal";
 
-const CustomList = ({ list, type, onClick, loading, errorMessage }) => {
+const CustomList = ({
+  list,
+  type,
+  loading,
+  errorMessage,
+  showDetails=true,
+}) => {
   const [itemId, setItemId] = React.useState("");
   const [itemName, setItemName] = React.useState("");
 
@@ -43,25 +49,39 @@ const CustomList = ({ list, type, onClick, loading, errorMessage }) => {
     );
   } else if (list?.length) {
     listItems = list.map((item) => (
-      <ListItem key={item._id} mb={5}>
+      <ListItem key={item._id} mb={showDetails ? 5 : 2}>
         <Box>
-          <Text mb={1}>{item.name}</Text>
-          <HStack>
-            <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
-              {item.parentCollection.title}
-            </Tag>
-            <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
-            <Text fontWeight={"medium"}>{item.author.name}</Text>
-            <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
+          
+          <Text mb={1} display={"inline-block"}>{item.name}</Text>
+          {!showDetails && (
             <Button
               size={"xs"}
               variant={"outline"}
               colorScheme='blue.400'
+              ml={3}
               onClick={() => openItemModal(item._id, item.name)}
             >
               View
             </Button>
-          </HStack>
+          )}
+          {showDetails && (
+            <HStack>
+              <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
+                {item.parentCollection.title}
+              </Tag>
+              <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
+              <Text fontWeight={"medium"}>{item.author.name}</Text>
+              <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
+              <Button
+                size={"xs"}
+                variant={"outline"}
+                colorScheme='blue.400'
+                onClick={() => openItemModal(item._id, item.name)}
+              >
+                View
+              </Button>
+            </HStack>
+          )}
         </Box>
       </ListItem>
     ));
@@ -97,9 +117,9 @@ const CustomList = ({ list, type, onClick, loading, errorMessage }) => {
 CustomList.propTypes = {
   list: PropTypes.array,
   type: PropTypes.oneOf(["ol", "ul"]),
-  onClick: PropTypes.func,
   loading: PropTypes.bool,
   errorMessage: PropTypes.string,
+  showDetails: PropTypes.bool,
 };
 
 export default CustomList;
