@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
-import { useAuth } from "../provider/authProvider";
+import { useAuth } from "../providers/authProvider";
 import { useItemFetch } from "../hooks/items";
 
 const ItemModal = ({

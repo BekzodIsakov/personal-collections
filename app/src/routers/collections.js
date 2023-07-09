@@ -9,7 +9,7 @@ router.get("/collections", checkAuth, collections.getCollections);
 
 router.get("/collections/topFive", collections.getTopFiveCollections);
 
-router.get("/collections/:id", checkAuth, collections.getCollectionById);
+router.get("/collections/:id", collections.getCollectionById);
 
 router.get("/collections/:id/items", checkAuth, collections.getCollectionItems);
 
