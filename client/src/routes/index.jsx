@@ -6,9 +6,23 @@ import SignUp from "../pages/SignUp";
 import ParentRoute from "./ParentRoute";
 import MainPage from "../pages/MainPage";
 import CollectionPage from "../pages/CollectionPage";
+import MyPage from "../pages/MyPage";
 
 const Routes = () => {
   const { token } = useAuth();
+
+  const routesForAuthenticated = [
+    {
+      path: "/",
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: "/my-page",
+          element: <MyPage />,
+        },
+      ],
+    },
+  ];
 
   const routesForPublic = [
     {
@@ -17,6 +31,7 @@ const Routes = () => {
       children: [
         { path: "/", element: <MainPage /> },
         { path: "/collections/:id", element: <CollectionPage /> },
+        ...(token ? routesForAuthenticated : []),
       ],
     },
     {
@@ -33,32 +48,6 @@ const Routes = () => {
     },
   ];
 
-  const routesForAuthenticated = [
-    {
-      path: "/",
-      element: <ProtectedRoute />,
-      children: [
-        {
-          path: "/users",
-          element: (
-            <>
-              <h1>User Home Page</h1>
-              <h3>Personal collections</h3>
-              <ul>
-                <li>
-                  <a href='#'>Books collection</a>
-                </li>
-                <li>
-                  <a href='#'>NFTs collection</a>
-                </li>
-              </ul>
-            </>
-          ),
-        },
-      ],
-    },
-  ];
-
   const routesForAdmins = [
     {
       path: "/admins/:id",
@@ -72,7 +61,7 @@ const Routes = () => {
 
   const router = createBrowserRouter([
     ...routesForPublic,
-    ...(!token ? routesForAuthenticated : []),
+    // ...(token ? routesForAuthenticated : []),
     ...routesForAdmins,
   ]);
 
