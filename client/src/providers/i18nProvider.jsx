@@ -10,7 +10,6 @@ const I18nProvider = ({ children }) => {
   React.useEffect(() => {
     const storedLanguage = localStorage.getItem("language");
     if (storedLanguage) {
-      console.log({ storedLanguage });
       setSelectedLanguage(storedLanguage);
     } else {
       setSelectedLanguage(languages.en);
