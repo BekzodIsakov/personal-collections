@@ -99,7 +99,9 @@ const updateCollection = async (req, res) => {
         key,
       };
 
-      const collection = await Collection.findById(req.params.id);
+      const collection = await Collection.findById(req.params.id).populate(
+        "author items topic"
+      );
       if (collection.image?.key) deleteImage(collection.image.key);
     }
 
@@ -107,7 +109,7 @@ const updateCollection = async (req, res) => {
       req.params.id,
       update,
       { new: true }
-    );
+    ).populate("author items topic");
     // .populate("items")
     // .exec();
     if (!collection) return res.status(404).send({ message: "Not found!" });
