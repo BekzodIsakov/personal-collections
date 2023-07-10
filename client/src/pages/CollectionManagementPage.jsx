@@ -8,7 +8,9 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   Heading,
+  IconButton,
   Image,
   Input,
   Modal,
@@ -17,6 +19,13 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Select,
   Spacer,
   Spinner,
@@ -28,8 +37,13 @@ import {
 import React, { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import GoBackButton from "../components/GoBackButton";
-import { useCollectionEdit, useCollectionFetch } from "../hooks/collections";
+import {
+  useCollectionEdit,
+  useCollectionFetch,
+  useDeleteCollectionImage,
+} from "../hooks/collections";
 import { useFetchTopics } from "../hooks/topics";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const CollectionManagementPage = () => {
   const formRef = useRef(null);
@@ -44,6 +58,12 @@ const CollectionManagementPage = () => {
     updateCollection,
     loading: updatingCollection,
   } = useCollectionEdit();
+
+  const {
+    loading: deletingCollectionImage,
+    updatedCollection: collectionWithoutImage,
+    deleteCollectionImage,
+  } = useDeleteCollectionImage();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { topics, fetchTopics } = useFetchTopics();
@@ -63,7 +83,6 @@ const CollectionManagementPage = () => {
       return;
     }
 
-    // I've kept this example simple by using the first image instead of multiple
     setSelectedImage(e.target.files[0]);
   }
 
@@ -108,8 +127,15 @@ const CollectionManagementPage = () => {
     if (updatedCollection) {
       setCollection(updatedCollection);
       onClose();
+      setPreview("");
     }
   }, [updatedCollection]);
+
+  useEffect(() => {
+    if (collectionWithoutImage) {
+      setCollection(collectionWithoutImage);
+    }
+  }, [collectionWithoutImage]);
 
   let collectionManagementPage = null;
 
@@ -126,12 +152,59 @@ const CollectionManagementPage = () => {
         overflow='hidden'
         variant='outline'
       >
-        <Image
-          objectFit='cover'
-          maxW={{ base: "100%", sm: "200px" }}
-          src={collection?.image?.location}
-          alt={collection?.image?.originalname.split(".")[0]}
-        />
+        <Box pos={"relative"}>
+          {collection?.image && (
+            <>
+              <Image
+                objectFit='cover'
+                maxW={{ base: "100%", sm: "200px" }}
+                width={"100%"}
+                height={"100%"}
+                src={collection?.image?.location}
+                alt={collection?.image?.originalname.split(".")[0]}
+              />
+              <Box pos='absolute' top={1} right={1}>
+                <Popover>
+                  {({ onClose }) => (
+                    <>
+                      <PopoverTrigger>
+                        <IconButton
+                          size={"xs"}
+                          aria-label='Search database'
+                          bgColor={"rgba(0, 0, 0, 0.4)"}
+                          icon={<DeleteIcon color={"red.400"} />}
+                          _hover={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
+                          title='Delete image'
+                        />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader>Delete collection image</PopoverHeader>
+                        <PopoverBody>
+                          <Text mb={"2"}>Are you sure?</Text>
+                          <HStack>
+                            <Button
+                              size='xs'
+                              colorScheme={"red"}
+                              isLoading={deletingCollectionImage}
+                              onClick={() => deleteCollectionImage(params.id)}
+                            >
+                              Yes
+                            </Button>
+                            <Button size='xs' onClick={onClose}>
+                              Cancel
+                            </Button>
+                          </HStack>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </>
+                  )}
+                </Popover>
+              </Box>
+            </>
+          )}
+        </Box>
 
         <Stack flexGrow={1}>
           <CardBody>
@@ -221,8 +294,6 @@ const CollectionManagementPage = () => {
                   <FormControl mt={4}>
                     <Stack
                       direction={{ base: "column", md: "row" }}
-                      // align={"stretch"}
-                      // justifyContent={"stretch"}
                       h={{ base: preview ? "400" : "200", md: "200" }}
                       spacing={3}
                     >
@@ -283,8 +354,6 @@ const CollectionManagementPage = () => {
                               opacity='0'
                               aria-hidden='true'
                               accept='image/*'
-                              // onDragEnter={}
-                              // onDragLeave={}
                             />
                           </Box>
                         </Box>

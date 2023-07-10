@@ -65,19 +65,8 @@ export const useCollectionEdit = () => {
   const [updatedCollection, setUpdatedCollection] = React.useState(null);
 
   async function updateCollection(id, formData) {
-    // console.log({ form: form.current });
-    // const formData = new FormData(form.current);
-    // console.log({ formDataValues: formData.entries().length });
-    // console.log({ fields });
-    // console.log({ formTitle: formData.get("selectedTopic") });
     try {
       setLoading(true);
-
-      // for (let field of fields) {
-      //   formData.append(field.name, field.value);
-      // }
-      // formData.append("title", )
-
       const result = await axios.patch(
         `${import.meta.env.VITE_DEV_URL}/collections/${id}`,
         formData,
@@ -96,5 +85,32 @@ export const useCollectionEdit = () => {
     errorMessage,
     updatedCollection,
     updateCollection,
+  };
+};
+
+export const useDeleteCollectionImage = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [updatedCollection, setUpdatedCollection] = React.useState(null);
+
+  async function deleteCollectionImage(id) {
+    try {
+      setLoading(true);
+      const result = await axios.delete(
+        `${import.meta.env.VITE_DEV_URL}/collections/${id}/image`
+      );
+      setUpdatedCollection(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    updatedCollection,
+    deleteCollectionImage,
   };
 };

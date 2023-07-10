@@ -1,4 +1,5 @@
 const Collection = require("../models/collectionModel");
+const { deleteImage } = require("../middlewares/uploadImage");
 
 const getCollections = async (req, res) => {
   const query = {};
@@ -110,8 +111,6 @@ const updateCollection = async (req, res) => {
       update,
       { new: true }
     ).populate("author items topic");
-    // .populate("items")
-    // .exec();
     if (!collection) return res.status(404).send({ message: "Not found!" });
     res.send(collection);
   } catch (error) {
@@ -126,6 +125,25 @@ const deleteCollection = async (req, res) => {
   res.status(204).send();
 };
 
+const deleteCollectionImage = async (req, res) => {
+  try {
+    const collection = await Collection.findById(req.params.id).populate(
+      "author items topic"
+    );
+
+    if (!collection)
+      return res.status(404).send({ message: "Collection not found!" });
+
+    if (collection.image?.key) deleteImage(collection.image.key);
+    collection.image = undefined;
+
+    await collection.save();
+    res.send(collection);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
 module.exports = {
   getCollections,
   getTopFiveCollections,
@@ -134,4 +152,5 @@ module.exports = {
   createNewCollection,
   updateCollection,
   deleteCollection,
+  deleteCollectionImage,
 };
