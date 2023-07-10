@@ -7,6 +7,7 @@ import ParentRoute from "./ParentRoute";
 import MainPage from "../pages/MainPage";
 import CollectionPage from "../pages/CollectionPage";
 import MyPage from "../pages/MyPage";
+import CollectionManagementPage from "../pages/CollectionManagementPage";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -19,6 +20,10 @@ const Routes = () => {
         {
           path: "/my-page",
           element: <MyPage />,
+        },
+        {
+          path: "/my-page/collections/:id",
+          element: <CollectionManagementPage />,
         },
       ],
     },
