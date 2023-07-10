@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import CustomList from "../components/CustomList";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import GoBackButton from "../components/GoBackButton";
 
 const CollectionPage = () => {
   const params = useParams();
@@ -50,8 +51,8 @@ const CollectionPage = () => {
           <Image
             objectFit='cover'
             maxW={{ base: "100%", sm: "200px" }}
-            src={collection?.image.location}
-            alt={collection?.image.originalname.split(".")[0]}
+            src={collection?.image?.location}
+            alt={collection?.image?.originalname.split(".")[0]}
           />
 
           <Stack>
@@ -104,16 +105,7 @@ const CollectionPage = () => {
 
   return (
     <Box>
-      <Button
-        leftIcon={<ChevronLeftIcon />}
-        variant='link'
-        colorScheme='blue'
-        fontWeight={"normal"}
-        mb={7}
-        onClick={() => navigate(-1)}
-      >
-        Back
-      </Button>
+      <GoBackButton />
       {collectionResult}
     </Box>
   );
