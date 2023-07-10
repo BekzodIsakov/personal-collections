@@ -72,3 +72,25 @@ export const useUserSignOut = () => {
 
   return { loading, errorMessage, onSignOut };
 };
+
+export const useGetMe = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [me, setMe] = React.useState(null);
+
+  async function getMe() {
+    try {
+      setLoading(true);
+      const result = await axios.get(
+        `${import.meta.env.VITE_DEV_URL}/users/me`
+      );
+      setMe(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { loading, errorMessage, me, getMe };
+};
