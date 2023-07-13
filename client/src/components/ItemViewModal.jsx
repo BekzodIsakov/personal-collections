@@ -30,14 +30,7 @@ import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
 import { useItemFetch } from "../hooks/items";
 
-const ItemModal = ({
-  isOpen,
-  onOpen,
-  onClose,
-  itemId,
-  setItemId,
-  itemName,
-}) => {
+const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
 
   // const currentUser = useSelector((state) => state.usersReducer.user)
@@ -229,4 +222,4 @@ const ItemModal = ({
   );
 };
 
-export default ItemModal;
+export default ItemViewModal;
