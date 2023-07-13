@@ -28,14 +28,17 @@ import {
   useCollectionFetch,
   useDeleteCollectionImage,
 } from "../hooks/collections";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import CollectionEditModal from "../components/CollectionEditModal";
+import ItemsTable from "../components/ItemsTable";
+import DeleteModal from "../components/DeleteModal";
 
 const CollectionManagementPage = () => {
   const params = useParams();
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useCollectionFetch();
+  console.log({ collection });
 
   const {
     loading: deletingCollectionImage,
@@ -130,7 +133,13 @@ const CollectionManagementPage = () => {
               <Heading size='md' as='h1' wordBreak={"break-all"}>
                 {collection.title}
               </Heading>
-              <Button onClick={onOpen} ml={2} size='sm'>
+              <Button
+                onClick={onOpen}
+                ml={2}
+                size='sm'
+                leftIcon={<EditIcon />}
+                colorScheme='blue'
+              >
                 Edit
               </Button>
             </Flex>
@@ -138,16 +147,14 @@ const CollectionManagementPage = () => {
             <Text py='2'>{collection.description}</Text>
 
             <Box mb={2}>
+              Owner:&nbsp;
               <Text fontWeight={"semibold"} as={"b"}>
-                Author:
+                {collection.author.name}
               </Text>{" "}
-              {collection.author.name}
             </Box>
 
             <Box mb={2}>
-              <Text fontWeight={"semibold"} as={"b"}>
-                Topic:
-              </Text>{" "}
+              Topic:&nbsp;
               <Badge rounded={"sm"} fontWeight={"semibold"} colorScheme='blue'>
                 {collection.topic.title}
               </Badge>
@@ -164,7 +171,7 @@ const CollectionManagementPage = () => {
     <Box>
       <GoBackButton />
       {collectionManagementPage}
-
+      <ItemsTable />
       {isOpen && (
         <CollectionEditModal
           isOpen={isOpen}
