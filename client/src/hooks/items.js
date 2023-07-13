@@ -64,3 +64,31 @@ export const useItemsFetchByTag = () => {
     fetchItemsByTag,
   };
 };
+
+export const useItemDelete = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [itemDeleted, setItemDeleted] = React.useState(false);
+
+  async function deleteItem(id) {
+    try {
+      setLoading(true);
+      const result = await axios.delete(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`
+      );
+      if (result.status >= 200 || result.status < 300) setItemDeleted(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    itemDeleted,
+    setItemDeleted,
+    deleteItem,
+  };
+};
