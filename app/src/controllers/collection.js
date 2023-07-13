@@ -51,10 +51,15 @@ const getCollectionItems = async (req, res) => {
     const collection = await Collection.findOne({
       _id: req.params.id,
       author: req.user._id,
-    }).populate({
-      path: "items",
-      options: { skip: (page - 1) * limit, limit },
-    });
+    })
+      .populate("author topic")
+      .populate({
+        path: "items",
+        options: { skip: (page - 1) * limit, limit },
+        populate: {
+          path: "tags",
+        },
+      });
 
     if (!collection) return res.status(404).send({ message: "Not found!" });
     res.send(collection);
