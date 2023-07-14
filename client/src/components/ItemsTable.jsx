@@ -20,18 +20,15 @@ import ItemEditModal from "./ItemEditModal";
 
 const ItemsTable = () => {
   const [selectedRow, setSelectedRow] = React.useState({});
-  console.log({ selectedRow });
 
   const selectedItemId = Object.keys(selectedRow)[0];
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
-  console.log({ collectionItems: collection });
 
   const { loading: deleting, itemDeleted, deleteItem } = useItemDelete();
 
   const [data, setData] = React.useState([]);
-  console.log({ data });
 
   const sampleData = [
     {
