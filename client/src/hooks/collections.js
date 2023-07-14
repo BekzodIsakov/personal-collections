@@ -144,3 +144,36 @@ export const useFetchCollectionItems = () => {
     fetchCollection,
   };
 };
+
+export const useCreateCollection = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [collection, setCollection] = React.useState(null);
+
+  async function createCollection(formData) {
+    console.log({ formData });
+    try {
+      setLoading(true);
+      const result = await axios.post(
+        `${import.meta.env.VITE_DEV_URL}/collections/new`,
+        formData,
+        {
+          headers: { "content-type": "multipart/form-data" },
+        }
+      );
+      setCollection(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    collection,
+    setCollection,
+    createCollection,
+  };
+};
