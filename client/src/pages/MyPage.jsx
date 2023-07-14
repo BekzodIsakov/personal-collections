@@ -3,20 +3,27 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   HStack,
   Heading,
   ListItem,
   Spinner,
+  Stack,
   Text,
   UnorderedList,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useGetMe } from "../hooks/user";
 import { useFetchMyCollections } from "../hooks/collections";
 import CustomLink from "../components/CustomLink";
 import GoBackButton from "../components/GoBackButton";
+import NewCollectionModal from "../components/NewCollectionModal";
+import { AddIcon } from "@chakra-ui/icons";
 
 const MyPage = () => {
   const { loading, errorMessage, me, getMe } = useGetMe();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     loading: collectionsLoading,
@@ -50,9 +57,19 @@ const MyPage = () => {
         </HStack>
 
         <Box>
-          <Heading size='md' mb={4}>
-            My collections
-          </Heading>
+          <Stack direction={"row"} justifyContent={"space-between"}>
+            <Heading size='md' mb={4}>
+              My collections
+            </Heading>
+            <Button
+              size='sm'
+              onClick={onOpen}
+              colorScheme='blue'
+              leftIcon={<AddIcon />}
+            >
+              New collection
+            </Button>
+          </Stack>
           {collectionsLoading && <Spinner />}
           <UnorderedList>
             {collections &&
@@ -85,6 +102,7 @@ const MyPage = () => {
     <Box>
       <GoBackButton />
       {myPage}
+      {isOpen && <NewCollectionModal isOpen={isOpen} onClose={onClose} />}
     </Box>
   );
 };
