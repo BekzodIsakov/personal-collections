@@ -34,6 +34,7 @@ const collectionSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  optionalItemFields: [{ name: "String", type: "String" }],
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
 });
 
