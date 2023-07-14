@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  IconButton,
   Image,
   Input,
   Modal,
@@ -22,6 +23,7 @@ import {
 import { useFetchTopics } from "../hooks/topics";
 import { useCollectionEdit } from "../hooks/collections";
 import { useParams } from "react-router-dom";
+import { CloseIcon } from "@chakra-ui/icons";
 
 const EditCollectionModal = ({
   isOpen,
@@ -36,6 +38,8 @@ const EditCollectionModal = ({
   const [preview, setPreview] = React.useState("");
 
   const { topics, fetchTopics } = useFetchTopics();
+
+  const fileInputRef = React.useRef(null);
 
   const params = useParams();
 
@@ -67,6 +71,11 @@ const EditCollectionModal = ({
     }
 
     setSelectedImage(e.target.files[0]);
+  }
+
+  function resetSelectedFile() {
+    fileInputRef.current.value = "";
+    setSelectedImage("");
   }
 
   React.useEffect(() => {
@@ -104,12 +113,12 @@ const EditCollectionModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
       <ModalOverlay />
-      <ModalContent mx={3} pb={3}>
+      <ModalContent mx='3' pb='3'>
         <ModalHeader>Edit collection</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
-            <Stack spacing={3} mb={7}>
+            <Stack spacing='3' mb='7'>
               <FormControl>
                 <FormLabel>Title</FormLabel>
                 <Input
@@ -117,7 +126,6 @@ const EditCollectionModal = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                <FormErrorMessage></FormErrorMessage>
               </FormControl>
 
               <FormControl>
@@ -127,7 +135,6 @@ const EditCollectionModal = ({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                <FormErrorMessage></FormErrorMessage>
               </FormControl>
 
               <FormControl>
@@ -143,7 +150,6 @@ const EditCollectionModal = ({
                     </option>
                   ))}
                 </Select>
-                <FormErrorMessage></FormErrorMessage>
               </FormControl>
 
               <FormControl mt={4}>
@@ -153,7 +159,7 @@ const EditCollectionModal = ({
                   spacing={3}
                 >
                   <Box
-                    flex={"1"}
+                    flex='1'
                     borderColor={dragNDropBorderColor}
                     borderStyle='dashed'
                     borderWidth='2px'
@@ -198,6 +204,7 @@ const EditCollectionModal = ({
                         <Input
                           name='image'
                           onChange={handleImageSelect}
+                          ref={fileInputRef}
                           type='file'
                           height='100%'
                           width='100%'
@@ -219,6 +226,16 @@ const EditCollectionModal = ({
                       objectFit={"cover"}
                       rounded={"md"}
                     />
+                    {preview && (
+                      <IconButton
+                        onClick={resetSelectedFile}
+                        icon={<CloseIcon />}
+                        size='xs'
+                        pos='absolute'
+                        top='1'
+                        right='1'
+                      />
+                    )}
                   </Box>
                 </Stack>
               </FormControl>
