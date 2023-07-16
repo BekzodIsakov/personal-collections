@@ -151,7 +151,6 @@ export const useCreateCollection = () => {
   const [collection, setCollection] = React.useState(null);
 
   async function createCollection(formData) {
-    console.log({ formData });
     try {
       setLoading(true);
       const result = await axios.post(
@@ -175,5 +174,32 @@ export const useCreateCollection = () => {
     collection,
     setCollection,
     createCollection,
+  };
+};
+
+export const useDeleteCollection = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [isDeleted, setIsDeleted] = React.useState(false);
+
+  async function deleteCollection(id) {
+    try {
+      setLoading(true);
+      const result = await axios.delete(
+        `${import.meta.env.VITE_DEV_URL}/collections/${id}`
+      );
+      if (result.status >= 200 || result.status < 300) setIsDeleted(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    isDeleted,
+    deleteCollection,
   };
 };
