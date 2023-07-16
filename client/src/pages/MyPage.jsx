@@ -102,7 +102,13 @@ const MyPage = () => {
     <Box>
       <GoBackButton />
       {myPage}
-      {isOpen && <NewCollectionModal isOpen={isOpen} onClose={onClose} />}
+      {isOpen && (
+        <NewCollectionModal
+          isOpen={isOpen}
+          onClose={onClose}
+          fetchMyCollections={fetchMyCollections}
+        />
+      )}
     </Box>
   );
 };
