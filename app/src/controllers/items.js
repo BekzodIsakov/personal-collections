@@ -13,7 +13,7 @@ const getItems = async (req, res) => {
 
     let parts = [];
     const query = {};
-    
+
     if (findBy) {
       parts = findBy.split("_");
     }
