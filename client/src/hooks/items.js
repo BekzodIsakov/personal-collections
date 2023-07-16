@@ -92,3 +92,47 @@ export const useItemDelete = () => {
     deleteItem,
   };
 };
+
+export const useCreateItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [createdItem, setCreatedItem] = React.useState(null);
+
+  async function createItem(item) {
+    // const object = {};
+    // formData.forEach(function (value, key) {
+    //   object[key] = value;
+    // });
+    // console.log({ object });
+    try {
+      setLoading(true);
+      // const result = await axios({
+      //   method: "post",
+      //   url: `${import.meta.env.VITE_DEV_URL}/items/new`,
+      //   data: formData,
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // })
+
+      const result = await axios.post(
+        `${import.meta.env.VITE_DEV_URL}/items/new`,
+        item,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setCreatedItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    createdItem,
+    setCreatedItem,
+    createItem,
+  };
+};
