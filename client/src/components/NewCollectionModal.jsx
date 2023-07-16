@@ -23,12 +23,20 @@ import React from "react";
 import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
-import { useCreateCollection } from "../hooks/collections";
+import {
+  useCreateCollection,
+  useFetchMyCollections,
+} from "../hooks/collections";
 
-const NewCollectionModal = ({ isOpen, onClose, onEdit }) => {
+const NewCollectionModal = ({
+  isOpen,
+  onClose,
+  onEdit,
+  fetchMyCollections,
+}) => {
   const { topics, fetchTopics } = useFetchTopics();
 
-  const { createCollection, loading } = useCreateCollection();
+  const { createCollection, loading, collection } = useCreateCollection();
 
   const fileInputRef = React.useRef(null);
 
@@ -63,7 +71,10 @@ const NewCollectionModal = ({ isOpen, onClose, onEdit }) => {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("topic", selectedTopic);
-    formData.append("optionalItemFields", optionalItemFields);
+    formData.append("optionalItemFields", JSON.stringify(optionalItemFields));
+    // optionalItemFields.forEach((field, i) =>
+    //   formData.append(`optionalItemFields[${i}]`, field)
+    // );
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
@@ -99,6 +110,13 @@ const NewCollectionModal = ({ isOpen, onClose, onEdit }) => {
       setSelectedTopic(topics[0]._id);
     }
   }, [topics]);
+
+  React.useEffect(() => {
+    if (collection) {
+      fetchMyCollections();
+      onClose();
+    }
+  }, [collection]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
