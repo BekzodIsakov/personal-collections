@@ -22,22 +22,31 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GoBackButton from "../components/GoBackButton";
 import {
   useCollectionFetch,
+  useDeleteCollection,
   useDeleteCollectionImage,
 } from "../hooks/collections";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import CollectionEditModal from "../components/CollectionEditModal";
-import ItemsTable from "../components/ItemsTable";
+import ItemsManagement from "../components/ItemsManagement";
 import DeleteModal from "../components/DeleteModal";
 
 const CollectionManagementPage = () => {
   const params = useParams();
 
+  const navigate = useNavigate();
+
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useCollectionFetch();
+
+  const {
+    loading: isDeleting,
+    deleteCollection,
+    isDeleted,
+  } = useDeleteCollection();
 
   const {
     loading: deletingCollectionImage,
@@ -45,7 +54,17 @@ const CollectionManagementPage = () => {
     deleteCollectionImage,
   } = useDeleteCollectionImage();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
 
   React.useEffect(() => {
     fetchCollection(params.id);
@@ -56,6 +75,13 @@ const CollectionManagementPage = () => {
       setCollection(collectionWithoutImage);
     }
   }, [collectionWithoutImage]);
+
+  React.useEffect(() => {
+    if (isDeleted) {
+      onDeleteModalClose();
+      navigate(-1);
+    }
+  }, [isDeleted]);
 
   let collectionManagementPage = null;
 
@@ -128,31 +154,25 @@ const CollectionManagementPage = () => {
 
         <Stack flexGrow={1}>
           <CardBody>
-            <Flex justifyContent={"space-between"}>
-              <Heading size='md' as='h1' wordBreak={"break-all"}>
+            <Box mb={2}>
+              Name:&nbsp;
+              <Text fontWeight={"semibold"} display='inline-block'>
                 {collection.title}
-              </Heading>
-              <Button
-                onClick={onOpen}
-                ml={2}
-                size='sm'
-                leftIcon={<EditIcon />}
-                colorScheme='blue'
-              >
-                Edit
-              </Button>
-            </Flex>
-
-            <Text py='2'>{collection.description}</Text>
-
+              </Text>{" "}
+            </Box>
+            <Box mb={2}>
+              Description:&nbsp;
+              <Text fontWeight={"semibold"} display='inline-block'>
+                {collection.description}
+              </Text>{" "}
+            </Box>
             <Box mb={2}>
               Owner:&nbsp;
               <Text fontWeight={"semibold"} as={"b"}>
                 {collection.author.name}
               </Text>{" "}
             </Box>
-
-            <Box mb={2}>
+            <Box mb='2'>
               Topic:&nbsp;
               <Badge rounded={"sm"} fontWeight={"semibold"} colorScheme='blue'>
                 {collection.topic.title}
@@ -169,14 +189,52 @@ const CollectionManagementPage = () => {
   return (
     <Box>
       <GoBackButton />
-      {collectionManagementPage}
-      <ItemsTable />
-      {isOpen && (
+      {collection && (
+        <Stack
+          justifyContent='space-between'
+          mb='2'
+          direction={{ base: "column", sm: "row" }}
+        >
+          <Heading as='h1' size='lg' wordBreak='break-all'>
+            {collection.title}
+          </Heading>
+          <HStack spacing='2'>
+            <Button
+              onClick={onEditModalOpen}
+              size='xs'
+              leftIcon={<EditIcon />}
+              colorScheme='blue'
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={onDeleteModalOpen}
+              size='xs'
+              leftIcon={<DeleteIcon />}
+              colorScheme='red'
+            >
+              Delete
+            </Button>
+          </HStack>
+        </Stack>
+      )}
+      <Box mb='10'>{collectionManagementPage}</Box>
+      <ItemsManagement />
+      {isEditModalOpen && (
         <CollectionEditModal
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
           collection={collection}
           setCollection={setCollection}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={onDeleteModalClose}
+          onDelete={() => deleteCollection(params.id)}
+          deletedItemName={"collection"}
+          loading={isDeleting}
         />
       )}
     </Box>
