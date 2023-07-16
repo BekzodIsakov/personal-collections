@@ -45,7 +45,9 @@ const itemSchema = new mongoose.Schema(
     comments: [commentSchema],
     // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     optionalFields: {
-      type: [{ key: "String", value: mongoose.Schema.Types.Mixed }],
+      type: [
+        { name: "String", type: "String", value: mongoose.Schema.Types.Mixed },
+      ],
     },
   },
   { timestamps: true }
