@@ -11,12 +11,18 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const DeleteModal = ({ isOpen, onClose, onDelete, deleteItem, deleting }) => {
+const DeleteModal = ({
+  isOpen,
+  onClose,
+  onDelete,
+  deletedItemName,
+  loading,
+}) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent mx={3}>
-        <ModalHeader>Delete {deleteItem}</ModalHeader>
+        <ModalHeader>Delete {deletedItemName}</ModalHeader>
         <ModalCloseButton />
         <ModalFooter>
           <HStack>
@@ -24,7 +30,7 @@ const DeleteModal = ({ isOpen, onClose, onDelete, deleteItem, deleting }) => {
               colorScheme={"red"}
               onClick={onDelete}
               size='sm'
-              isLoading={deleting}
+              isLoading={loading}
             >
               Delete
             </Button>
