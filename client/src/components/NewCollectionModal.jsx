@@ -11,22 +11,19 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
   Stack,
   Text,
+  Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
-import {
-  useCreateCollection,
-  useFetchMyCollections,
-} from "../hooks/collections";
+import { useCreateCollection } from "../hooks/collections";
 
 const NewCollectionModal = ({
   isOpen,
@@ -72,21 +69,10 @@ const NewCollectionModal = ({
     formData.append("description", description);
     formData.append("topic", selectedTopic);
     formData.append("optionalItemFields", JSON.stringify(optionalItemFields));
-    // optionalItemFields.forEach((field, i) =>
-    //   formData.append(`optionalItemFields[${i}]`, field)
-    // );
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
     createCollection(formData);
-    // createCollection({
-    //   title,
-    //   description,
-    //   topic: selectedTopic,
-    //   image: selectedImage,
-    //   optionalItemFields: JSON.stringify(optionalItemFields),
-    // });
-    // console.log({ title, description, selectedTopic, selectedImage });
   }
 
   React.useEffect(() => {
@@ -139,12 +125,12 @@ const NewCollectionModal = ({
 
               <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Input
+                <Textarea
                   name={"description"}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   required
-                />
+                ></Textarea>
               </FormControl>
 
               <FormControl>

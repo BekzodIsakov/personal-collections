@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Heading,
   IconButton,
@@ -18,6 +17,7 @@ import {
   Select,
   Stack,
   Text,
+  Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useFetchTopics } from "../hooks/topics";
@@ -130,11 +130,11 @@ const EditCollectionModal = ({
 
               <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Input
+                <Textarea
                   name={"description"}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                />
+                ></Textarea>
               </FormControl>
 
               <FormControl>

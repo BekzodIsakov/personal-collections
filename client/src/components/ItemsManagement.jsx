@@ -269,7 +269,7 @@ const ItemsManagePage = () => {
         <Heading fontSize={"lg"} my='3'>
           Collection items
         </Heading>
-        <HStack>
+        <Wrap>
           <Button
             leftIcon={<AddIcon />}
             size='xs'
@@ -296,7 +296,7 @@ const ItemsManagePage = () => {
           >
             Delete
           </Button>
-        </HStack>
+        </Wrap>
       </Stack>
       <ReactTable
         columns={columns}

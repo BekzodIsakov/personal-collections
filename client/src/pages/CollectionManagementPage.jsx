@@ -19,6 +19,7 @@ import {
   Spinner,
   Stack,
   Text,
+  Wrap,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
@@ -33,6 +34,8 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import CollectionEditModal from "../components/CollectionEditModal";
 import ItemsManagement from "../components/ItemsManagement";
 import DeleteModal from "../components/DeleteModal";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const CollectionManagementPage = () => {
   const params = useParams();
@@ -160,12 +163,14 @@ const CollectionManagementPage = () => {
                 {collection.title}
               </Text>{" "}
             </Box>
-            <Box mb={2}>
+            <Flex mb={2}>
               Description:&nbsp;
-              <Text fontWeight={"semibold"} display='inline-block'>
-                {collection.description}
-              </Text>{" "}
-            </Box>
+              <Text fontWeight={"semibold"} display='inline-block' ml='3'>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {collection.description}
+                </ReactMarkdown>
+              </Text>
+            </Flex>
             <Box mb={2}>
               Owner:&nbsp;
               <Text fontWeight={"semibold"} as={"b"}>
@@ -198,7 +203,7 @@ const CollectionManagementPage = () => {
           <Heading as='h1' size='lg' wordBreak='break-all'>
             {collection.title}
           </Heading>
-          <HStack spacing='2'>
+          <Wrap spacing='2'>
             <Button
               onClick={onEditModalOpen}
               size='xs'
@@ -215,7 +220,7 @@ const CollectionManagementPage = () => {
             >
               Delete
             </Button>
-          </HStack>
+          </Wrap>
         </Stack>
       )}
       <Box mb='10'>{collectionManagementPage}</Box>
