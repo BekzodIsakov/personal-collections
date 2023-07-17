@@ -24,13 +24,12 @@ import NewItemModal from "./NewItemModal";
 const ItemsManagePage = () => {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [columns, setColumns] = React.useState([]);
-  console.log({ columns });
 
   const selectedItemId = Object.keys(selectedRow)[0];
+  console.log({ selectedItemId });
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
-
   console.log({ collection });
 
   const { loading: deleting, itemDeleted, deleteItem } = useItemDelete();
@@ -140,11 +139,9 @@ const ItemsManagePage = () => {
       const data = collection.items.map((item) => {
         const optionalFields = {};
         const parsedOptionalFields = JSON.parse(item.optionalFields);
-        console.log({ parsedOptionalFields });
         parsedOptionalFields.forEach((field) => {
           optionalFields[field.name] = String(field.value);
         });
-        console.log({ optionalFields });
 
         const tags = item.tags.map((tag) => tag.title);
 
@@ -322,7 +319,17 @@ const ItemsManagePage = () => {
         />
       )}
       {isEditModalOpen && (
-        <ItemEditModal isOpen={isEditModalOpen} onClose={onEditModalClose} />
+        <ItemEditModal
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+          optionalItemFields={
+            collection?.optionalItemFields &&
+            JSON.parse(collection.optionalItemFields)
+          }
+          collection={collection}
+          setCollection={setCollection}
+          selectedItemId={selectedItemId}
+        />
       )}
       {isDeleteModalOpen && (
         <DeleteModal
