@@ -1,7 +1,7 @@
 export default [
   {
-    label: "My collections",
-    to: "/me/collections",
+    label: "My page",
+    to: "/my-page",
   },
 ];
 

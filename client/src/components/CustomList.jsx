@@ -15,14 +15,14 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import ItemModal from "../pages/ItemModal";
+import ItemViewModal from "./ItemViewModal";
 
 const CustomList = ({
   list,
   type,
   loading,
   errorMessage,
-  showDetails=true,
+  showDetails = true,
 }) => {
   const [itemId, setItemId] = React.useState("");
   const [itemName, setItemName] = React.useState("");
@@ -51,8 +51,9 @@ const CustomList = ({
     listItems = list.map((item) => (
       <ListItem key={item._id} mb={showDetails ? 5 : 2}>
         <Box>
-          
-          <Text mb={1} display={"inline-block"}>{item.name}</Text>
+          <Text mb={1} display={"inline-block"}>
+            {item.name}
+          </Text>
           {!showDetails && (
             <Button
               size={"xs"}
@@ -101,7 +102,7 @@ const CustomList = ({
         <UnorderedList>{listItems}</UnorderedList>
       )}
       {isOpen && (
-        <ItemModal
+        <ItemViewModal
           isOpen={isOpen}
           onOpen={onOpen}
           onClose={onClose}

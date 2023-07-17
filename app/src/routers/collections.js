@@ -29,4 +29,10 @@ router.patch(
 
 router.delete("/collections/:id", checkAuth, collections.deleteCollection);
 
+router.delete(
+  "/collections/:id/image",
+  checkAuth,
+  collections.deleteCollectionImage
+);
+
 module.exports = router;

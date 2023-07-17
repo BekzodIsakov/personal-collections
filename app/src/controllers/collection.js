@@ -1,4 +1,5 @@
 const Collection = require("../models/collectionModel");
+const { deleteImage } = require("../middlewares/uploadImage");
 
 const getCollections = async (req, res) => {
   const query = {};
@@ -50,10 +51,15 @@ const getCollectionItems = async (req, res) => {
     const collection = await Collection.findOne({
       _id: req.params.id,
       author: req.user._id,
-    }).populate({
-      path: "items",
-      options: { skip: (page - 1) * limit, limit },
-    });
+    })
+      .populate("author topic")
+      .populate({
+        path: "items",
+        options: { skip: (page - 1) * limit, limit },
+        populate: {
+          path: "tags",
+        },
+      });
 
     if (!collection) return res.status(404).send({ message: "Not found!" });
     res.send(collection);
@@ -99,7 +105,9 @@ const updateCollection = async (req, res) => {
         key,
       };
 
-      const collection = await Collection.findById(req.params.id);
+      const collection = await Collection.findById(req.params.id).populate(
+        "author items topic"
+      );
       if (collection.image?.key) deleteImage(collection.image.key);
     }
 
@@ -107,9 +115,7 @@ const updateCollection = async (req, res) => {
       req.params.id,
       update,
       { new: true }
-    );
-    // .populate("items")
-    // .exec();
+    ).populate("author items topic");
     if (!collection) return res.status(404).send({ message: "Not found!" });
     res.send(collection);
   } catch (error) {
@@ -124,6 +130,25 @@ const deleteCollection = async (req, res) => {
   res.status(204).send();
 };
 
+const deleteCollectionImage = async (req, res) => {
+  try {
+    const collection = await Collection.findById(req.params.id).populate(
+      "author items topic"
+    );
+
+    if (!collection)
+      return res.status(404).send({ message: "Collection not found!" });
+
+    if (collection.image?.key) deleteImage(collection.image.key);
+    collection.image = undefined;
+
+    await collection.save();
+    res.send(collection);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
 module.exports = {
   getCollections,
   getTopFiveCollections,
@@ -132,4 +157,5 @@ module.exports = {
   createNewCollection,
   updateCollection,
   deleteCollection,
+  deleteCollectionImage,
 };

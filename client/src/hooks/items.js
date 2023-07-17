@@ -64,3 +64,134 @@ export const useItemsFetchByTag = () => {
     fetchItemsByTag,
   };
 };
+
+export const useItemDelete = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [itemDeleted, setItemDeleted] = React.useState(false);
+
+  async function deleteItem(id) {
+    try {
+      setLoading(true);
+      const result = await axios.delete(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`
+      );
+      if (result.status >= 200 || result.status < 300) setItemDeleted(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    itemDeleted,
+    setItemDeleted,
+    deleteItem,
+  };
+};
+
+export const useCreateItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [createdItem, setCreatedItem] = React.useState(null);
+
+  async function createItem(item) {
+    // const object = {};
+    // formData.forEach(function (value, key) {
+    //   object[key] = value;
+    // });
+    // console.log({ object });
+    try {
+      setLoading(true);
+      // const result = await axios({
+      //   method: "post",
+      //   url: `${import.meta.env.VITE_DEV_URL}/items/new`,
+      //   data: formData,
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // })
+
+      const result = await axios.post(
+        `${import.meta.env.VITE_DEV_URL}/items/new`,
+        item,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setCreatedItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    createdItem,
+    setCreatedItem,
+    createItem,
+  };
+};
+
+export const useFetchItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [item, setItem] = React.useState(null);
+
+  async function fetchItem(id) {
+    try {
+      setLoading(true);
+      const result = await axios.get(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`
+      );
+      setItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    item,
+    setItem,
+    fetchItem,
+  };
+};
+
+export const useEditItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [item, setItem] = React.useState(null);
+
+  async function editItem(id, update) {
+    try {
+      setLoading(true);
+      const result = await axios.patch(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`,
+        update,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    item,
+    editItem,
+  };
+};

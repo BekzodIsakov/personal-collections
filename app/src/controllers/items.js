@@ -13,7 +13,7 @@ const getItems = async (req, res) => {
 
     let parts = [];
     const query = {};
-    
+
     if (findBy) {
       parts = findBy.split("_");
     }
@@ -73,7 +73,13 @@ const updateItem = async (req, res) => {
       req.params.id,
       { ...req.body },
       { new: true }
-    );
+    )
+      .populate("tags")
+      .populate({
+        path: "author",
+        select: "name",
+      })
+      .populate({ path: "comments.author", select: "name" });
 
     if (!item) return res.status(404).send({ message: "Not found!" });
     res.send(item);
