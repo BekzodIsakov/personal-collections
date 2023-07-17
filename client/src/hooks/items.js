@@ -136,3 +136,62 @@ export const useCreateItem = () => {
     createItem,
   };
 };
+
+export const useFetchItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [item, setItem] = React.useState(null);
+
+  async function fetchItem(id) {
+    try {
+      setLoading(true);
+      const result = await axios.get(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`
+      );
+      setItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    item,
+    setItem,
+    fetchItem,
+  };
+};
+
+export const useEditItem = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [item, setItem] = React.useState(null);
+
+  async function editItem(id, update) {
+    try {
+      setLoading(true);
+      const result = await axios.patch(
+        `${import.meta.env.VITE_DEV_URL}/items/${id}`,
+        update,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setItem(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    item,
+    editItem,
+  };
+};
