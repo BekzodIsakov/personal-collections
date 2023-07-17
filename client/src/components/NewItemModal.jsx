@@ -90,7 +90,7 @@ const NewItemModal = ({
             <FormControl key={field.name}>
               <FormLabel textTransform={"capitalize"}>{field.name}</FormLabel>
               <Textarea
-                value={optionalFields?.[field.name.value]}
+                value={optionalFields?.[field.name].value}
                 onChange={(e) => {
                   handleOptionalFields({
                     name: field.name,
@@ -107,7 +107,7 @@ const NewItemModal = ({
             <FormControl key={field.name}>
               <FormLabel textTransform={"capitalize"}>{field.name}</FormLabel>
               <Checkbox
-                value={optionalFields?.[field.name.value]}
+                value={optionalFields?.[field.name].value}
                 onChange={(e) => {
                   handleOptionalFields({
                     name: field.name,
@@ -125,7 +125,7 @@ const NewItemModal = ({
               <FormLabel textTransform={"capitalize"}>{field.name}</FormLabel>
               <Input
                 type={field.type}
-                value={optionalFields?.[field.name.value]}
+                value={optionalFields?.[field.name].value}
                 onChange={(e) => {
                   handleOptionalFields({
                     name: field.name,
@@ -240,6 +240,7 @@ const NewItemModal = ({
     if (createdItem) {
       const _collection = { ...collection };
       _collection.items.push(createdItem);
+      console.log({ collection: { ..._collection } });
       setCollection(_collection);
       onClose();
     }
