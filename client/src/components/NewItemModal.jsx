@@ -18,6 +18,7 @@ import { useFetchAllTags } from "../hooks/tags";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
 import { useCreateItem } from "../hooks/items";
+import { useCurrentUser } from "../providers/currentUserProvider";
 
 const NewItemModal = ({
   isOpen,
@@ -27,18 +28,17 @@ const NewItemModal = ({
   collection,
   setCollection,
 }) => {
+  const { currentUser } = useCurrentUser();
+  console.log({ currentUser });
   const [name, setName] = React.useState("");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [optionalFields, setOptionalFields] = React.useState(null);
-  console.log(optionalFields);
-  // console.log(optionalItemFields);
 
   const [options, setOptions] = React.useState([]);
 
   const { tags, fetchTags } = useFetchAllTags();
 
-  const { loading, errorMessage, createdItem, setCreatedItem, createItem } =
-    useCreateItem();
+  const { loading, createdItem, createItem } = useCreateItem();
 
   function handleOnSubmit(e) {
     e.preventDefault();
@@ -65,9 +65,10 @@ const NewItemModal = ({
 
     createItem({
       name,
-      parentCollection: params.id,
+      parentCollection: params.collectionId,
       tags: selectedTags.map((tag) => tag.value),
       optionalFields: JSON.stringify(Object.values(optionalFields)),
+      author: currentUser._id,
     });
   }
 
