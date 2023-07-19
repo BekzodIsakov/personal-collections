@@ -10,19 +10,22 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { useFetchUsers } from "../hooks/user";
+import { useDeleteUser, useFetchUsers } from "../hooks/user";
 import CustomLink from "../components/CustomLink";
 import DeleteModal from "../components/DeleteModal";
 import UserEditModal from "../components/UserEditModal";
 
 const UsersPage = () => {
-  const { loading, fetchUsers, users } = useFetchUsers();
+  const { loading, fetchUsers, users, setUsers } = useFetchUsers();
+
+  const [selectedUserId, setSelectedUserId] = React.useState("");
 
   const {
-    isOpen: isDeleteModalOpen,
-    onOpen: onDeleteModalOpen,
-    onClose: onDeleteModalClose,
-  } = useDisclosure();
+    loading: deletingUser,
+    deleteUser,
+    deletedUserId,
+    userDeleted,
+  } = useDeleteUser();
 
   const {
     isOpen: isEditModalOpen,
@@ -30,9 +33,33 @@ const UsersPage = () => {
     onClose: onEditModalClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+
+  function handleModalOpen(modalName, userId) {
+    setSelectedUserId(userId);
+    if (modalName === "delete") {
+      onDeleteModalOpen();
+    } else {
+      onEditModalOpen();
+    }
+  }
+
   React.useEffect(() => {
     fetchUsers();
   }, []);
+
+  React.useEffect(() => {
+    if (userDeleted) {
+      const _users = users.filter((user) => user._id !== deletedUserId);
+      setUsers(_users);
+      setSelectedUserId("");
+      onDeleteModalClose();
+    }
+  }, [deletedUserId]);
 
   return (
     <Box>
@@ -44,7 +71,7 @@ const UsersPage = () => {
           <Spinner />
         ) : (
           users.map((user) => (
-            <ListItem key={user._id} mb='4'>
+            <ListItem key={user._id} mb='4' backgroundColor={"transparent"}>
               <Wrap spacingX={"10"}>
                 <WrapItem>
                   <CustomLink to={`${user._id}`}>{user.name}</CustomLink>
@@ -55,7 +82,7 @@ const UsersPage = () => {
                     variant={"outline"}
                     colorScheme='black'
                     mr='2'
-                    onClick={onEditModalOpen}
+                    onClick={() => handleModalOpen("edit", user._id)}
                   >
                     Edit
                   </Button>
@@ -64,7 +91,7 @@ const UsersPage = () => {
                     size={"xs"}
                     variant={"outline"}
                     colorScheme='red'
-                    onClick={onDeleteModalOpen}
+                    onClick={() => handleModalOpen("delete", user._id)}
                   >
                     Delete
                   </Button>
@@ -74,24 +101,24 @@ const UsersPage = () => {
           ))
         )}
       </UnorderedList>
-
       {isDeleteModalOpen && (
         <DeleteModal
           isOpen={isDeleteModalOpen}
           onOpen={onDeleteModalOpen}
           onClose={onDeleteModalClose}
-          onDelete={() => console.log("Deleting user")}
+          onDelete={() => deleteUser(selectedUserId)}
           deletedItemName={"user"}
+          loading={deletingUser}
         />
       )}
-
-      {isEditModalOpen && (
-        <UserEditModal
-          isOpen={isEditModalOpen}
-          onOpen={onEditModalOpen}
-          onClose={onEditModalClose}
-        />
-      )}
+      <UserEditModal
+        isOpen={isEditModalOpen}
+        onOpen={onEditModalOpen}
+        onClose={onEditModalClose}
+        userId={selectedUserId}
+        users={users}
+        setUsers={setUsers}
+      />
     </Box>
   );
 };
