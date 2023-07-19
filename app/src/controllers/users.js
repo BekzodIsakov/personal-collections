@@ -107,8 +107,11 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(204).send();
+    if (req.params.id === req.user.id || req.user.isAdmin) {
+      await User.findByIdAndDelete(req.params.id);
+      return res.status(204).send();
+    }
+    return res.status(403).send({ message: "Unauthorized request!" });
   } catch (error) {
     es.status(500).send(error);
   }
