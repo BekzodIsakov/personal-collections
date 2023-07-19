@@ -44,6 +44,8 @@ router.get("/users/me", checkAuth, (req, res) => {
   res.send(req.user);
 });
 
+router.get("/users/:id", checkAuth, users.fetchUser);
+
 router.patch("/users/me", checkAuth, checkIsAdmin, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "email", "password"];
