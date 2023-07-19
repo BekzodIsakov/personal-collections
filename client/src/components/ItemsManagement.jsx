@@ -117,7 +117,7 @@ const ItemsManagePage = () => {
   // }, [dynamicColumns]);
 
   React.useEffect(() => {
-    fetchCollection(params.id);
+    fetchCollection(params.collectionId);
   }, []);
 
   React.useEffect(() => {
