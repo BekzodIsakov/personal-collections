@@ -2,7 +2,6 @@ import {
   Button,
   HStack,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,

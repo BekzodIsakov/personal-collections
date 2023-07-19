@@ -6,23 +6,59 @@ import SignUp from "../pages/SignUp";
 import ParentRoute from "./ParentRoute";
 import MainPage from "../pages/MainPage";
 import CollectionPage from "../pages/CollectionPage";
-import MyPage from "../pages/MyPage";
 import CollectionManagementPage from "../pages/CollectionManagementPage";
+import NotFoundPage from "../pages/NotFoundPage";
+import UsersPage from "../pages/UsersPage";
+import UserPage from "../pages/UserPage";
+import CurrentUserProvider from "../providers/currentUserProvider";
 
 const Routes = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   const routesForAuthenticated = [
     {
       path: "/",
-      element: <ProtectedRoute />,
+      element: (
+        <CurrentUserProvider>
+          <ProtectedRoute />
+        </CurrentUserProvider>
+      ),
       children: [
         {
-          path: "/my-page",
-          element: <MyPage />,
+          path: "/me",
+          element: <UserPage />,
         },
         {
-          path: "/my-page/collections/:id",
+          path: "/me/collections/:collectionId",
+          element: <CollectionManagementPage />,
+        },
+      ],
+    },
+  ];
+
+  const routesForAdmins = [
+    {
+      path: "/",
+      element: (
+        <CurrentUserProvider>
+          <ProtectedRoute />
+        </CurrentUserProvider>
+      ),
+      children: [
+        {
+          path: "/admin/:id",
+          element: <div>admin page</div>,
+        },
+        {
+          path: "/users",
+          element: <UsersPage />,
+        },
+        {
+          path: "/users/:userId",
+          element: <UserPage />,
+        },
+        {
+          path: "/users/:userId/collections/:collectionId",
           element: <CollectionManagementPage />,
         },
       ],
@@ -37,6 +73,7 @@ const Routes = () => {
         { path: "/", element: <MainPage /> },
         { path: "/collections/:id", element: <CollectionPage /> },
         ...(token ? routesForAuthenticated : []),
+        ...(token && user.isAdmin ? routesForAdmins : []),
       ],
     },
     {
@@ -49,25 +86,14 @@ const Routes = () => {
     },
     {
       path: "*",
-      element: <h1 style={{ textAlign: "center" }}>404 - Page not Found!</h1>,
-    },
-  ];
-
-  const routesForAdmins = [
-    {
-      path: "/admins/:id",
-      element: <div>admin page</div>,
-    },
-    {
-      path: "/users/:id",
-      element: <div>user page</div>,
+      element: <NotFoundPage />,
     },
   ];
 
   const router = createBrowserRouter([
     ...routesForPublic,
     // ...(token ? routesForAuthenticated : []),
-    ...routesForAdmins,
+    // ...routesForAdmins,
   ]);
 
   return <RouterProvider router={router} />;

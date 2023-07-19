@@ -99,19 +99,8 @@ export const useCreateItem = () => {
   const [createdItem, setCreatedItem] = React.useState(null);
 
   async function createItem(item) {
-    // const object = {};
-    // formData.forEach(function (value, key) {
-    //   object[key] = value;
-    // });
-    // console.log({ object });
     try {
       setLoading(true);
-      // const result = await axios({
-      //   method: "post",
-      //   url: `${import.meta.env.VITE_DEV_URL}/items/new`,
-      //   data: formData,
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // })
 
       const result = await axios.post(
         `${import.meta.env.VITE_DEV_URL}/items/new`,

@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import MobileNav from "./MobileNav";
-import navItems from "./navData";
+import { useNavData } from "./navData";
 import DesktopNav from "./DesktopNav";
 import { useI18n } from "../../../providers/i18nProvider";
 
@@ -19,6 +19,8 @@ const Navigation = () => {
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const menuBgColor = useColorModeValue("white", "gray.700");
+
+  const { navData } = useNavData();
 
   const { languages, setSelectedLanguage, selectedLanguage } = useI18n();
 
@@ -55,7 +57,7 @@ const Navigation = () => {
               >
                 <HStack justifyContent={"space-between"}>
                   <MobileNav
-                    navItems={navItems}
+                    navItems={navData}
                     linkColor={linkColor}
                     linkHoverColor={linkHoverColor}
                   />
@@ -84,7 +86,7 @@ const Navigation = () => {
       </Flex>
       <Flex display={{ base: "none", md: "flex" }} ml={3}>
         <DesktopNav
-          navItems={navItems}
+          navItems={navData}
           linkColor={linkColor}
           linkHoverColor={linkHoverColor}
         />

@@ -61,7 +61,7 @@ const EditCollectionModal = ({
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
-    updateCollection(params.id, formData);
+    updateCollection(params.collectionId, formData);
   }
 
   function handleImageSelect(e) {

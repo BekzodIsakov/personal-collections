@@ -36,9 +36,13 @@ import ItemsManagement from "../components/ItemsManagement";
 import DeleteModal from "../components/DeleteModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useCurrentUser } from "../providers/currentUserProvider";
 
 const CollectionManagementPage = () => {
   const params = useParams();
+
+  const { currentUser } = useCurrentUser();
+  console.log({ currentUser });
 
   const navigate = useNavigate();
 
@@ -70,7 +74,7 @@ const CollectionManagementPage = () => {
   } = useDisclosure();
 
   React.useEffect(() => {
-    fetchCollection(params.id);
+    fetchCollection(params.collectionId);
   }, []);
 
   React.useEffect(() => {
@@ -137,7 +141,9 @@ const CollectionManagementPage = () => {
                               size='xs'
                               colorScheme={"red"}
                               isLoading={deletingCollectionImage}
-                              onClick={() => deleteCollectionImage(params.id)}
+                              onClick={() =>
+                                deleteCollectionImage(params.collectionId)
+                              }
                             >
                               Yes
                             </Button>
@@ -237,7 +243,7 @@ const CollectionManagementPage = () => {
         <DeleteModal
           isOpen={isDeleteModalOpen}
           onClose={onDeleteModalClose}
-          onDelete={() => deleteCollection(params.id)}
+          onDelete={() => deleteCollection(params.collectionId)}
           deletedItemName={"collection"}
           loading={isDeleting}
         />

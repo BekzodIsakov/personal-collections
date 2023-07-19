@@ -24,13 +24,16 @@ import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
 import { useCreateCollection } from "../hooks/collections";
+import { useCurrentUser } from "../providers/currentUserProvider";
 
 const NewCollectionModal = ({
   isOpen,
   onClose,
   onEdit,
-  fetchMyCollections,
+  fetchUserCollections,
 }) => {
+  const { currentUser } = useCurrentUser();
+
   const { topics, fetchTopics } = useFetchTopics();
 
   const { createCollection, loading, collection } = useCreateCollection();
@@ -68,6 +71,7 @@ const NewCollectionModal = ({
     formData.append("title", title);
     formData.append("description", description);
     formData.append("topic", selectedTopic);
+    formData.append("author", currentUser._id);
     formData.append("optionalItemFields", JSON.stringify(optionalItemFields));
     if (selectedImage) {
       formData.append("image", selectedImage);
@@ -99,7 +103,7 @@ const NewCollectionModal = ({
 
   React.useEffect(() => {
     if (collection) {
-      fetchMyCollections();
+      fetchUserCollections(currentUser._id);
       onClose();
     }
   }, [collection]);
