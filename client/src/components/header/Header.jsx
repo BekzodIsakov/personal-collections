@@ -28,6 +28,7 @@ import { useUserSignOut } from "../../hooks/user";
 import SVG from "../SVG";
 import React from "react";
 import { useI18n } from "../../providers/i18nProvider";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [searchText, setSearchText] = React.useState("");
@@ -38,10 +39,13 @@ const Header = () => {
 
   const { languages, selectedLanguage, setSelectedLanguage } = useI18n();
 
+  const navigate = useNavigate();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSignOut = () => {
     onSignOut();
+    navigate("/");
     setToken(null);
   };
 
