@@ -55,12 +55,14 @@ const getItemById = async (req, res) => {
 
 const createNewItem = async (req, res) => {
   try {
-    const item = new Item({ ...req.body, author: req.user._id });
+    // const item = new Item({ ...req.body, author: req.user._id });
+    const item = new Item({ ...req.body });
     await item.save();
     await collection.updateOne(
       { _id: req.body.parentCollection },
       { $push: { items: item._id }, $inc: { itemsLength: 1 } }
     );
+    await item.populate("tags");
     res.status(201).send(item);
   } catch (error) {
     res.status(500).send({ message: error.message });
