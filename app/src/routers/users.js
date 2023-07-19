@@ -115,7 +115,7 @@ router.patch("/users/:id", checkAuth, checkIsAdmin, users.updateUser);
 //   }
 // });
 
-router.delete("/users/:id", checkAuth, checkIsAdmin, users.deleteUser);
+router.delete("/users/:id", checkAuth, users.deleteUser);
 // router.delete("/users/:id", checkAuth, checkIsAdmin, async (req, res) => {
 //   try {
 //     await User.findByIdAndDelete(req.params.id);
