@@ -9,7 +9,7 @@ export const useFetchAllTags = () => {
   async function fetchTags() {
     try {
       setLoading(true);
-      const result = await axios.get(`${import.meta.env.VITE_DEV_URL}/tags`);
+      const result = await axios.get(`${import.meta.env.VITE_PROD_URL}/tags`);
       setTags(result.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);

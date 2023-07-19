@@ -12,7 +12,7 @@ export const fetchTopFiveCollections = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/collections/topFive`
+        `${import.meta.env.VITE_PROD_URL}/collections/topFive`
       );
       return response.data;
     } catch (error) {
