@@ -1,5 +1,7 @@
 import axios from "axios";
 import React from "react";
+import { useAuth } from "../providers/authProvider";
+import { useLocation, useParams } from "react-router-dom";
 
 export const useUserSignIn = () => {
   const [data, setData] = React.useState(null);
@@ -73,18 +75,25 @@ export const useUserSignOut = () => {
   return { loading, errorMessage, onSignOut };
 };
 
-export const useGetMe = () => {
+export const useFetchUser = () => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [me, setMe] = React.useState(null);
+  const [user, setUser] = React.useState(null);
 
-  async function getMe() {
+  const location = useLocation();
+  const userPath = location.pathname.split("/")[1];
+  const params = useParams();
+
+  const { setUser: setCurrentUser, user: currentUser } = useAuth();
+
+  async function fetchUser() {
+    const path = userPath === "me" ? "me" : params.userId;
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/users/me`
+        `${import.meta.env.VITE_DEV_URL}/users/${path}`
       );
-      setMe(result.data);
+      setUser(result.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);
     } finally {
@@ -92,5 +101,36 @@ export const useGetMe = () => {
     }
   }
 
-  return { loading, errorMessage, me, getMe };
+  React.useEffect(() => {
+    if (userPath === "me" && user) {
+      const _currentUser = {
+        ...currentUser,
+        name: user.name,
+        isAdmin: user.isAdmin,
+      };
+      setCurrentUser(_currentUser);
+    }
+  }, [user]);
+
+  return { loading, errorMessage, user, fetchUser };
+};
+
+export const useFetchUsers = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [users, setUsers] = React.useState([]);
+
+  async function fetchUsers() {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${import.meta.env.VITE_DEV_URL}/users`);
+      setUsers(response.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { users, loading, errorMessage, fetchUsers };
 };
