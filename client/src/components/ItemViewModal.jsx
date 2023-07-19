@@ -43,7 +43,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
     try {
       setLikeLoading(true);
       const result = await axios.patch(
-        `${import.meta.env.VITE_DEV_URL}/items/${itemId}/react`
+        `${import.meta.env.VITE_PROD_URL}/items/${itemId}/react`
       );
       updateItem({ likes: result.data });
     } catch (error) {
