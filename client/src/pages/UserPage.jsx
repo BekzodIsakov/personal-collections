@@ -126,6 +126,10 @@ const UserPage = () => {
     }
   }, [user]);
 
+  React.useEffect(() => {
+    fetchUser();
+  }, [location]);
+
   return (
     <Box>
       {userPage}
