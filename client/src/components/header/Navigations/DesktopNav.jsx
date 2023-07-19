@@ -30,6 +30,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
               <PopoverTrigger>
                 <Link
                   as={NavLink}
+                  _activeLink={{ textDecoration: "none" }}
                   p={2}
                   to={navItem.to}
                   fontSize={"md"}

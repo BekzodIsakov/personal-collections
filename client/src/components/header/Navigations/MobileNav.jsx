@@ -55,6 +55,7 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
       <Flex
         py={2}
         as={NavLink}
+        _activeLink={{ textDecoration: "none" }}
         to={to}
         justify={"space-between"}
         align={"center"}
