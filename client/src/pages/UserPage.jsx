@@ -128,7 +128,6 @@ const UserPage = () => {
 
   return (
     <Box>
-      <GoBackButton />
       {userPage}
       {isOpen && (
         <NewCollectionModal
