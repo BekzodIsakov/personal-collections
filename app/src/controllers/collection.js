@@ -50,7 +50,7 @@ const getCollectionItems = async (req, res) => {
   try {
     const collection = await Collection.findOne({
       _id: req.params.id,
-      author: req.user._id,
+      // author: req.user._id,
     })
       .populate("author topic")
       .populate({
@@ -74,7 +74,7 @@ const createNewCollection = async (req, res) => {
   try {
     const collection = new Collection({
       ...req.body,
-      author: req.user._id,
+      // author: req.user._id,
       image: {
         originalname,
         mimetype,
