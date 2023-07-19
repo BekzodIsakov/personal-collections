@@ -22,49 +22,47 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
 
   return (
     <Stack direction={"row"} spacing={4}>
-      {token &&
-        navItems?.length &&
-        navItems.map((navItem) => (
-          <Box key={navItem.label}>
-            <Popover trigger={"hover"} placement={"bottom-start"}>
-              <PopoverTrigger>
-                <Link
-                  as={NavLink}
-                  _activeLink={{ textDecoration: "none" }}
-                  p={2}
-                  to={navItem.to}
-                  fontSize={"md"}
-                  fontWeight={navItem.children ? 600 : 500}
-                  color={linkColor}
-                  textDecoration={"underline"}
-                  _hover={{
-                    color: linkHoverColor,
-                    textDecoration: "none",
-                  }}
-                >
-                  {navItem.label}
-                </Link>
-              </PopoverTrigger>
+      {navItems.map((navItem) => (
+        <Box key={navItem.label}>
+          <Popover trigger={"hover"} placement={"bottom-start"}>
+            <PopoverTrigger>
+              <Link
+                as={NavLink}
+                _activeLink={{ color: "blue.400", textDecoration: "none" }}
+                p={2}
+                to={navItem.to}
+                fontSize={"md"}
+                fontWeight={navItem.children ? 600 : 500}
+                color={linkColor}
+                textDecoration={"underline"}
+                _hover={{
+                  color: linkHoverColor,
+                  textDecoration: "none",
+                }}
+              >
+                {navItem.label}
+              </Link>
+            </PopoverTrigger>
 
-              {navItem.children && (
-                <PopoverContent
-                  border={0}
-                  boxShadow={"xl"}
-                  bg={popoverContentBgColor}
-                  p={4}
-                  rounded={"xl"}
-                  minW={"sm"}
-                >
-                  <Stack>
-                    {navItem.children.map((child) => (
-                      <DesktopSubNav key={child.label} {...child} />
-                    ))}
-                  </Stack>
-                </PopoverContent>
-              )}
-            </Popover>
-          </Box>
-        ))}
+            {navItem.children && (
+              <PopoverContent
+                border={0}
+                boxShadow={"xl"}
+                bg={popoverContentBgColor}
+                p={4}
+                rounded={"xl"}
+                minW={"sm"}
+              >
+                <Stack>
+                  {navItem.children.map((child) => (
+                    <DesktopSubNav key={child.label} {...child} />
+                  ))}
+                </Stack>
+              </PopoverContent>
+            )}
+          </Popover>
+        </Box>
+      ))}
     </Stack>
   );
 };
