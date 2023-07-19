@@ -103,7 +103,7 @@ const NewCollectionModal = ({
 
   React.useEffect(() => {
     if (collection) {
-      fetchUserCollections();
+      fetchUserCollections(currentUser._id);
       onClose();
     }
   }, [collection]);
