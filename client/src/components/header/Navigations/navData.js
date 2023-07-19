@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../../providers/authProvider";
 
 export const useNavData = () => {
   const { token, user } = useAuth();
+
+  console.log({ user });
+
+  const publicNavItems = React.useMemo(
+    () => [{ label: "Main page", to: "/" }],
+    []
+  );
 
   const authenticatedNavItems = React.useMemo(
     () => [{ label: "My page", to: "/me" }],
@@ -11,7 +18,7 @@ export const useNavData = () => {
 
   const adminNavItems = React.useMemo(
     () => [
-      { label: "Admin page", to: `admin/${user.id}` },
+      // { label: "Admin page", to: `admin/${user?.id}` },
       { label: "Users page", to: "users" },
     ],
     [user]
@@ -19,16 +26,22 @@ export const useNavData = () => {
 
   const [navData, setNavData] = React.useState([]);
 
+  useEffect(() => {}, []);
+
   React.useEffect(() => {
+    let _navData = [...publicNavItems];
     if (token) {
-      const _navData = [...authenticatedNavItems];
+      _navData = [...publicNavItems, ...authenticatedNavItems];
 
       if (user.isAdmin) {
-        _navData.push(...adminNavItems);
+        _navData = [
+          ...publicNavItems,
+          ...authenticatedNavItems,
+          ...adminNavItems,
+        ];
       }
-
-      setNavData(_navData);
     }
+    setNavData(_navData);
   }, [user]);
 
   return {
