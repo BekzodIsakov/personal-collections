@@ -10,7 +10,6 @@ import CollectionManagementPage from "../pages/CollectionManagementPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import UsersPage from "../pages/UsersPage";
 import UserPage from "../pages/UserPage";
-import UserPageWrapper from "../components/UserPageWrapper";
 import CurrentUserProvider from "../providers/currentUserProvider";
 
 const Routes = () => {
