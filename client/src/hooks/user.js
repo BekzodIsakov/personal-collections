@@ -86,12 +86,12 @@ export const useFetchUser = () => {
 
   const { setUser: setCurrentUser, user: currentUser } = useAuth();
 
-  async function fetchUser() {
+  async function fetchUser(userId) {
     const path = userPath === "me" ? "me" : params.userId;
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/users/${path}`
+        `${import.meta.env.VITE_DEV_URL}/users/${userId || path}`
       );
       setUser(result.data);
     } catch (error) {
@@ -132,5 +132,67 @@ export const useFetchUsers = () => {
     }
   }
 
-  return { users, loading, errorMessage, fetchUsers };
+  return { users, setUsers, loading, errorMessage, fetchUsers };
+};
+
+export const useDeleteUser = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [userDeleted, setUserDeleted] = React.useState(false);
+  const [deletedUserId, setDeletedUserId] = React.useState("");
+
+  async function deleteUser(userId) {
+    try {
+      setLoading(true);
+      const result = await axios.delete(
+        `${import.meta.env.VITE_DEV_URL}/users/${userId}`
+      );
+      console.log({ result });
+      setDeletedUserId(userId);
+      if (result.status >= 200 || result.status < 300) setUserDeleted(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    userDeleted,
+    loading,
+    errorMessage,
+    deleteUser,
+    deletedUserId,
+    setDeletedUserId,
+  };
+};
+
+export const useUpdateUser = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [user, setUser] = React.useState(null);
+
+  async function updateUser(userId, update) {
+    try {
+      setLoading(true);
+      const result = await axios.patch(
+        `${import.meta.env.VITE_DEV_URL}/users/${userId}`,
+        update,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setUser(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    updateUser,
+    loading,
+    errorMessage,
+    user,
+    setUser,
+  };
 };
