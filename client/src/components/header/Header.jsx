@@ -35,7 +35,7 @@ const Header = () => {
 
   const { loading, onSignOut } = useUserSignOut();
 
-  const { token, user, setToken } = useAuth();
+  const { token, user, setToken, setUser } = useAuth();
 
   const { languages, selectedLanguage, setSelectedLanguage } = useI18n();
 
@@ -47,6 +47,7 @@ const Header = () => {
     onSignOut();
     navigate("/");
     setToken(null);
+    setUser(null);
   };
 
   const { colorMode, toggleColorMode } = useColorMode();
