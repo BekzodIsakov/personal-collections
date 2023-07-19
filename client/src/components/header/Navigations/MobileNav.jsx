@@ -23,15 +23,9 @@ const MobileNav = ({ navItems = [], linkColor }) => {
       py={2}
       display={{ md: "none" }}
     >
-      {token &&
-        navItems?.length &&
-        navItems.map((navItem) => (
-          <MobileNavItem
-            key={navItem.label}
-            {...navItem}
-            linkColor={linkColor}
-          />
-        ))}
+      {navItems.map((navItem) => (
+        <MobileNavItem key={navItem.label} {...navItem} linkColor={linkColor} />
+      ))}
     </Stack>
   );
 };
@@ -55,7 +49,7 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
       <Flex
         py={2}
         as={NavLink}
-        _activeLink={{ textDecoration: "none" }}
+        _activeLink={{ color: "blue.400", textDecoration: "none" }}
         to={to}
         justify={"space-between"}
         align={"center"}
@@ -63,10 +57,9 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
         _hover={{
           textDecoration: "none",
         }}
+        color={linkColor}
       >
-        <Text fontWeight={children ? 600 : 500} color={linkColor}>
-          {label}
-        </Text>
+        <Text fontWeight={children ? 600 : 500}>{label}</Text>
         {children && (
           <Icon
             as={ChevronDownIcon}
