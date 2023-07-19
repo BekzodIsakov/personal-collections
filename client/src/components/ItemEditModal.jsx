@@ -17,7 +17,7 @@ import React from "react";
 import { useFetchAllTags } from "../hooks/tags";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
-import { useCreateItem, useEditItem, useFetchItem } from "../hooks/items";
+import { useEditItem, useFetchItem } from "../hooks/items";
 
 const EditItemModal = ({
   isOpen,
