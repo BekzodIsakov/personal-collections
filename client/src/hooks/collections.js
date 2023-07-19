@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useAuth } from "../providers/authProvider";
+import { useLocation, useParams } from "react-router-dom";
 
 export const useCollectionFetch = () => {
   const [loading, setLoading] = React.useState(false);
@@ -30,18 +31,18 @@ export const useCollectionFetch = () => {
   };
 };
 
-export const useFetchMyCollections = () => {
+export const useFetchUserCollection = () => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [collections, setItemCollections] = React.useState(null);
+  const [collections, setItemCollections] = React.useState([]);
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  async function fetchMyCollections() {
+  async function fetchUserCollection(userId) {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_DEV_URL}/collections?getBy=author_${user.id}`
+        `${import.meta.env.VITE_DEV_URL}/collections?getBy=author_${userId}`
       );
       setItemCollections(result.data);
     } catch (error) {
@@ -55,7 +56,34 @@ export const useFetchMyCollections = () => {
     loading,
     errorMessage,
     collections,
-    fetchMyCollections,
+    fetchUserCollection,
+  };
+};
+
+export const useFetchUserCollections = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [collections, setItemCollections] = React.useState([]);
+
+  async function fetchUserCollections(userId) {
+    try {
+      setLoading(true);
+      const result = await axios.get(
+        `${import.meta.env.VITE_DEV_URL}/collections?getBy=author_${userId}`
+      );
+      setItemCollections(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    collections,
+    fetchUserCollections,
   };
 };
 
