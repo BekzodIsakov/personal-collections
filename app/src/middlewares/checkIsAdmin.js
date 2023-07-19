@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 
 const checkIsAdmin = async (req, res, next) => {
   if (!req.user.isAdmin)
-    return res.status(403).send({ message: "Not authorizated!" });
+    return res.status(403).send({ message: "Unauthorizated request!" });
   next();
 };
 
