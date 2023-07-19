@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     }
-  }, [token]);
+  }, [token, user]);
 
   const contextValue = useMemo(
     () => ({

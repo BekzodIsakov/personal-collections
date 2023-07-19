@@ -37,17 +37,6 @@ export const useNavData = () => {
   };
 };
 
-// export default [
-//   {
-//     label: "My page",
-//     to: "/my-page",
-//   },
-//   ( ? {
-//     label: "My page",
-//     to: "/my-page",
-//   })
-// ];
-
 // Sample data
 // [
 //   {
