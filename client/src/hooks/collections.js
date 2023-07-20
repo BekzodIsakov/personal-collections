@@ -12,7 +12,7 @@ export const useCollectionFetch = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/collections/${id}`
+        `${import.meta.env.VITE_URL}/collections/${id}`
       );
       setCollection(result.data);
     } catch (error) {
@@ -42,7 +42,7 @@ export const useFetchUserCollection = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/collections?getBy=author_${userId}`
+        `${import.meta.env.VITE_URL}/collections?getBy=author_${userId}`
       );
       setItemCollections(result.data);
     } catch (error) {
@@ -69,7 +69,7 @@ export const useFetchUserCollections = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/collections?getBy=author_${userId}`
+        `${import.meta.env.VITE_URL}/collections?getBy=author_${userId}`
       );
       setItemCollections(result.data);
     } catch (error) {
@@ -96,7 +96,7 @@ export const useCollectionEdit = () => {
     try {
       setLoading(true);
       const result = await axios.patch(
-        `${import.meta.env.VITE_PROD_URL}/collections/${id}`,
+        `${import.meta.env.VITE_URL}/collections/${id}`,
         formData,
         { headers: { "content-type": "multipart/form-data" } }
       );
@@ -125,7 +125,7 @@ export const useDeleteCollectionImage = () => {
     try {
       setLoading(true);
       const result = await axios.delete(
-        `${import.meta.env.VITE_PROD_URL}/collections/${id}/image`
+        `${import.meta.env.VITE_URL}/collections/${id}/image`
       );
       setUpdatedCollection(result.data);
     } catch (error) {
@@ -153,7 +153,7 @@ export const useFetchCollectionItems = () => {
       setLoading(true);
       const result = await axios.get(
         `${
-          import.meta.env.VITE_PROD_URL
+          import.meta.env.VITE_URL
         }/collections/${id}/items/?page=${page}&limit=${limit}`
       );
       setCollection(result.data);
@@ -182,7 +182,7 @@ export const useCreateCollection = () => {
     try {
       setLoading(true);
       const result = await axios.post(
-        `${import.meta.env.VITE_PROD_URL}/collections/new`,
+        `${import.meta.env.VITE_URL}/collections/new`,
         formData,
         {
           headers: { "content-type": "multipart/form-data" },
@@ -214,7 +214,7 @@ export const useDeleteCollection = () => {
     try {
       setLoading(true);
       const result = await axios.delete(
-        `${import.meta.env.VITE_PROD_URL}/collections/${id}`
+        `${import.meta.env.VITE_URL}/collections/${id}`
       );
       if (result.status >= 200 || result.status < 300) setIsDeleted(true);
     } catch (error) {

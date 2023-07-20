@@ -10,7 +10,7 @@ export const useItemFetch = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/items/${itemId}`
+        `${import.meta.env.VITE_URL}/items/${itemId}`
       );
       setItem(result.data);
     } catch (error) {
@@ -32,6 +32,7 @@ export const useItemFetch = () => {
     loading,
     errorMessage,
     item,
+    setItem,
     onItemFetch,
     updateItem,
   };
@@ -46,7 +47,7 @@ export const useItemsFetchByTag = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/items?findBy=tags_${tagId}`
+        `${import.meta.env.VITE_URL}/items?findBy=tags_${tagId}`
       );
       setItems(result.data);
     } catch (error) {
@@ -74,7 +75,7 @@ export const useItemDelete = () => {
     try {
       setLoading(true);
       const result = await axios.delete(
-        `${import.meta.env.VITE_PROD_URL}/items/${id}`
+        `${import.meta.env.VITE_URL}/items/${id}`
       );
       if (result.status >= 200 || result.status < 300) setItemDeleted(true);
     } catch (error) {
@@ -103,7 +104,7 @@ export const useCreateItem = () => {
       setLoading(true);
 
       const result = await axios.post(
-        `${import.meta.env.VITE_PROD_URL}/items/new`,
+        `${import.meta.env.VITE_URL}/items/new`,
         item,
         {
           headers: { "Content-Type": "application/json" },
@@ -134,9 +135,7 @@ export const useFetchItem = () => {
   async function fetchItem(id) {
     try {
       setLoading(true);
-      const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/items/${id}`
-      );
+      const result = await axios.get(`${import.meta.env.VITE_URL}/items/${id}`);
       setItem(result.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -163,7 +162,7 @@ export const useEditItem = () => {
     try {
       setLoading(true);
       const result = await axios.patch(
-        `${import.meta.env.VITE_PROD_URL}/items/${id}`,
+        `${import.meta.env.VITE_URL}/items/${id}`,
         update,
         {
           headers: { "Content-Type": "application/json" },

@@ -9,7 +9,7 @@ export const useFetchTopics = () => {
   async function fetchTopics() {
     try {
       setLoading(true);
-      const result = await axios.get(`${import.meta.env.VITE_PROD_URL}/topics`);
+      const result = await axios.get(`${import.meta.env.VITE_URL}/topics`);
       setTopics(result.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);
