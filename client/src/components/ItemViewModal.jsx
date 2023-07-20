@@ -29,21 +29,24 @@ import axios from "axios";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
 import { useItemFetch } from "../hooks/items";
+import { useFetchComments, useSendComment } from "../hooks/comments";
 
 const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
 
-  // const currentUser = useSelector((state) => state.usersReducer.user)
   const { user, token } = useAuth();
   const toast = useToast();
 
-  const { loading, item, onItemFetch, updateItem } = useItemFetch();
+  const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
   console.log({ item });
+
+  const [comment, setComment] = React.useState("");
+
   const likeUnlikeItem = async (itemId) => {
     try {
       setLikeLoading(true);
       const result = await axios.patch(
-        `${import.meta.env.VITE_PROD_URL}/items/${itemId}/react`
+        `${import.meta.env.VITE_URL}/items/${itemId}/react`
       );
       updateItem({ likes: result.data });
     } catch (error) {
@@ -84,7 +87,11 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const [errorTitle, setErrorTitle] = React.useState("");
   const [likeLoading, setLikeLoading] = React.useState(false);
 
-  console.log({ item });
+  const {
+    comment: sentComment,
+    sendComment,
+    loading: commentSending,
+  } = useSendComment();
 
   const handleModalClose = () => {
     onClose();
@@ -94,6 +101,44 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
   const commentTextBg = useColorModeValue("gray.200", "gray.600");
   const commentTextColor = useColorModeValue("black", "gray.50");
+
+  function handleSendComment() {
+    sendComment(itemId, { comment });
+  }
+
+  const { fetchComments, comments } = useFetchComments();
+  console.log({ comments });
+
+  React.useEffect(() => {
+    if (!isCollapsed) return;
+
+    const intervalId = setInterval(() => {
+      fetchComments(itemId);
+    }, 4500);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isCollapsed]);
+
+  React.useEffect(() => {
+    if (comments.length) {
+      const _item = { ...item };
+      _item.comments = comments;
+      setItem(_item);
+    }
+    console.log("items comments changed");
+  }, [comments.length]);
+
+  React.useEffect(() => {
+    if (sentComment) {
+      console.log({ sentComment });
+      setComment("");
+      const _item = item;
+      item.comments.push(sentComment);
+      setItem(_item);
+    }
+  }, [sentComment]);
 
   React.useEffect(() => {
     if (itemId) {
@@ -157,8 +202,20 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
               {token ? (
                 <HStack align={"start"}>
                   <Avatar name={user?.name} size={"xs"} />
-                  <Textarea rows={2} rounded={"lg"} />
-                  <Button size={"xs"} colorScheme={"blue"} px={3}>
+                  <Textarea
+                    rows={2}
+                    rounded={"lg"}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <Button
+                    size={"xs"}
+                    colorScheme={"blue"}
+                    px={3}
+                    isDisabled={!comment}
+                    isLoading={commentSending}
+                    onClick={handleSendComment}
+                  >
                     comment
                   </Button>
                 </HStack>
