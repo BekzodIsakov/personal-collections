@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const Collection = require("./collectionModel");
+const { Item } = require("./itemModel");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -100,6 +102,16 @@ UserSchema.pre("save", async function (next) {
 
   next();
 });
+
+UserSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    await Collection.deleteMany({ author: this._id });
+    await Item.deleteMany({ author: this._id });
+    next();
+  }
+);
 
 const User = new mongoose.model("User", UserSchema);
 module.exports = User;
