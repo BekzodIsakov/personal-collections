@@ -1,4 +1,4 @@
-const Item = require("../models/itemModel");
+const { Item, Comment } = require("../models/itemModel");
 const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
 
@@ -134,12 +134,18 @@ const likeUnlikeItem = async (req, res) => {
 };
 
 const getItemComments = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
-  const skip = (page - 1) * limit;
+  // const { page = 1, limit } = req.query;
+  // let skip = 0;
+  // if (limit) skip = (page - 1) * limit;
+
+  // console.log({ skip, limit });
   try {
-    const comments = await Item.findById(req.params.id)
-      .slice("comments", [skip, Number(limit)])
-      .exec();
+    const comments = await Item.findById(req.params.id).populate({
+      path: "comments.author",
+      select: "name",
+    });
+    // .slice("comments", [skip, Number(limit)])
+    // .exec();
 
     res.send(comments);
   } catch (error) {
@@ -149,14 +155,21 @@ const getItemComments = async (req, res) => {
 
 const addNewComment = async (req, res) => {
   try {
-    const comment = {
+    // const comment = {
+    //   comment: req.body.comment,
+    //   author: req.user._id,
+    //   item: req.params.id,
+    // };
+
+    const comment = new Comment({
       comment: req.body.comment,
       author: req.user._id,
       item: req.params.id,
-    };
+    });
     await Item.findByIdAndUpdate(req.params.id, {
       $push: { comments: comment },
     });
+    await comment.populate("author");
     res.send(comment);
   } catch (error) {
     res.status(500).send({ message: error.message });
