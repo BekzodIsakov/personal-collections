@@ -29,6 +29,7 @@ import SVG from "../SVG";
 import React from "react";
 import { useI18n } from "../../providers/i18nProvider";
 import { useNavigate } from "react-router-dom";
+import SearchItemModal from "../SearchItemModal";
 
 const Header = () => {
   const [searchText, setSearchText] = React.useState("");
@@ -141,7 +142,11 @@ const Header = () => {
         </HStack>
       </Flex>
 
-      <Modal
+      {isOpen && (
+        <SearchItemModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+      )}
+
+      {/* <Modal
         isOpen={isOpen}
         onClose={onClose}
         scrollBehavior='inside'
@@ -173,7 +178,7 @@ const Header = () => {
             </InputGroup>
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </Box>
   );
 };
