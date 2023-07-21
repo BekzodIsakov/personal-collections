@@ -20,10 +20,10 @@ import {
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useFetchTopics } from "../hooks/topics";
-import { useCollectionEdit } from "../hooks/collections";
 import { useParams } from "react-router-dom";
+import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
+import { useCollectionEdit } from "../hooks/collections";
 
 const EditCollectionModal = ({
   isOpen,
@@ -37,9 +37,9 @@ const EditCollectionModal = ({
   const [selectedImage, setSelectedImage] = React.useState("");
   const [preview, setPreview] = React.useState("");
 
-  const { topics, fetchTopics } = useFetchTopics();
-
   const fileInputRef = React.useRef(null);
+
+  const { topics, fetchTopics } = useFetchTopics();
 
   const params = useParams();
 

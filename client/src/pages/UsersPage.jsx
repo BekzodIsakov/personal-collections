@@ -63,43 +63,44 @@ const UsersPage = () => {
 
   return (
     <Box>
-      <Heading as={"h1"} mb='5' size={"lg"}>
-        Users
-      </Heading>
+      <Wrap spacing='3' align='center' mb='5'>
+        <WrapItem>
+          <Heading as='h1' size='lg'>
+            Users
+          </Heading>
+        </WrapItem>
+        <WrapItem>{loading && <Spinner size='sm' />}</WrapItem>
+      </Wrap>
       <UnorderedList>
-        {loading ? (
-          <Spinner />
-        ) : (
-          users.map((user) => (
-            <ListItem key={user._id} mb='4' backgroundColor={"transparent"}>
-              <Wrap spacingX={"10"}>
-                <WrapItem>
-                  <CustomLink to={`${user._id}`}>{user.name}</CustomLink>
-                </WrapItem>
-                <WrapItem>
-                  <Button
-                    size={"xs"}
-                    variant={"outline"}
-                    colorScheme='black'
-                    mr='2'
-                    onClick={() => handleModalOpen("edit", user._id)}
-                  >
-                    Edit
-                  </Button>
+        {users.map((user) => (
+          <ListItem key={user._id} mb='4' backgroundColor={"transparent"}>
+            <Wrap spacingX='10'>
+              <WrapItem>
+                <CustomLink to={`${user._id}`}>{user.name}</CustomLink>
+              </WrapItem>
+              <WrapItem>
+                <Button
+                  size='xs'
+                  variant='outline'
+                  colorScheme='black'
+                  mr='2'
+                  onClick={() => handleModalOpen("edit", user._id)}
+                >
+                  Edit
+                </Button>
 
-                  <Button
-                    size={"xs"}
-                    variant={"outline"}
-                    colorScheme='red'
-                    onClick={() => handleModalOpen("delete", user._id)}
-                  >
-                    Delete
-                  </Button>
-                </WrapItem>
-              </Wrap>
-            </ListItem>
-          ))
-        )}
+                <Button
+                  size='xs'
+                  variant='outline'
+                  colorScheme='red'
+                  onClick={() => handleModalOpen("delete", user._id)}
+                >
+                  Delete
+                </Button>
+              </WrapItem>
+            </Wrap>
+          </ListItem>
+        ))}
       </UnorderedList>
       {isDeleteModalOpen && (
         <DeleteModal

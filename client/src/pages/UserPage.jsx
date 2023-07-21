@@ -11,34 +11,23 @@ import {
   Stack,
   Text,
   UnorderedList,
+  Wrap,
+  WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useFetchUser } from "../hooks/user";
 import { useFetchUserCollections } from "../hooks/collections";
 import CustomLink from "../components/CustomLink";
-import GoBackButton from "../components/GoBackButton";
 import NewCollectionModal from "../components/NewCollectionModal";
 import { AddIcon } from "@chakra-ui/icons";
-import { useLocation, useParams } from "react-router-dom";
 import { useCurrentUser } from "../providers/currentUserProvider";
 
 const UserPage = () => {
   const { currentUser, setCurrentUser } = useCurrentUser();
-  console.log({ currentUser });
 
   const { loading, errorMessage, user, fetchUser } = useFetchUser();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const location = useLocation();
-  const userPath = location.pathname.split("/")[1];
-  const params = useParams();
-
-  // const {
-  //   loading: myCollectionsLoading,
-  //   collections: myCollections,
-  //   fetchMyCollections,
-  // } = useFetchMyCollections();
 
   const {
     loading: userCollectionsLoading,
@@ -46,12 +35,8 @@ const UserPage = () => {
     fetchUserCollections,
   } = useFetchUserCollections();
 
-  // const collections = React.useMemo(
-  //   () => myCollections || userCollections,
-  //   [myCollections, userCollections]
-  // );
-
   let userPage = null;
+
   if (loading) {
     userPage = (
       <Box>
@@ -76,9 +61,14 @@ const UserPage = () => {
 
         <Box>
           <Stack direction={"row"} justifyContent={"space-between"}>
-            <Heading size='md' mb={4}>
-              My collections
-            </Heading>
+            <Wrap spacing={"3"} mb='4' align='center'>
+              <WrapItem>
+                <Heading size='md'>My collections</Heading>
+              </WrapItem>
+              <WrapItem>
+                {userCollectionsLoading && <Spinner size='sm' />}
+              </WrapItem>
+            </Wrap>
             <Button
               size='sm'
               onClick={onOpen}
@@ -88,18 +78,16 @@ const UserPage = () => {
               New collection
             </Button>
           </Stack>
-          {userCollectionsLoading && <Spinner />}
-          {!userCollectionsLoading && (
-            <UnorderedList>
-              {userCollections.map((collection) => (
-                <ListItem key={collection._id} mb={2}>
-                  <CustomLink to={`collections/${collection._id}`}>
-                    {collection.title}
-                  </CustomLink>
-                </ListItem>
-              ))}
-            </UnorderedList>
-          )}
+
+          <UnorderedList>
+            {userCollections.map((collection) => (
+              <ListItem key={collection._id} mb={2}>
+                <CustomLink to={`collections/${collection._id}`}>
+                  {collection.title}
+                </CustomLink>
+              </ListItem>
+            ))}
+          </UnorderedList>
         </Box>
       </Box>
     );
@@ -109,14 +97,9 @@ const UserPage = () => {
 
   React.useEffect(() => {
     fetchUser();
-  }, []);
+  }, [location]);
 
   React.useEffect(() => {
-    // if (user && userPath === "me") {
-    //   fetchMyCollections();
-    // } else {
-    //   fetchUserCollections(params.userId);
-    // }
     if (currentUser) fetchUserCollections(currentUser._id);
   }, [currentUser]);
 
@@ -125,10 +108,6 @@ const UserPage = () => {
       setCurrentUser(user);
     }
   }, [user]);
-
-  React.useEffect(() => {
-    fetchUser();
-  }, [location]);
 
   return (
     <Box>

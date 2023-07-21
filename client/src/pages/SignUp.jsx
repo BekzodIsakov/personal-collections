@@ -20,7 +20,6 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/authProvider";
 import { useUserSignUp } from "../hooks/user";
 import { useI18n } from "../providers/i18nProvider";
-// import languages from "../utils/"
 import translations from "../utils/translations";
 
 const SignUp = () => {
@@ -28,8 +27,6 @@ const SignUp = () => {
 
   const { setToken, setUser } = useAuth();
   const { selectedLanguage, setSelectedLanguage, languages } = useI18n();
-
-  console.log({ selectedLanguage });
 
   const navigate = useNavigate();
 
@@ -66,7 +63,7 @@ const SignUp = () => {
       justify='center'
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx='auto' maxW='lg' py={12} px={6}>
+      <Stack spacing='8' mx='auto' maxW='lg' py='12' px='6'>
         <Stack align='center'>
           <Heading fontSize='4xl'>
             {translations[selectedLanguage]?.auth.mainHeadings.signup}
@@ -77,10 +74,10 @@ const SignUp = () => {
           rounded='lg'
           bg={useColorModeValue("white", "gray.700")}
           boxShadow='lg'
-          p={8}
+          p='8'
         >
           <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
+            <Stack spacing='4'>
               <FormControl id='name'>
                 <FormLabel>
                   {translations[selectedLanguage]?.auth.name}
@@ -123,15 +120,15 @@ const SignUp = () => {
                 </InputGroup>
               </FormControl>
               <Stack spacing={1}>
-                <Text color={"tomato"} fontSize={"sm"}>
+                <Text color='tomato' fontSize='sm'>
                   {errorMessage}
                 </Text>
                 <Button
                   type='submit'
                   isLoading={loading}
                   loadingText='Submitting'
-                  bg={"blue.400"}
-                  color={"white"}
+                  bg='blue.400'
+                  color='white'
                   _hover={{
                     bg: "blue.500",
                   }}
@@ -144,25 +141,20 @@ const SignUp = () => {
         </Box>
         <Box color='gray.500'>
           {translations[selectedLanguage]?.auth.noAccountYet}&nbsp;&nbsp;
-          <Link
-            as={RouterLink}
-            to='/signin'
-            color={"blue.400"}
-            fontWeight='bold'
-          >
+          <Link as={RouterLink} to='/signin' color='blue.400' fontWeight='bold'>
             {translations[selectedLanguage]?.auth.signin}
           </Link>
         </Box>
 
-        <Box pos={"fixed"} right={12} bottom={12}>
+        <Box pos='fixed' right='12' bottom='12'>
           <Select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            ml={15}
-            size={"sm"}
+            ml='15'
+            size='sm'
             display={{ base: "none", xs: "block" }}
-            variant={"filled"}
-            rounded={"md"}
+            variant='filled'
+            rounded='md'
           >
             {Object.values(languages).map((language) => (
               <option key={language}>{language}</option>

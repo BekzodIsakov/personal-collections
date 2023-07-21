@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Item = require("../models/itemModel");
+const { Item } = require("../models/itemModel");
 
 const collectionSchema = new mongoose.Schema({
   title: {
@@ -7,6 +7,7 @@ const collectionSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     required: true,
+    index: true,
   },
   description: {
     type: String,
@@ -37,6 +38,8 @@ const collectionSchema = new mongoose.Schema({
   optionalItemFields: [{ name: "String", type: "String" }],
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
 });
+
+collectionSchema.index({ title: "text" });
 
 collectionSchema.pre(
   "deleteOne",

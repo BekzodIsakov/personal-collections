@@ -12,7 +12,7 @@ export const useUserSignIn = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_PROD_URL}/users/signin`,
+        `${import.meta.env.VITE_URL}/users/signin`,
         userCredentails,
         {
           headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ export const useUserSignUp = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_PROD_URL}/users/signup`,
+        `${import.meta.env.VITE_URL}/users/signup`,
         userCredentails,
         {
           headers: { "Content-Type": "application/json" },
@@ -62,7 +62,7 @@ export const useUserSignOut = () => {
   async function onSignOut() {
     try {
       setLoading(true);
-      await axios.post(`${import.meta.env.VITE_PROD_URL}/users/signout`, {
+      await axios.post(`${import.meta.env.VITE_URL}/users/signout`, {
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
@@ -91,7 +91,7 @@ export const useFetchUser = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/users/${userId || path}`
+        `${import.meta.env.VITE_URL}/users/${userId || path}`
       );
       setUser(result.data);
     } catch (error) {
@@ -123,9 +123,7 @@ export const useFetchUsers = () => {
   async function fetchUsers() {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/users`
-      );
+      const response = await axios.get(`${import.meta.env.VITE_URL}/users`);
       setUsers(response.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -147,9 +145,8 @@ export const useDeleteUser = () => {
     try {
       setLoading(true);
       const result = await axios.delete(
-        `${import.meta.env.VITE_PROD_URL}/users/${userId}`
+        `${import.meta.env.VITE_URL}/users/${userId}`
       );
-      console.log({ result });
       setDeletedUserId(userId);
       if (result.status >= 200 || result.status < 300) setUserDeleted(true);
     } catch (error) {
@@ -178,7 +175,7 @@ export const useUpdateUser = () => {
     try {
       setLoading(true);
       const result = await axios.patch(
-        `${import.meta.env.VITE_PROD_URL}/users/${userId}`,
+        `${import.meta.env.VITE_URL}/users/${userId}`,
         update,
         { headers: { "Content-Type": "application/json" } }
       );

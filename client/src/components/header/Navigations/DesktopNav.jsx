@@ -13,15 +13,12 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../../providers/authProvider";
 
 const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
-  const { token } = useAuth();
-
   const popoverContentBgColor = useColorModeValue("white", "gray.600");
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack direction={"row"} spacing='4'>
       {navItems.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
@@ -31,7 +28,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
                 _activeLink={{ color: "blue.400", textDecoration: "none" }}
                 p={2}
                 to={navItem.to}
-                fontSize={"md"}
+                fontSize='md'
                 fontWeight={navItem.children ? 600 : 500}
                 color={linkColor}
                 textDecoration={"underline"}
@@ -47,11 +44,11 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
             {navItem.children && (
               <PopoverContent
                 border={0}
-                boxShadow={"xl"}
+                boxShadow='xl'
                 bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
+                p='4'
+                rounded='xl'
+                minW='sm'
               >
                 <Stack>
                   {navItem.children.map((child) => (
@@ -83,13 +80,13 @@ const DesktopSubNav = ({ label, subLabel, to }) => {
     <Link
       as={NavLink}
       to={to}
-      role={"group"}
-      display={"block"}
-      p={2}
-      rounded={"md"}
+      role='group'
+      display='block'
+      p='2'
+      rounded='md'
       _hover={{ bg: useColorModeValue("gray.100", "gray.900") }}
     >
-      <Stack direction={"row"} align={"center"}>
+      <Stack direction='row' align='center'>
         <Box>
           <Text
             transition={"all .3s ease"}
@@ -98,18 +95,18 @@ const DesktopSubNav = ({ label, subLabel, to }) => {
           >
             {label}
           </Text>
-          <Text fontSize={"sm"}>{subLabel}</Text>
+          <Text fontSize='sm'>{subLabel}</Text>
         </Box>
         <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
-          opacity={0}
+          transition='all .3s ease'
+          transform='translateX(-10px)'
+          opacity='0'
           _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
+          justify='flex-end'
+          align='center'
           flex={1}
         >
-          <Icon color={"gray.500"} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color='gray.500' w='5' h='5' as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Link>

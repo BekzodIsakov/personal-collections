@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -10,7 +11,6 @@ import {
   TagLabel,
   Wrap,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
 
 const FIELD_TYPES = ["number", "text", "textarea", "checkbox", "date"];
 
@@ -23,16 +23,6 @@ const OptionalFieldGenerator = ({
   const [selectedFieldType, setSelectedFieldType] = React.useState(
     FIELD_TYPES[0]
   );
-
-  console.log({ createdFields });
-
-  // useEffect(() => {
-  //   FIELD_TYPES.map((type) => {
-  //     createdFields[type] = 0;
-  //   });
-
-  //   setCreatedFields(createdFields);
-  // }, []);
 
   function handleOnSelect(e) {
     setSelectedFieldType(e.target.value);
@@ -58,6 +48,7 @@ const OptionalFieldGenerator = ({
   }
 
   let optionalFields = null;
+
   if (optionalItemFields.length) {
     optionalFields = optionalItemFields.map((field, idx) => (
       <Tag key={idx}>

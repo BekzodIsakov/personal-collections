@@ -11,6 +11,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import UsersPage from "../pages/UsersPage";
 import UserPage from "../pages/UserPage";
 import CurrentUserProvider from "../providers/currentUserProvider";
+import ItemPage from "../pages/ItemPage";
 
 const Routes = () => {
   const { token, user } = useAuth();
@@ -65,13 +66,14 @@ const Routes = () => {
     },
   ];
 
-  const routesForPublic = [
+  const routes = [
     {
       path: "/",
       element: <ParentRoute />,
       children: [
         { path: "/", element: <MainPage /> },
         { path: "/collections/:id", element: <CollectionPage /> },
+        { path: "/items/:itemId", element: <ItemPage /> },
         ...(token ? routesForAuthenticated : []),
         ...(token && user.isAdmin ? routesForAdmins : []),
       ],
@@ -90,11 +92,7 @@ const Routes = () => {
     },
   ];
 
-  const router = createBrowserRouter([
-    ...routesForPublic,
-    // ...(token ? routesForAuthenticated : []),
-    // ...routesForAdmins,
-  ]);
+  const router = createBrowserRouter([...routes]);
 
   return <RouterProvider router={router} />;
 };

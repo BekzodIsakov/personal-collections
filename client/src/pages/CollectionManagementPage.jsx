@@ -36,14 +36,9 @@ import ItemsManagement from "../components/ItemsManagement";
 import DeleteModal from "../components/DeleteModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useCurrentUser } from "../providers/currentUserProvider";
 
 const CollectionManagementPage = () => {
   const params = useParams();
-
-  const { currentUser } = useCurrentUser();
-  console.log({ currentUser });
-
   const navigate = useNavigate();
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
@@ -72,23 +67,6 @@ const CollectionManagementPage = () => {
     onOpen: onDeleteModalOpen,
     onClose: onDeleteModalClose,
   } = useDisclosure();
-
-  React.useEffect(() => {
-    fetchCollection(params.collectionId);
-  }, []);
-
-  React.useEffect(() => {
-    if (collectionWithoutImage) {
-      setCollection(collectionWithoutImage);
-    }
-  }, [collectionWithoutImage]);
-
-  React.useEffect(() => {
-    if (isDeleted) {
-      onDeleteModalClose();
-      navigate(-1);
-    }
-  }, [isDeleted]);
 
   let collectionManagementPage = null;
 
@@ -196,6 +174,23 @@ const CollectionManagementPage = () => {
   } else if (errorMessage) {
     collectionManagementPage = <Text color='orange'>{errorMessage}</Text>;
   }
+
+  React.useEffect(() => {
+    fetchCollection(params.collectionId);
+  }, []);
+
+  React.useEffect(() => {
+    if (collectionWithoutImage) {
+      setCollection(collectionWithoutImage);
+    }
+  }, [collectionWithoutImage]);
+
+  React.useEffect(() => {
+    if (isDeleted) {
+      onDeleteModalClose();
+      navigate(-1);
+    }
+  }, [isDeleted]);
 
   return (
     <Box>

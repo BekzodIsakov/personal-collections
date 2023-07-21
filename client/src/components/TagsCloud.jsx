@@ -15,11 +15,11 @@ import CustomList from "./CustomList";
 
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
+
   const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
 
   const {
     loading: itemsLoading,
-    errorMessage: itemFetchErrorMessage,
     items,
     setItems,
     fetchItemsByTag,
@@ -43,14 +43,12 @@ const TagsCloud = () => {
     }
   }, [selectedTagId]);
 
-  // console.log("TagCloud");
-  // console.log({ items });
-
   React.useEffect(() => {
     fetchTags();
   }, []);
 
   let tagElements = <Text>No tags</Text>;
+
   if (loading) {
     tagElements = (
       <>
@@ -85,7 +83,7 @@ const TagsCloud = () => {
       <Heading as='h2' fontSize='2xl' mb='4'>
         Tags cloud
       </Heading>
-      <Wrap border={"1px"} borderColor={"gray.300"} rounded={"md"} p='2' mb={5}>
+      <Wrap border='1px' borderColor='gray.300' rounded='md' p='2' mb='5'>
         {tagElements}
       </Wrap>
       <CustomList

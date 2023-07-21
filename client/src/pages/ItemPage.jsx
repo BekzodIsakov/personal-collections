@@ -1,4 +1,6 @@
 import React from "react";
+import { useItemFetch } from "../hooks/items";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -8,15 +10,8 @@ import {
   Collapse,
   HStack,
   IconButton,
-  Link,
   List,
   ListItem,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Skeleton,
   Text,
   Textarea,
@@ -25,29 +20,38 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
-import { useAuth } from "../providers/authProvider";
-import { useItemFetch } from "../hooks/items";
 import { useFetchComments, useSendComment } from "../hooks/comments";
+import { useAuth } from "../providers/authProvider";
 
-const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
+const ItemPage = () => {
+  const [comment, setComment] = React.useState("");
+  const [errorTitle, setErrorTitle] = React.useState("");
+  const [likeLoading, setLikeLoading] = React.useState(false);
+
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
+
   const toast = useToast();
 
+  const { itemId } = useParams();
+
   const { user, token } = useAuth();
+
+  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
+  const commentTextBg = useColorModeValue("gray.200", "gray.600");
+  const commentTextColor = useColorModeValue("black", "gray.50");
+  const toastBgColor = useColorModeValue("white", "gray.800");
+
+  const { fetchComments, comments } = useFetchComments();
+
+  const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
 
   const {
     comment: sentComment,
     sendComment,
     loading: commentSending,
   } = useSendComment();
-
-  const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
-
-  const [comment, setComment] = React.useState("");
-  const [errorTitle, setErrorTitle] = React.useState("");
-  const [likeLoading, setLikeLoading] = React.useState(false);
 
   const likeUnlikeItem = async (itemId) => {
     try {
@@ -61,9 +65,9 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
         setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
-            <Box p='3' bg='white' borderRadius={"md"} boxShadow={"lg"}>
-              <HStack justify={"space-between"} align={"center"} mb='2'>
-                <Text fontSize={"md"} fontWeight={"semibold"}>
+            <Box p={3} bg={toastBgColor} borderRadius='md' boxShadow='lg'>
+              <HStack justify='space-between' align='center' mb='2'>
+                <Text fontSize='m' fontWeight='semibold'>
                   <WarningIcon w='5' h='5' color='orange' mr='1' /> {errorTitle}
                 </Text>
                 <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
@@ -87,22 +91,12 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
     }
   };
 
-  const handleModalClose = () => {
-    onClose();
-    setItemId("");
-  };
-
-  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
-  const commentTextBg = useColorModeValue("gray.200", "gray.600");
-  const commentTextColor = useColorModeValue("black", "gray.50");
-
   function handleSendComment() {
     sendComment(itemId, { comment });
   }
 
-  const { fetchComments, comments } = useFetchComments();
-
   let modalContent = null;
+
   if (loading) {
     modalContent = (
       <>
@@ -120,10 +114,10 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
           <CardBody p='3'>
             <List>
               <ListItem>Author - {item.author.name}</ListItem>
-              {item.optionalFields[0] &&
-                JSON.parse(item.optionalFields).map((field, index) => (
+              {item.optionalFields?.length &&
+                item.optionalFields.map((field, index) => (
                   <ListItem key={index}>
-                    {field.name} - {String(field.value)}
+                    {field.key} - {field.value}
                   </ListItem>
                 ))}
             </List>
@@ -136,7 +130,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
             isDisabled={likeLoading}
             onClick={() => likeUnlikeItem(item._id)}
             variant='ghost'
-            size='sm'
+            size={"sm"}
             color={item.likes.includes(user?.id) ? "blue.400" : ""}
           >
             {item.likes.includes(user?.id) ? "Liked" : "Like"}
@@ -191,7 +185,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
                 </Box>
               )}
             </Box>
-            <VStack spacing='3' align='stretch' rounded='md'>
+            <VStack spacing='3' align={"stretch"} rounded='md'>
               {item.comments.length ? (
                 item.comments.map((c) => (
                   <HStack key={c._id} align='start'>
@@ -254,20 +248,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
     }
   }, [itemId]);
 
-  return (
-    <Modal isOpen={isOpen} scrollBehavior='inside' onClose={handleModalClose}>
-      <ModalOverlay />
-      <ModalContent mx='3'>
-        <ModalHeader>
-          <Text fontSize='md' mr='5'>
-            {itemName}
-          </Text>
-        </ModalHeader>
-        <ModalCloseButton ml='2' />
-        <ModalBody>{modalContent}</ModalBody>
-      </ModalContent>
-    </Modal>
-  );
+  return <Box>{modalContent}</Box>;
 };
 
-export default ItemViewModal;
+export default ItemPage;

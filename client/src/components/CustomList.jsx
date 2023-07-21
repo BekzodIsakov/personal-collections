@@ -29,13 +29,13 @@ const CustomList = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const tagColorMode = useColorModeValue("blackAlpha", "gray");
+
   const openItemModal = (itemId, itemName) => {
     setItemId(itemId);
     setItemName(itemName);
     onOpen();
   };
-
-  const tagColorMode = useColorModeValue("blackAlpha", "gray");
 
   let listItems = [];
 

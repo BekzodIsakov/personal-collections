@@ -3,6 +3,8 @@ const router = express.Router();
 const items = require("../controllers/items");
 const checkAuth = require("../middlewares/checkAuth");
 
+router.get("/items/search", items.searchItems);
+
 router.get("/items", items.getItems);
 
 router.get("/items/:id", items.getItemById);

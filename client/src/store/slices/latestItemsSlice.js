@@ -12,9 +12,9 @@ export const fetchLatestItems = createAsyncThunk(
   async (queries, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_PROD_URL}/items?sortBy=${
-          queries.sortBy
-        }&limit=${queries.limit}`
+        `${import.meta.env.VITE_URL}/items?sortBy=${queries.sortBy}&limit=${
+          queries.limit
+        }`
       );
       return response.data;
     } catch (error) {

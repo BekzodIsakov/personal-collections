@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Checkbox,
@@ -13,10 +14,9 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
-import { useFetchAllTags } from "../hooks/tags";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
+import { useFetchAllTags } from "../hooks/tags";
 import { useCreateItem } from "../hooks/items";
 import { useCurrentUser } from "../providers/currentUserProvider";
 
@@ -29,12 +29,12 @@ const NewItemModal = ({
   setCollection,
 }) => {
   const { currentUser } = useCurrentUser();
-  console.log({ currentUser });
   const [name, setName] = React.useState("");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [optionalFields, setOptionalFields] = React.useState(null);
-
   const [options, setOptions] = React.useState([]);
+
+  const params = useParams();
 
   const { tags, fetchTags } = useFetchAllTags();
 
@@ -42,12 +42,6 @@ const NewItemModal = ({
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    console.log({
-      name,
-      tags: selectedTags.map((tag) => tag.value),
-      optionalFields: Object.values(optionalFields),
-      parentCollection: params.id,
-    });
 
     const formData = new FormData();
     formData.append("name", name);
@@ -61,8 +55,6 @@ const NewItemModal = ({
       JSON.stringify(Object.values(optionalFields))
     );
 
-    // createItem(formData);
-
     createItem({
       name,
       parentCollection: params.collectionId,
@@ -72,10 +64,7 @@ const NewItemModal = ({
     });
   }
 
-  const params = useParams();
-
   function handleOptionalFields(field) {
-    console.log({ field });
     setOptionalFields((prev) => ({
       ...prev,
       [field.name]: { name: field.name, type: field.type, value: field.value },
@@ -142,7 +131,6 @@ const NewItemModal = ({
   }
 
   React.useEffect(() => {
-    // if (tags.length) setSelectedTags(tags[0]._id);
     const _options = tags.map((tag) => ({
       label: tag.title,
       value: tag._id,
@@ -176,72 +164,12 @@ const NewItemModal = ({
       });
       setOptionalFields(_optionalFields);
     }
-
-    // optionalItemFields.forEach((field) => {
-    //   switch (field.type) {
-    //     case "textarea":
-    //       optionalFieldsElements.push(
-    //         <FormControl key={field.name}>
-    //           <FormLabel>{field.name}</FormLabel>
-    //           <Textarea
-    //             onChange={(e) => {
-    //               handleOptionalFields({
-    //                 name: field.name,
-    //                 value: e.target.value,
-    //               });
-    //             }}
-    //           >
-    //             {optionalFields?.[field.name]}
-    //           </Textarea>
-    //         </FormControl>
-    //       );
-    //       break;
-    //     case "checkbox":
-    //       optionalFieldsElements.push(
-    //         <>
-    //           {/* <FormControl key={field.name}> */}
-    //           {/* <FormLabel>{field.name}</FormLabel> */}
-    //           <Checkbox
-    //             key={Math.random}
-    //             isChecked={optionalFields?.[field.name]}
-    //             onChange={(e) => {
-    //               handleOptionalFields({
-    //                 name: field.name,
-    //                 value: !e.target.checked,
-    //               });
-    //             }}
-    //           >
-    //             Checkbox
-    //           </Checkbox>
-    //           {/* </FormControl> */}
-    //         </>
-    //       );
-    //       break;
-    //     default:
-    //       optionalFieldsElements.push(
-    //         <FormControl key={field.name}>
-    //           <FormLabel>{field.name}</FormLabel>
-    //           <Input
-    //             type={field.type}
-    //             value={optionalFields?.[field.name]}
-    //             onChange={(e) => {
-    //               handleOptionalFields({
-    //                 name: field.name,
-    //                 value: e.target.value,
-    //               });
-    //             }}
-    //           />
-    //         </FormControl>
-    //       );
-    //   }
-    // });
   }, [optionalItemFields]);
 
   React.useEffect(() => {
     if (createdItem) {
       const _collection = { ...collection };
       _collection.items.push(createdItem);
-      console.log({ collection: { ..._collection } });
       setCollection(_collection);
       onClose();
     }
@@ -270,7 +198,6 @@ const NewItemModal = ({
                   name='tags'
                   options={options}
                   closeMenuOnSelect={false}
-                  // onChange={(e) => console.log(e.target.value)}
                 />
               </FormControl>
             </VStack>
