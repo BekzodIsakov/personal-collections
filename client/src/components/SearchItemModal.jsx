@@ -1,8 +1,9 @@
 import React from "react";
 import {
+  Badge,
+  Box,
   Card,
   CardBody,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -13,10 +14,10 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import SVG from "./SVG";
 import { useSearchItems } from "../hooks/items";
 
 const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
@@ -25,13 +26,20 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
   const initialRef = React.useRef();
 
   const { searchResult, searchItems, loading } = useSearchItems();
-  console.log({ searchResult });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log({ searchText });
-    searchItems(searchText);
-  }
+  const timeOutId = React.useRef(null);
+
+  React.useEffect(() => {
+    if (searchText && searchText.length > 1) {
+      clearTimeout(timeOutId.current);
+
+      timeOutId.current = setTimeout(() => {
+        searchItems(searchText);
+      }, 600);
+    }
+  }, [searchText]);
+
+  console.log({ searchResult });
 
   return (
     <Modal
@@ -45,55 +53,56 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
         <ModalHeader>Search items</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={5}>
-          <form onSubmit={handleSubmit}>
-            <InputGroup>
-              <Input
-                ref={initialRef}
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <InputRightElement>
-                <IconButton
-                  onClick={onOpen}
-                  aria-label='Search database'
-                  size={"sm"}
-                  type='submit'
-                  isLoading={loading}
-                  isDisabled={searchText.length < 2}
-                  title={"Search"}
-                  icon={<SVG iconId={"search"} size={"20px"} />}
-                  colorScheme={"blue"}
-                />
-              </InputRightElement>
-            </InputGroup>
-          </form>
+          <InputGroup>
+            <Input
+              ref={initialRef}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <InputRightElement>
+              {loading && <Spinner color='blue.400' />}
+            </InputRightElement>
+          </InputGroup>
 
           <VStack alignItems={"stretch"} mt='6'>
             {searchResult?.items.map((item) => (
               <Card key={item._id}>
-                <CardBody>
-                  <Link href={`/items/${item._id}`}>
-                    <Text>{item.name}</Text>
+                <CardBody py='3'>
+                  <Box mb='1'>
+                    <Badge fontWeight='medium'>Item</Badge>
+                  </Box>
+                  <Link color='blue.400' href={`/items/${item._id}`}>
+                    {item.name}
                   </Link>
                 </CardBody>
               </Card>
             ))}
             {searchResult?.collections.map((collection) => (
               <Card key={collection._id}>
-                <CardBody>
+                <CardBody py='3'>
+                  <Box mb='1'>
+                    <Badge fontWeight='medium'>Collection</Badge>
+                  </Box>
                   <Link
                     href={
                       collection.items.length
                         ? `/items/${collection.items[0]}`
                         : `/collections/${collection._id}`
                     }
+                    color='blue.400'
                   >
-                    <Text>{collection.title}</Text>
+                    {collection.title}
                   </Link>
                 </CardBody>
               </Card>
             ))}
           </VStack>
+          {searchResult?.items.length ||
+          searchResult?.collections.length ? null : (
+            <Text as='em' color='gray.500'>
+              No matching results!
+            </Text>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>
