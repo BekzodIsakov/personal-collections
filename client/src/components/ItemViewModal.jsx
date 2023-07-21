@@ -37,8 +37,6 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { user, token } = useAuth();
   const toast = useToast();
 
-  const toastBgColor = useColorModeValue("white", "gray.800");
-
   const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
   console.log({ item });
 
@@ -56,7 +54,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
         setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
-            <Box p={3} bg={toastBgColor} borderRadius={"md"} boxShadow={"lg"}>
+            <Box p={3} bg='white' borderRadius={"md"} boxShadow={"lg"}>
               <HStack justify={"space-between"} align={"center"} mb={2}>
                 <Text fontSize={"md"} fontWeight={"semibold"}>
                   <WarningIcon w={5} h={5} color='orange' mr={1} /> {errorTitle}
