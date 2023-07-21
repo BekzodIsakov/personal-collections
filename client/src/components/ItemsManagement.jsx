@@ -153,10 +153,6 @@ const ItemsManagePage = () => {
 
       setData(data);
 
-      // columnHelper.accessor("name", {
-      //   cell: (info) => info.getValue(),
-      //   header: "Name",
-      // }),
       const _columns = [
         columnHelper.display({
           id: "select",

@@ -38,7 +38,6 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const toast = useToast();
 
   const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
-  console.log({ item });
 
   const [comment, setComment] = React.useState("");
 
@@ -107,7 +106,6 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   }
 
   const { fetchComments, comments } = useFetchComments();
-  console.log({ comments });
 
   React.useEffect(() => {
     if (!isCollapsed) return;
@@ -164,10 +162,10 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
           <CardBody p={3}>
             <List>
               <ListItem>Author - {item.author.name}</ListItem>
-              {item.optionalFields.length &&
-                item.optionalFields.map((field, index) => (
+              {item.optionalFields[0] &&
+                JSON.parse(item.optionalFields).map((field, index) => (
                   <ListItem key={index}>
-                    {field.key} - {field.value}
+                    {field.name} - {field.value}
                   </ListItem>
                 ))}
             </List>
@@ -239,7 +237,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
               {item.comments.length ? (
                 item.comments.map((c) => (
                   <HStack key={c._id} align={"start"}>
-                    <Avatar name={c.author.name} size={"xs"} />
+                    <Avatar name={c.author?.name} size={"xs"} />
                     <Text
                       color={commentTextColor}
                       bg={commentTextBg}
