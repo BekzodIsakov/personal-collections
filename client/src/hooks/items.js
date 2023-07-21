@@ -183,3 +183,31 @@ export const useEditItem = () => {
     editItem,
   };
 };
+
+export const useSearchItems = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [searchResult, setSearchResult] = React.useState(null);
+
+  async function searchItems(text) {
+    try {
+      setLoading(true);
+      const result = await axios.get(
+        `${import.meta.env.VITE_URL}/items/search?text=${text}`
+      );
+      setSearchResult(result.data);
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    loading,
+    errorMessage,
+    searchResult,
+    setSearchResult,
+    searchItems,
+  };
+};
