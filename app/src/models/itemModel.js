@@ -6,6 +6,7 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      index: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,6 +28,7 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      index: true,
     },
     tags: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
@@ -43,15 +45,23 @@ const itemSchema = new mongoose.Schema(
     },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     comments: [commentSchema],
-    // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     optionalFields: {
       type: [
-        { name: "String", type: "String", value: mongoose.Schema.Types.Mixed },
+        {
+          name: "String",
+          type: "String",
+          value: mongoose.Schema.Types.Mixed,
+        },
       ],
     },
   },
   { timestamps: true }
 );
+
+itemSchema.index({ name: "text" });
+commentSchema.index({ comment: "text" });
+// itemSchema.index({ "optionalFields.value": 1 }, { unique: true });
+// itemSchema.index({ name: "text", "optionalFields.value": "text" });
 
 const Item = new mongoose.model("Item", itemSchema);
 const Comment = new mongoose.model("Comment", commentSchema);
