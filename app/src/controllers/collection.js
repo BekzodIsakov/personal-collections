@@ -10,8 +10,6 @@ const getCollections = async (req, res) => {
 
   try {
     const collections = await Collection.find(query);
-    // .populate("items")
-    // .exec();
     res.send(collections);
   } catch (error) {
     res.status(500).send(error);
@@ -34,7 +32,6 @@ const getCollectionById = async (req, res) => {
   try {
     const collection = await Collection.findOne({
       _id: req.params.id,
-      // author: req.user._id,
     }).populate("author items topic");
 
     if (!collection) return res.status(404).send({ message: "Not found!" });
@@ -50,7 +47,6 @@ const getCollectionItems = async (req, res) => {
   try {
     const collection = await Collection.findOne({
       _id: req.params.id,
-      // author: req.user._id,
     })
       .populate("author topic")
       .populate({
@@ -74,7 +70,6 @@ const createNewCollection = async (req, res) => {
   try {
     const collection = new Collection({
       ...req.body,
-      // author: req.user._id,
       image: {
         originalname,
         mimetype,

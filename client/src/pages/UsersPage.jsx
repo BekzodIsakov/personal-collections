@@ -65,7 +65,7 @@ const UsersPage = () => {
     <Box>
       <Wrap spacing='3' align='center' mb='5'>
         <WrapItem>
-          <Heading as={"h1"} size={"lg"}>
+          <Heading as='h1' size='lg'>
             Users
           </Heading>
         </WrapItem>
@@ -74,14 +74,14 @@ const UsersPage = () => {
       <UnorderedList>
         {users.map((user) => (
           <ListItem key={user._id} mb='4' backgroundColor={"transparent"}>
-            <Wrap spacingX={"10"}>
+            <Wrap spacingX='10'>
               <WrapItem>
                 <CustomLink to={`${user._id}`}>{user.name}</CustomLink>
               </WrapItem>
               <WrapItem>
                 <Button
-                  size={"xs"}
-                  variant={"outline"}
+                  size='xs'
+                  variant='outline'
                   colorScheme='black'
                   mr='2'
                   onClick={() => handleModalOpen("edit", user._id)}
@@ -90,8 +90,8 @@ const UsersPage = () => {
                 </Button>
 
                 <Button
-                  size={"xs"}
-                  variant={"outline"}
+                  size='xs'
+                  variant='outline'
                   colorScheme='red'
                   onClick={() => handleModalOpen("delete", user._id)}
                 >

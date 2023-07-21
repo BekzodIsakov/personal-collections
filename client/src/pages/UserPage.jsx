@@ -36,6 +36,7 @@ const UserPage = () => {
   } = useFetchUserCollections();
 
   let userPage = null;
+
   if (loading) {
     userPage = (
       <Box>

@@ -15,20 +15,15 @@ const searchItems = async (req, res) => {
         [0, 1]
       )
     );
-    // promises.push(Comment.find({ $text: { $search: req.query.text } }));
-    // const searchResults = await Models.commentModel.find({
-    //   $text: { $search: req.body.keyword },
-    // });
+
     Promise.all(promises)
       .then((results) => {
         res.send({
           items: results[0],
           collections: results[1],
-          // comments: results[2],
         });
       })
       .catch((error) => res.status(500).send({ message: error.message }));
-    // res.send(searchResults);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -87,7 +82,6 @@ const getItemById = async (req, res) => {
 
 const createNewItem = async (req, res) => {
   try {
-    // const item = new Item({ ...req.body, author: req.user._id });
     const item = new Item({ ...req.body });
     await item.save();
     await collection.updateOne(
@@ -127,13 +121,6 @@ const deleteItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).send({ message: "Not found!" });
 
-    // if (!(req.user.isAdmin || item.author.equals(req.user._id))) {
-    //   return res.status(401).send({ message: "Unauthorized request!"});
-    // }
-
-    // if (isUnauthorized(req.user, item.author)) {
-    //   return res.status(401).send({ message: "Unauthorized request!" });
-    // }
     if (isUnauthorized(req.user, item.author, res)) return;
 
     await item.deleteOne();
@@ -157,27 +144,17 @@ const likeUnlikeItem = async (req, res) => {
 
     await item.save();
     res.send(item.likes);
-
-    // if (item) await Item.findByIdAndUpdate(req.params.id , { $pull: { likes: {user: req.user._id} } });
-    // else await Item.findByIdAndUpdate(req.params.id , { $push: { likes: {user: req.user._id} } });
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
 const getItemComments = async (req, res) => {
-  // const { page = 1, limit } = req.query;
-  // let skip = 0;
-  // if (limit) skip = (page - 1) * limit;
-
-  // console.log({ skip, limit });
   try {
     const comments = await Item.findById(req.params.id).populate({
       path: "comments.author",
       select: "name",
     });
-    // .slice("comments", [skip, Number(limit)])
-    // .exec();
 
     res.send(comments);
   } catch (error) {
@@ -187,12 +164,6 @@ const getItemComments = async (req, res) => {
 
 const addNewComment = async (req, res) => {
   try {
-    // const comment = {
-    //   comment: req.body.comment,
-    //   author: req.user._id,
-    //   item: req.params.id,
-    // };
-
     const comment = new Comment({
       comment: req.body.comment,
       author: req.user._id,

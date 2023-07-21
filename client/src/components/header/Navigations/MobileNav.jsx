@@ -12,17 +12,10 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../../providers/authProvider";
 
 const MobileNav = ({ navItems = [], linkColor }) => {
-  const { token } = useAuth();
   return (
-    <Stack
-      // bg={useColorModeValue("white", "gray.800")}
-      px={4}
-      py={2}
-      display={{ md: "none" }}
-    >
+    <Stack px='4' py='2' display={{ md: "none" }}>
       {navItems.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} linkColor={linkColor} />
       ))}
@@ -45,9 +38,9 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Stack spacing={0} onClick={children && onToggle}>
+    <Stack spacing='0' onClick={children && onToggle}>
       <Flex
-        py={2}
+        py='2'
         as={NavLink}
         _activeLink={{ color: "blue.400", textDecoration: "none" }}
         to={to}
@@ -65,17 +58,17 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
             as={ChevronDownIcon}
             transition={"all .25s ease-in-out"}
             transform={isOpen ? "rotate(180deg)" : ""}
-            w={6}
-            h={6}
-            mr={2}
+            w='6'
+            h='6'
+            mr='2'
           />
         )}
       </Flex>
       <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
         <Stack
-          spacing={1}
-          pl={4}
-          borderLeft={1}
+          spacing='1'
+          pl='4'
+          borderLeft='1'
           borderStyle={"solid"}
           borderColor={useColorModeValue("gray.200", "gray.700")}
           align={"start"}

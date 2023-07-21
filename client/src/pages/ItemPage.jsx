@@ -27,15 +27,32 @@ import { useAuth } from "../providers/authProvider";
 
 const ItemPage = () => {
   const [comment, setComment] = React.useState("");
+  const [errorTitle, setErrorTitle] = React.useState("");
+  const [likeLoading, setLikeLoading] = React.useState(false);
+
+  const { isOpen: isCollapsed, onToggle } = useDisclosure();
+
   const toast = useToast();
-  const { user, token } = useAuth();
 
   const { itemId } = useParams();
 
+  const { user, token } = useAuth();
+
+  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
+  const commentTextBg = useColorModeValue("gray.200", "gray.600");
+  const commentTextColor = useColorModeValue("black", "gray.50");
   const toastBgColor = useColorModeValue("white", "gray.800");
 
-  const { isOpen: isCollapsed, onToggle } = useDisclosure();
+  const { fetchComments, comments } = useFetchComments();
+
   const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
+
+  const {
+    comment: sentComment,
+    sendComment,
+    loading: commentSending,
+  } = useSendComment();
+
   const likeUnlikeItem = async (itemId) => {
     try {
       setLikeLoading(true);
@@ -48,16 +65,12 @@ const ItemPage = () => {
         setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
-            <Box p={3} bg={toastBgColor} borderRadius={"md"} boxShadow={"lg"}>
-              <HStack justify={"space-between"} align={"center"} mb={2}>
-                <Text fontSize={"md"} fontWeight={"semibold"}>
-                  <WarningIcon w={5} h={5} color='orange' mr={1} /> {errorTitle}
+            <Box p={3} bg={toastBgColor} borderRadius='md' boxShadow='lg'>
+              <HStack justify='space-between' align='center' mb='2'>
+                <Text fontSize='m' fontWeight='semibold'>
+                  <WarningIcon w='5' h='5' color='orange' mr='1' /> {errorTitle}
                 </Text>
-                <IconButton
-                  size={"xs"}
-                  icon={<CloseIcon />}
-                  onClick={onClose}
-                />
+                <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
               </HStack>
               Please &nbsp;
               <Link href='/signin' color={"blue.400"}>
@@ -78,34 +91,19 @@ const ItemPage = () => {
     }
   };
 
-  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
-  const commentTextBg = useColorModeValue("gray.200", "gray.600");
-  const commentTextColor = useColorModeValue("black", "gray.50");
-
   function handleSendComment() {
     sendComment(itemId, { comment });
   }
 
-  const { fetchComments, comments } = useFetchComments();
-  console.log({ comments });
-
-  const [errorTitle, setErrorTitle] = React.useState("");
-  const [likeLoading, setLikeLoading] = React.useState(false);
-
-  const {
-    comment: sentComment,
-    sendComment,
-    loading: commentSending,
-  } = useSendComment();
-
   let modalContent = null;
+
   if (loading) {
     modalContent = (
       <>
-        <Skeleton h={"64px"} />
-        <HStack my={1}>
-          <Skeleton w={"75px"} h={"32px"} />
-          <Skeleton w={"97px"} h={"32px"} />
+        <Skeleton h='64px' />
+        <HStack my='1'>
+          <Skeleton w='75px' h='32px' />
+          <Skeleton w='97px' h='32px' />
         </HStack>
       </>
     );
@@ -113,7 +111,7 @@ const ItemPage = () => {
     modalContent = (
       <>
         <Card variant='outline'>
-          <CardBody p={3}>
+          <CardBody p='3'>
             <List>
               <ListItem>Author - {item.author.name}</ListItem>
               {item.optionalFields?.length &&
@@ -126,7 +124,7 @@ const ItemPage = () => {
           </CardBody>
         </Card>
 
-        <HStack my={1}>
+        <HStack my='1'>
           <Button
             isLoading={likeLoading}
             isDisabled={likeLoading}
@@ -138,32 +136,32 @@ const ItemPage = () => {
             {item.likes.includes(user?.id) ? "Liked" : "Like"}
             <Text
               color='blue.400'
-              fontSize={"sm"}
-              ml={item.likes.length ? 2 : 0}
+              fontSize='sm'
+              ml={item.likes.length ? "2" : "0"}
             >
               {item.likes.length || null}
             </Text>
           </Button>
-          <Button size={"sm"} variant='ghost' onClick={onToggle}>
+          <Button size='sm' variant='ghost' onClick={onToggle}>
             Comments
           </Button>
         </HStack>
         <Collapse in={isCollapsed} animateOpacity>
-          <Box p={3} bg={commentsSectionBg} rounded={"md"}>
-            <Box mb={4}>
+          <Box p='3' bg={commentsSectionBg} rounded='md'>
+            <Box mb='4'>
               {token ? (
-                <HStack align={"start"}>
-                  <Avatar name={user?.name} size={"xs"} />
+                <HStack align='start'>
+                  <Avatar name={user?.name} size='xs' />
                   <Textarea
-                    rows={2}
-                    rounded={"lg"}
+                    rows='2'
+                    rounded='lg'
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                   />
                   <Button
-                    size={"xs"}
-                    colorScheme={"blue"}
-                    px={3}
+                    size='xs'
+                    colorScheme='blue'
+                    px='3'
                     isDisabled={!comment}
                     isLoading={commentSending}
                     onClick={handleSendComment}
@@ -173,7 +171,7 @@ const ItemPage = () => {
                 </HStack>
               ) : (
                 <Box>
-                  <Text fontWeight={"medium"}>
+                  <Text fontWeight='medium'>
                     You must be logged in to comment.
                   </Text>{" "}
                   &nbsp;
@@ -187,26 +185,26 @@ const ItemPage = () => {
                 </Box>
               )}
             </Box>
-            <VStack spacing={3} align={"stretch"} rounded='md'>
+            <VStack spacing='3' align={"stretch"} rounded='md'>
               {item.comments.length ? (
                 item.comments.map((c) => (
-                  <HStack key={c._id} align={"start"}>
-                    <Avatar name={c.author?.name} size={"xs"} />
+                  <HStack key={c._id} align='start'>
+                    <Avatar name={c.author?.name} size='xs' />
                     <Text
                       color={commentTextColor}
                       bg={commentTextBg}
-                      fontSize={"sm"}
-                      rounded={"md"}
-                      py={1}
-                      px={2}
-                      w={"100%"}
+                      fontSize='sm'
+                      rounded='md'
+                      py='1'
+                      px='2'
+                      w='100%'
                     >
                       {c.comment}
                     </Text>
                   </HStack>
                 ))
               ) : (
-                <Text fontSize={"sm"}>No comments</Text>
+                <Text fontSize='sm'>No comments</Text>
               )}
             </VStack>
           </Box>
@@ -233,12 +231,10 @@ const ItemPage = () => {
       _item.comments = comments;
       setItem(_item);
     }
-    console.log("items comments changed");
   }, [comments.length]);
 
   React.useEffect(() => {
     if (sentComment) {
-      console.log({ sentComment });
       setComment("");
       const _item = item;
       item.comments.push(sentComment);

@@ -147,7 +147,6 @@ export const useDeleteUser = () => {
       const result = await axios.delete(
         `${import.meta.env.VITE_URL}/users/${userId}`
       );
-      console.log({ result });
       setDeletedUserId(userId);
       if (result.status >= 200 || result.status < 300) setUserDeleted(true);
     } catch (error) {

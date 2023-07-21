@@ -12,9 +12,7 @@ const searchComments = async (req, res) => {
     promises.push(
       Models.commentModel.find({ $text: { $search: req.body.keyword } })
     );
-    // const searchResults = await Models.commentModel.find({
-    //   $text: { $search: req.body.keyword },
-    // });
+
     Promise.all(promises)
       .then((results) => {
         res.send({
@@ -24,7 +22,6 @@ const searchComments = async (req, res) => {
         });
       })
       .catch((error) => res.status(500).send({ message: error.message }));
-    // res.send(searchResults);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -33,10 +30,6 @@ const searchComments = async (req, res) => {
 const getComments = async (req, res) => {
   try {
     const comments = await Models.commentModel.find();
-
-    // await Item.findByIdAndUpdate(req.body.item, {
-    //   $push: { comments: comment },
-    // });
     res.send(comments);
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -51,9 +44,7 @@ const addNewComment = async (req, res) => {
       user: req.user._id,
     };
     const commentDoc = new Models.commentModel(comment);
-    // await Item.findByIdAndUpdate(req.body.item, {
-    //   $push: { comments: comment },
-    // });
+
     await commentDoc.save();
     res.send(comment);
   } catch (error) {
@@ -84,9 +75,6 @@ const deleteComment = async (req, res) => {
 
     if (!comment) return res.status(404).send({ message: "Not found!" });
 
-    // await Item.findByIdAndUpdate(comment.item, {
-    //   $pull: { comments: req.params.id },
-    // });
     res.status(204).send();
   } catch (error) {
     res.status(500).send({ message: error.message });

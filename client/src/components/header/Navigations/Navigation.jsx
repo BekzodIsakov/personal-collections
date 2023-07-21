@@ -10,17 +10,17 @@ import {
   Select,
   useColorModeValue,
 } from "@chakra-ui/react";
-import MobileNav from "./MobileNav";
 import { useNavData } from "./navData";
+import MobileNav from "./MobileNav";
 import DesktopNav from "./DesktopNav";
 import { useI18n } from "../../../providers/i18nProvider";
 
 const Navigation = () => {
+  const { navData } = useNavData();
+
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const menuBgColor = useColorModeValue("white", "gray.700");
-
-  const { navData } = useNavData();
 
   const { languages, setSelectedLanguage, selectedLanguage } = useI18n();
 
@@ -41,19 +41,19 @@ const Navigation = () => {
                 colorScheme='gray'
                 icon={
                   isOpen ? (
-                    <CloseIcon w={3} h={3} />
+                    <CloseIcon w='3' h='3' />
                   ) : (
-                    <HamburgerIcon w={5} h={5} />
+                    <HamburgerIcon w='5' h='5' />
                   )
                 }
               />
               <MenuList
-                p={0}
+                p='0'
                 w={"100vw"}
                 boxShadow={"xl"}
                 border={"none"}
                 bg={menuBgColor}
-                borderTopRadius={0}
+                borderTopRadius='0'
               >
                 <HStack justifyContent={"space-between"}>
                   <MobileNav
@@ -61,7 +61,7 @@ const Navigation = () => {
                     linkColor={linkColor}
                     linkHoverColor={linkHoverColor}
                   />
-                  <Box p={4}>
+                  <Box p='4'>
                     <Select
                       value={selectedLanguage}
                       onChange={(e) => setSelectedLanguage(e.target.value)}
@@ -84,7 +84,7 @@ const Navigation = () => {
           )}
         </Menu>
       </Flex>
-      <Flex display={{ base: "none", md: "flex" }} ml={3}>
+      <Flex display={{ base: "none", md: "flex" }} ml='3'>
         <DesktopNav
           navItems={navData}
           linkColor={linkColor}

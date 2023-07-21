@@ -60,8 +60,6 @@ const itemSchema = new mongoose.Schema(
 
 itemSchema.index({ name: "text" });
 commentSchema.index({ comment: "text" });
-// itemSchema.index({ "optionalFields.value": 1 }, { unique: true });
-// itemSchema.index({ name: "text", "optionalFields.value": "text" });
 
 const Item = new mongoose.model("Item", itemSchema);
 const Comment = new mongoose.model("Comment", commentSchema);

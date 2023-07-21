@@ -34,23 +34,15 @@ const EditItemModal = ({
   const [options, setOptions] = React.useState([]);
 
   const { tags, fetchTags } = useFetchAllTags();
-  console.log({ name, optionalFields, selectedTags, options, tags });
 
-  const { loading, errorMessage, item: editedItem, editItem } = useEditItem();
+  const { loading, item: editedItem, editItem } = useEditItem();
 
-  const { item, setItem, fetchItem } = useFetchItem();
-  console.log({ item });
+  const { item, fetchItem } = useFetchItem();
 
   const params = useParams();
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    console.log({
-      name,
-      tags: selectedTags.map((tag) => tag.value),
-      optionalFields: Object.values(optionalFields),
-      parentCollection: params.id,
-    });
 
     editItem(selectedItemId, {
       name,
@@ -61,7 +53,6 @@ const EditItemModal = ({
   }
 
   function handleOptionalFields(field) {
-    console.log({ field });
     setOptionalFields((prev) => ({
       ...prev,
       [field.name]: { name: field.name, type: field.type, value: field.value },
@@ -69,7 +60,7 @@ const EditItemModal = ({
   }
 
   const optionalFieldsElements = [];
-  console.log({ optionalItemFields });
+
   if (optionalFields) {
     optionalItemFields.forEach((field) => {
       switch (field.type) {
@@ -159,7 +150,6 @@ const EditItemModal = ({
   }, [item]);
 
   React.useEffect(() => {
-    // if (tags.length) setSelectedTags(tags[0]._id);
     const _options = tags.map((tag) => ({
       label: tag.title,
       value: tag._id,
@@ -198,7 +188,6 @@ const EditItemModal = ({
 
   React.useEffect(() => {
     if (editedItem) {
-      console.log({ editedItem });
       const _collection = { ...collection };
       _collection.items = collection.items.map((item) => {
         if (editedItem._id === item._id) {
@@ -210,15 +199,6 @@ const EditItemModal = ({
       onClose();
     }
   }, [editedItem]);
-
-  // React.useEffect(() => {
-  //   if (createdItem) {
-  //     const _collection = { ...collection };
-  //     _collection.items.push(createdItem);
-  //     setCollection(_collection);
-  //     onClose();
-  //   }
-  // }, [createdItem]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
@@ -243,7 +223,6 @@ const EditItemModal = ({
                   name='tags'
                   options={options}
                   closeMenuOnSelect={false}
-                  // onChange={(e) => console.log(e.target.value)}
                 />
               </FormControl>
             </VStack>

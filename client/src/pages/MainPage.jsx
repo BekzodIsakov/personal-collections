@@ -24,14 +24,10 @@ const MainPage = () => {
     status: itemsStatus,
     error,
   } = useSelector((state) => state.latestItemsReducer);
+
   const { topCollections, status: collectionsStatus } = useSelector(
     (state) => state.topCollectionsReducer
   );
-
-  React.useEffect(() => {
-    dispatch(fetchLatestItems({ sortBy: "updatedAt_desc", limit: 10 }));
-    dispatch(fetchTopFiveCollections());
-  }, [dispatch]);
 
   let collectionsList = null;
   switch (collectionsStatus) {
@@ -50,7 +46,7 @@ const MainPage = () => {
       break;
     case "succeeded":
       collectionsList = topCollections.map((collection) => (
-        <ListItem key={collection._id} mb={2}>
+        <ListItem key={collection._id} mb='2'>
           <Box>
             <CustomLink to={`/collections/${collection._id}`}>
               {collection.title}
@@ -68,11 +64,16 @@ const MainPage = () => {
       );
   }
 
+  React.useEffect(() => {
+    dispatch(fetchLatestItems({ sortBy: "updatedAt_desc", limit: 10 }));
+    dispatch(fetchTopFiveCollections());
+  }, [dispatch]);
+
   return (
     <>
-      <VStack spacing={8} align='stretch'>
+      <VStack spacing='8' align='stretch'>
         <Box>
-          <Heading as='h2' fontSize='2xl' mb={4}>
+          <Heading as='h2' fontSize='2xl' mb='4'>
             Latest items
           </Heading>
           <UnorderedList>
@@ -85,7 +86,7 @@ const MainPage = () => {
         </Box>
 
         <Box>
-          <Heading as='h2' fontSize='2xl' mb={4}>
+          <Heading as='h2' fontSize='2xl' mb='4'>
             Top 5 collections
           </Heading>
           <OrderedList>{collectionsList}</OrderedList>

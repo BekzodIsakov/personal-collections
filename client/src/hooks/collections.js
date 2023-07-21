@@ -1,7 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { useAuth } from "../providers/authProvider";
-import { useLocation, useParams } from "react-router-dom";
 
 export const useCollectionFetch = () => {
   const [loading, setLoading] = React.useState(false);
@@ -35,8 +33,6 @@ export const useFetchUserCollection = () => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [collections, setItemCollections] = React.useState([]);
-
-  // const { user } = useAuth();
 
   async function fetchUserCollection(userId) {
     try {

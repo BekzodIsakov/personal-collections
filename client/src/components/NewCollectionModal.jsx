@@ -32,20 +32,20 @@ const NewCollectionModal = ({
   onEdit,
   fetchUserCollections,
 }) => {
-  const { currentUser } = useCurrentUser();
-
-  const { topics, fetchTopics } = useFetchTopics();
-
-  const { createCollection, loading, collection } = useCreateCollection();
-
-  const fileInputRef = React.useRef(null);
-
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedTopic, setSelectedTopic] = React.useState("");
   const [selectedImage, setSelectedImage] = React.useState("");
   const [optionalItemFields, setOptionalItemFields] = React.useState([]);
   const [preview, setPreview] = React.useState("");
+
+  const fileInputRef = React.useRef(null);
+
+  const { currentUser } = useCurrentUser();
+
+  const { topics, fetchTopics } = useFetchTopics();
+
+  const { createCollection, loading, collection } = useCreateCollection();
 
   const dragNDropBg = useColorModeValue("white", "gray.800");
   const dragNDropBorderColor = useColorModeValue("gray.300", "gray.500");

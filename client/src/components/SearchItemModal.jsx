@@ -24,10 +24,9 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
   const [searchText, setSearchText] = React.useState("");
 
   const initialRef = React.useRef();
+  const timeOutId = React.useRef(null);
 
   const { searchResult, searchItems, loading } = useSearchItems();
-
-  const timeOutId = React.useRef(null);
 
   React.useEffect(() => {
     if (searchText && searchText.length > 1) {
@@ -39,8 +38,6 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
     }
   }, [searchText]);
 
-  console.log({ searchResult });
-
   return (
     <Modal
       isOpen={isOpen}
@@ -49,7 +46,7 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
       initialFocusRef={initialRef}
     >
       <ModalOverlay />
-      <ModalContent mx={3}>
+      <ModalContent mx='3'>
         <ModalHeader>Search items</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={5}>

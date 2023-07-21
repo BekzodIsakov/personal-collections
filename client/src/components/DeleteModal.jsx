@@ -8,7 +8,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import React from "react";
 
 const DeleteModal = ({
   isOpen,
@@ -20,7 +19,7 @@ const DeleteModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent mx={3}>
+      <ModalContent mx='3'>
         <ModalHeader>Delete {deletedItemName}</ModalHeader>
         <ModalCloseButton />
         <ModalFooter>
@@ -33,7 +32,7 @@ const DeleteModal = ({
             >
               Delete
             </Button>
-            <Button colorScheme='blue' mr={3} onClick={onClose} size='sm'>
+            <Button colorScheme='blue' mr='3' onClick={onClose} size='sm'>
               Cancel
             </Button>
           </HStack>

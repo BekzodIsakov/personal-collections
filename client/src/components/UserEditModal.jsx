@@ -19,6 +19,12 @@ import { useAuth } from "../providers/authProvider";
 import { useNavigate } from "react-router-dom";
 
 const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
+  const [name, setName] = React.useState("");
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const [isBlocked, setIsBlocked] = React.useState(false);
+
+  const { setUser, user } = useAuth();
+
   const { loading, user: currentUser, fetchUser } = useFetchUser();
 
   const navigate = useNavigate();
@@ -29,18 +35,11 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
     updateUser,
   } = useUpdateUser();
 
-  const { setUser, user } = useAuth();
-
-  const [name, setName] = React.useState("");
-  const [isAdmin, setIsAdmin] = React.useState(false);
-  const [isBlocked, setIsBlocked] = React.useState(false);
-
   function handleOnSubmit(e) {
     e.preventDefault();
     updateUser(userId, { name, isAdmin, isBlocked });
   }
 
-  console.log({ userId, user });
   React.useEffect(() => {
     if (userId) fetchUser(userId);
   }, [userId]);
@@ -93,7 +92,7 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
                 />
               </FormControl>
               <HStack width='100%' mb='8'>
-                <FormControl width={"max-content"} mr='8'>
+                <FormControl width='max-content' mr='8'>
                   <FormLabel>Admin</FormLabel>
                   <Switch
                     isChecked={isAdmin}
@@ -101,7 +100,7 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
                     id='adminId'
                   />
                 </FormControl>
-                <FormControl width={"max-content"}>
+                <FormControl width='max-content'>
                   <FormLabel>Blocked</FormLabel>
                   <Switch
                     isChecked={isBlocked}
@@ -117,13 +116,6 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
             </form>
           )}
         </ModalBody>
-
-        {/* <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={onClose}>
-            Close
-          </Button>
-          <Button variant='ghost'>Secondary Action</Button>
-        </ModalFooter> */}
       </ModalContent>
     </Modal>
   );

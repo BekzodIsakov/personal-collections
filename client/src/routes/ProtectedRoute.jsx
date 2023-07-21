@@ -7,10 +7,5 @@ export const ProtectedRoute = ({ redirectPath = "/signin" }) => {
   if (!token) {
     return <Navigate to={redirectPath} replace />;
   }
-  return (
-    <>
-      {/* <Header /> */}
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 };

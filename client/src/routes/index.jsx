@@ -66,7 +66,7 @@ const Routes = () => {
     },
   ];
 
-  const routesForPublic = [
+  const routes = [
     {
       path: "/",
       element: <ParentRoute />,
@@ -92,11 +92,7 @@ const Routes = () => {
     },
   ];
 
-  const router = createBrowserRouter([
-    ...routesForPublic,
-    // ...(token ? routesForAuthenticated : []),
-    // ...routesForAdmins,
-  ]);
+  const router = createBrowserRouter([...routes]);
 
   return <RouterProvider router={router} />;
 };
