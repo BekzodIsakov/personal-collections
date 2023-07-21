@@ -24,7 +24,6 @@ import { useCurrentUser } from "../providers/currentUserProvider";
 
 const UserPage = () => {
   const { currentUser, setCurrentUser } = useCurrentUser();
-  console.log({ currentUser });
 
   const { loading, errorMessage, user, fetchUser } = useFetchUser();
 

@@ -29,7 +29,6 @@ const NewItemModal = ({
   setCollection,
 }) => {
   const { currentUser } = useCurrentUser();
-  console.log({ currentUser });
   const [name, setName] = React.useState("");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [optionalFields, setOptionalFields] = React.useState(null);
@@ -241,7 +240,6 @@ const NewItemModal = ({
     if (createdItem) {
       const _collection = { ...collection };
       _collection.items.push(createdItem);
-      console.log({ collection: { ..._collection } });
       setCollection(_collection);
       onClose();
     }

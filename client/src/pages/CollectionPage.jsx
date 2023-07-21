@@ -67,7 +67,7 @@ const CollectionPage = () => {
                 <Text fontWeight={"semibold"} as={"b"}>
                   Author:
                 </Text>{" "}
-                {collection.author.name}
+                {collection.author?.name}
               </Box>
 
               <Box mb={2}>

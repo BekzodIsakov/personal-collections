@@ -26,11 +26,9 @@ const ItemsManagePage = () => {
   const [columns, setColumns] = React.useState([]);
 
   const selectedItemId = Object.keys(selectedRow)[0];
-  console.log({ selectedItemId });
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
-  console.log({ collection });
 
   const { loading: deleting, itemDeleted, deleteItem } = useItemDelete();
 
