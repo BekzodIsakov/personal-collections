@@ -1,6 +1,38 @@
 const { Item, Comment } = require("../models/itemModel");
+const Collection = require("../models/collectionModel");
 const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
+
+const searchItems = async (req, res) => {
+  const promises = [];
+  try {
+    promises.push(
+      Item.find({ $text: { $search: req.query.text } }).select("_id name")
+    );
+    promises.push(
+      Collection.find({ $text: { $search: req.query.text } }).slice(
+        "items",
+        [0, 1]
+      )
+    );
+    // promises.push(Comment.find({ $text: { $search: req.query.text } }));
+    // const searchResults = await Models.commentModel.find({
+    //   $text: { $search: req.body.keyword },
+    // });
+    Promise.all(promises)
+      .then((results) => {
+        res.send({
+          items: results[0],
+          collections: results[1],
+          // comments: results[2],
+        });
+      })
+      .catch((error) => res.status(500).send({ message: error.message }));
+    // res.send(searchResults);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
 
 const getItems = async (req, res) => {
   const sort = {};
@@ -207,6 +239,7 @@ const deleteComment = async (req, res) => {
 };
 
 module.exports = {
+  searchItems,
   getItems,
   getItemById,
   createNewItem,
