@@ -18,11 +18,12 @@ import { useFetchAllTags } from "../hooks/tags";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
 import { useEditItem, useFetchItem } from "../hooks/items";
+import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
 
 const EditItemModal = ({
   isOpen,
   onClose,
-  onEdit,
   optionalItemFields,
   collection,
   setCollection,
@@ -32,6 +33,8 @@ const EditItemModal = ({
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [optionalFields, setOptionalFields] = React.useState(null);
   const [options, setOptions] = React.useState([]);
+
+  const { selectedLanguage } = useI18n();
 
   const { tags, fetchTags } = useFetchAllTags();
 
@@ -204,18 +207,24 @@ const EditItemModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>Create item</ModalHeader>
+        <ModalHeader>
+          {translations[selectedLanguage]?.general.editItem}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <VStack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.name}
+                </FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
-                <FormLabel>Tags</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.tags}
+                </FormLabel>
                 <ReactSelect
                   isMulti
                   value={selectedTags}
@@ -227,7 +236,7 @@ const EditItemModal = ({
               </FormControl>
             </VStack>
             <Button type='submit' colorScheme='blue' isLoading={loading}>
-              Edit
+              {translations[selectedLanguage]?.general.edit}
             </Button>
           </form>
         </ModalBody>

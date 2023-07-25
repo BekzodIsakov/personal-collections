@@ -16,8 +16,8 @@ import { NavLink } from "react-router-dom";
 const MobileNav = ({ navItems = [], linkColor }) => {
   return (
     <Stack px='4' py='2' display={{ md: "none" }}>
-      {navItems.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} linkColor={linkColor} />
+      {navItems.map((navItem, index) => (
+        <MobileNavItem key={index} {...navItem} linkColor={linkColor} />
       ))}
     </Stack>
   );

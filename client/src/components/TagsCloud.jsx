@@ -12,9 +12,13 @@ import {
 import { useFetchAllTags } from "../hooks/tags";
 import { useItemsFetchByTag } from "../hooks/items";
 import CustomList from "./CustomList";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
+
+  const { selectedLanguage } = useI18n();
 
   const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
 
@@ -36,6 +40,10 @@ const TagsCloud = () => {
   const tagColor = useColorModeValue("BlackAlpha.50", "gray.700");
 
   React.useEffect(() => {
+    fetchTags();
+  }, []);
+
+  React.useEffect(() => {
     if (selectedTagId) {
       fetchItemsByTag(selectedTagId);
     } else {
@@ -43,11 +51,7 @@ const TagsCloud = () => {
     }
   }, [selectedTagId]);
 
-  React.useEffect(() => {
-    fetchTags();
-  }, []);
-
-  let tagElements = <Text>No tags</Text>;
+  let tagElements = <Text>Empty</Text>;
 
   if (loading) {
     tagElements = (
@@ -81,7 +85,7 @@ const TagsCloud = () => {
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb='4'>
-        Tags cloud
+        {translations[selectedLanguage]?.main.tagsCloud}
       </Heading>
       <Wrap border='1px' borderColor='gray.300' rounded='md' p='2' mb='5'>
         {tagElements}

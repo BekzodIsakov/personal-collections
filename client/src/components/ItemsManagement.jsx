@@ -19,12 +19,16 @@ import DeleteModal from "./DeleteModal";
 import { useItemDelete } from "../hooks/items";
 import ItemEditModal from "./ItemEditModal";
 import NewItemModal from "./NewItemModal";
+import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
 
 const ItemsManagePage = () => {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [columns, setColumns] = React.useState([]);
 
   const selectedItemId = Object.keys(selectedRow)[0];
+
+  const { selectedLanguage } = useI18n();
 
   const { collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
@@ -109,7 +113,7 @@ const ItemsManagePage = () => {
         }),
         columnHelper.accessor("name", {
           cell: (info) => info.getValue(),
-          header: "Name",
+          header: translations[selectedLanguage]?.general.name,
         }),
         columnHelper.accessor("tags", {
           cell: ({ row }) => (
@@ -121,7 +125,7 @@ const ItemsManagePage = () => {
               ))}
             </Wrap>
           ),
-          header: "Tags",
+          header: translations[selectedLanguage]?.general.tags,
         }),
       ];
 
@@ -154,7 +158,7 @@ const ItemsManagePage = () => {
       }
       setColumns(_columns);
     }
-  }, [collection]);
+  }, [collection, selectedLanguage]);
 
   return (
     <Box mt='5'>
@@ -166,7 +170,7 @@ const ItemsManagePage = () => {
         mb={3}
       >
         <Heading fontSize={"lg"} my='3'>
-          Collection items
+          {translations[selectedLanguage]?.general.collectionItems}
         </Heading>
         <Wrap>
           <Button
@@ -175,7 +179,7 @@ const ItemsManagePage = () => {
             colorScheme='blue'
             onClick={onNewItemModalOpen}
           >
-            New item
+            {translations[selectedLanguage]?.general.newItem}
           </Button>
           <Button
             leftIcon={<EditIcon />}
@@ -184,7 +188,7 @@ const ItemsManagePage = () => {
             colorScheme='blue'
             onClick={onEditModalOpen}
           >
-            Edit
+            {translations[selectedLanguage]?.general.edit}
           </Button>
           <Button
             leftIcon={<DeleteIcon />}
@@ -193,7 +197,7 @@ const ItemsManagePage = () => {
             colorScheme='red'
             onClick={onDeleteModalOpen}
           >
-            Delete
+            {translations[selectedLanguage]?.general.delete}
           </Button>
         </Wrap>
       </Stack>
@@ -236,6 +240,7 @@ const ItemsManagePage = () => {
           onClose={onDeleteModalClose}
           onDelete={() => deleteItem(selectedItemId)}
           deleting={deleting}
+          modalTitle={translations[selectedLanguage]?.general.deleteItem}
         />
       )}
     </Box>

@@ -17,6 +17,8 @@ import {
 import { useFetchUser, useUpdateUser } from "../hooks/user";
 import { useAuth } from "../providers/authProvider";
 import { useNavigate } from "react-router-dom";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
   const [name, setName] = React.useState("");
@@ -24,6 +26,8 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
   const [isBlocked, setIsBlocked] = React.useState(false);
 
   const { setUser, user } = useAuth();
+
+  const { selectedLanguage } = useI18n();
 
   const { loading, user: currentUser, fetchUser } = useFetchUser();
 
@@ -76,7 +80,9 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>
+          {translations[selectedLanguage]?.general.editUser}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {loading ? (
@@ -84,7 +90,9 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
           ) : (
             <form onSubmit={handleOnSubmit}>
               <FormControl mb='5'>
-                <FormLabel>User name</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.userName}
+                </FormLabel>
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -101,7 +109,9 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
                   />
                 </FormControl>
                 <FormControl width='max-content'>
-                  <FormLabel>Blocked</FormLabel>
+                  <FormLabel>
+                    {translations[selectedLanguage]?.general.blocked}
+                  </FormLabel>
                   <Switch
                     isChecked={isBlocked}
                     onChange={(e) => setIsBlocked(e.target.checked)}
@@ -111,7 +121,7 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
               </HStack>
 
               <Button type='submit' colorScheme='blue' isLoading={updatingUser}>
-                Done
+                {translations[selectedLanguage]?.general.done}
               </Button>
             </form>
           )}

@@ -11,6 +11,8 @@ import {
   TagLabel,
   Wrap,
 } from "@chakra-ui/react";
+import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
 
 const FIELD_TYPES = ["number", "text", "textarea", "checkbox", "date"];
 
@@ -23,6 +25,8 @@ const OptionalFieldGenerator = ({
   const [selectedFieldType, setSelectedFieldType] = React.useState(
     FIELD_TYPES[0]
   );
+
+  const { selectedLanguage } = useI18n();
 
   function handleOnSelect(e) {
     setSelectedFieldType(e.target.value);
@@ -73,7 +77,7 @@ const OptionalFieldGenerator = ({
   return (
     <Box>
       <Heading as='h3' size='md' mb='4'>
-        Optional fields
+        {translations[selectedLanguage]?.general.optionalFields}
       </Heading>
 
       <FormControl mb='3'>
@@ -94,7 +98,7 @@ const OptionalFieldGenerator = ({
       </FormControl>
 
       <Button size={"sm"} onClick={createOptionalField}>
-        Add
+        {translations[selectedLanguage]?.general.add}
       </Button>
 
       <Wrap mt='3'>{optionalFields}</Wrap>

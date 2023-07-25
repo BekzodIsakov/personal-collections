@@ -21,8 +21,12 @@ import CustomLink from "../components/CustomLink";
 import NewCollectionModal from "../components/NewCollectionModal";
 import { AddIcon } from "@chakra-ui/icons";
 import { useCurrentUser } from "../providers/currentUserProvider";
+import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
 
 const UserPage = () => {
+  const { selectedLanguage } = useI18n();
+
   const { currentUser, setCurrentUser } = useCurrentUser();
 
   const { loading, errorMessage, user, fetchUser } = useFetchUser();
@@ -63,7 +67,9 @@ const UserPage = () => {
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Wrap spacing={"3"} mb='4' align='center'>
               <WrapItem>
-                <Heading size='md'>My collections</Heading>
+                <Heading size='md'>
+                  {translations[selectedLanguage]?.userPage.myCollections}
+                </Heading>
               </WrapItem>
               <WrapItem>
                 {userCollectionsLoading && <Spinner size='sm' />}
@@ -75,7 +81,7 @@ const UserPage = () => {
               colorScheme='blue'
               leftIcon={<AddIcon />}
             >
-              New collection
+              {translations[selectedLanguage]?.general.newCollection}
             </Button>
           </Stack>
 

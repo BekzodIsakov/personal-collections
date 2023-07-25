@@ -1,24 +1,30 @@
 import React from "react";
 import { useAuth } from "../../../providers/authProvider";
+import { useI18n } from "../../../providers/i18nProvider";
+import translations from "../../../utils/translations";
 
 export const useNavData = () => {
   const [navData, setNavData] = React.useState([]);
 
+  const { selectedLanguage } = useI18n();
+
   const { token, user } = useAuth();
 
   const publicNavItems = React.useMemo(
-    () => [{ label: "Main page", to: "/" }],
-    []
+    () => [{ label: translations[selectedLanguage]?.nav.mainPage, to: "/" }],
+    [selectedLanguage]
   );
 
   const authenticatedNavItems = React.useMemo(
-    () => [{ label: "My page", to: "/me" }],
-    []
+    () => [{ label: translations[selectedLanguage]?.nav.myPage, to: "/me" }],
+    [selectedLanguage]
   );
 
   const adminNavItems = React.useMemo(
-    () => [{ label: "Users page", to: "users" }],
-    []
+    () => [
+      { label: translations[selectedLanguage]?.nav.usersPage, to: "users" },
+    ],
+    [selectedLanguage]
   );
 
   React.useEffect(() => {
@@ -35,7 +41,7 @@ export const useNavData = () => {
       }
     }
     setNavData(_navData);
-  }, [user]);
+  }, [user, token, publicNavItems, authenticatedNavItems, adminNavItems]);
 
   return {
     navData,

@@ -14,9 +14,13 @@ import { useDeleteUser, useFetchUsers } from "../hooks/user";
 import CustomLink from "../components/CustomLink";
 import DeleteModal from "../components/DeleteModal";
 import UserEditModal from "../components/UserEditModal";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const UsersPage = () => {
   const { loading, fetchUsers, users, setUsers } = useFetchUsers();
+
+  const { selectedLanguage } = useI18n();
 
   const [selectedUserId, setSelectedUserId] = React.useState("");
 
@@ -66,7 +70,7 @@ const UsersPage = () => {
       <Wrap spacing='3' align='center' mb='5'>
         <WrapItem>
           <Heading as='h1' size='lg'>
-            Users
+            {translations[selectedLanguage]?.general.users}
           </Heading>
         </WrapItem>
         <WrapItem>{loading && <Spinner size='sm' />}</WrapItem>
@@ -86,7 +90,7 @@ const UsersPage = () => {
                   mr='2'
                   onClick={() => handleModalOpen("edit", user._id)}
                 >
-                  Edit
+                  {translations[selectedLanguage]?.general.edit}
                 </Button>
 
                 <Button
@@ -95,7 +99,7 @@ const UsersPage = () => {
                   colorScheme='red'
                   onClick={() => handleModalOpen("delete", user._id)}
                 >
-                  Delete
+                  {translations[selectedLanguage]?.general.delete}
                 </Button>
               </WrapItem>
             </Wrap>
@@ -108,7 +112,7 @@ const UsersPage = () => {
           onOpen={onDeleteModalOpen}
           onClose={onDeleteModalClose}
           onDelete={() => deleteUser(selectedUserId)}
-          deletedItemName={"user"}
+          modalTitle={translations[selectedLanguage]?.general.deleteUser}
           loading={deletingUser}
         />
       )}

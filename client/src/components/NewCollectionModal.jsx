@@ -25,13 +25,10 @@ import { CloseIcon } from "@chakra-ui/icons";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
 import { useCreateCollection } from "../hooks/collections";
 import { useCurrentUser } from "../providers/currentUserProvider";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
-const NewCollectionModal = ({
-  isOpen,
-  onClose,
-  onEdit,
-  fetchUserCollections,
-}) => {
+const NewCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedTopic, setSelectedTopic] = React.useState("");
@@ -42,6 +39,8 @@ const NewCollectionModal = ({
   const fileInputRef = React.useRef(null);
 
   const { currentUser } = useCurrentUser();
+
+  const { selectedLanguage } = useI18n();
 
   const { topics, fetchTopics } = useFetchTopics();
 
@@ -112,13 +111,17 @@ const NewCollectionModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>Create new collection</ModalHeader>
+        <ModalHeader>
+          {translations[selectedLanguage]?.general.createNewCollection}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <Stack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.title}
+                </FormLabel>
                 <Input
                   name={"title"}
                   value={title}
@@ -128,7 +131,9 @@ const NewCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.description}
+                </FormLabel>
                 <Textarea
                   name={"description"}
                   value={description}
@@ -138,7 +143,9 @@ const NewCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>Topic</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.topic}
+                </FormLabel>
                 <Select
                   name='selectedTopic'
                   value={selectedTopic}
@@ -197,9 +204,14 @@ const NewCollectionModal = ({
                               color='gray.700'
                               fontWeight='semibold'
                             >
-                              Drop image here
+                              {
+                                translations[selectedLanguage]?.general
+                                  .dropImageHere
+                              }
                             </Heading>
-                            <Text fontWeight='light'>or click to upload</Text>
+                            <Text fontWeight='light'>
+                              {translations[selectedLanguage]?.general.orClick}
+                            </Text>
                           </Stack>
                         </Stack>
                         <Input
@@ -250,7 +262,7 @@ const NewCollectionModal = ({
               />
             </Stack>
             <Button type='submit' colorScheme='blue' isLoading={loading}>
-              Done
+              {translations[selectedLanguage]?.general.done}
             </Button>
           </form>
         </ModalBody>

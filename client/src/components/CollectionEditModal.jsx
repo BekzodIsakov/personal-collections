@@ -24,6 +24,8 @@ import { useParams } from "react-router-dom";
 import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useCollectionEdit } from "../hooks/collections";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const EditCollectionModal = ({
   isOpen,
@@ -38,6 +40,8 @@ const EditCollectionModal = ({
   const [preview, setPreview] = React.useState("");
 
   const fileInputRef = React.useRef(null);
+
+  const { selectedLanguage } = useI18n();
 
   const { topics, fetchTopics } = useFetchTopics();
 
@@ -114,13 +118,17 @@ const EditCollectionModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>Edit collection</ModalHeader>
+        <ModalHeader>
+          {translations[selectedLanguage]?.general.editCollection}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <Stack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.name}
+                </FormLabel>
                 <Input
                   name={"title"}
                   value={title}
@@ -129,7 +137,9 @@ const EditCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.description}
+                </FormLabel>
                 <Textarea
                   name={"description"}
                   value={description}
@@ -138,7 +148,9 @@ const EditCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>Topic</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.topic}
+                </FormLabel>
                 <Select
                   name='selectedTopic'
                   value={selectedTopic}
@@ -196,9 +208,14 @@ const EditCollectionModal = ({
                               color='gray.700'
                               fontWeight='semibold'
                             >
-                              Drop image here
+                              {
+                                translations[selectedLanguage]?.general
+                                  .dropImageHere
+                              }
                             </Heading>
-                            <Text fontWeight='light'>or click to upload</Text>
+                            <Text fontWeight='light'>
+                              {translations[selectedLanguage]?.general.orClick}
+                            </Text>
                           </Stack>
                         </Stack>
                         <Input
@@ -245,7 +262,7 @@ const EditCollectionModal = ({
               colorScheme='blue'
               isLoading={updatingCollection}
             >
-              Done
+              {translations[selectedLanguage]?.general.done}
             </Button>
           </form>
         </ModalBody>

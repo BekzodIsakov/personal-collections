@@ -30,10 +30,16 @@ import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
 import { useItemFetch } from "../hooks/items";
 import { useFetchComments, useSendComment } from "../hooks/comments";
+import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
+import SVG from "./SVG";
 
 const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
+
   const toast = useToast();
+
+  const { selectedLanguage } = useI18n();
 
   const { user, token } = useAuth();
 
@@ -46,7 +52,6 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
 
   const [comment, setComment] = React.useState("");
-  const [errorTitle, setErrorTitle] = React.useState("");
   const [likeLoading, setLikeLoading] = React.useState(false);
 
   const likeUnlikeItem = async (itemId) => {
@@ -58,23 +63,23 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
       updateItem({ likes: result.data });
     } catch (error) {
       if (error.response.status === 401) {
-        setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
             <Box p='3' bg='white' borderRadius={"md"} boxShadow={"lg"}>
               <HStack justify={"space-between"} align={"center"} mb='2'>
                 <Text fontSize={"md"} fontWeight={"semibold"}>
-                  <WarningIcon w='5' h='5' color='orange' mr='1' /> {errorTitle}
+                  <WarningIcon w='5' h='5' color='orange' mr='1' />{" "}
+                  {translations[selectedLanguage]?.general.unauthorized}
                 </Text>
                 <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
               </HStack>
-              Please &nbsp;
+              {translations[selectedLanguage]?.general.please} &nbsp;
               <Link href='/signin' color={"blue.400"}>
-                sign in
+                {translations[selectedLanguage]?.general.signin}
               </Link>
-              &nbsp; or &nbsp;
+              &nbsp; {translations[selectedLanguage]?.general.or} &nbsp;
               <Link href='/signup' color={"blue.400"}>
-                create new account
+                {translations[selectedLanguage]?.general.signup}
               </Link>
               .
             </Box>
@@ -119,7 +124,10 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
         <Card variant='outline'>
           <CardBody p='3'>
             <List>
-              <ListItem>Author - {item.author.name}</ListItem>
+              <ListItem>
+                {translations[selectedLanguage]?.general.author} -{" "}
+                {item.author.name}
+              </ListItem>
               {item.optionalFields[0] &&
                 JSON.parse(item.optionalFields).map((field, index) => (
                   <ListItem key={index}>
@@ -130,26 +138,29 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
           </CardBody>
         </Card>
 
-        <HStack my='1'>
+        <HStack my='1' spacing='5'>
           <Button
             isLoading={likeLoading}
             isDisabled={likeLoading}
             onClick={() => likeUnlikeItem(item._id)}
             variant='ghost'
             size='sm'
-            color={item.likes.includes(user?.id) ? "blue.400" : ""}
           >
-            {item.likes.includes(user?.id) ? "Liked" : "Like"}
-            <Text
-              color='blue.400'
-              fontSize='sm'
-              ml={item.likes.length ? "2" : "0"}
-            >
+            {item.likes.includes(user?.id) ? (
+              <SVG iconId='like-solid' />
+            ) : (
+              <SVG iconId='like' />
+            )}
+            <Text fontSize='sm' ml={item.likes.length ? "2" : "0"}>
               {item.likes.length || null}
             </Text>
           </Button>
           <Button size='sm' variant='ghost' onClick={onToggle}>
-            Comments
+            {isCollapsed ? (
+              <SVG iconId='comments-solid' />
+            ) : (
+              <SVG iconId='comments' />
+            )}
           </Button>
         </HStack>
         <Collapse in={isCollapsed} animateOpacity>
@@ -172,21 +183,21 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
                     isLoading={commentSending}
                     onClick={handleSendComment}
                   >
-                    comment
+                    {translations[selectedLanguage]?.general.send}
                   </Button>
                 </HStack>
               ) : (
                 <Box>
                   <Text fontWeight='medium'>
-                    You must be logged in to comment.
+                    {translations[selectedLanguage]?.general.loginToComment}.
                   </Text>{" "}
                   &nbsp;
                   <Link href='/signin' color='blue.400'>
-                    Sign in
+                    {translations[selectedLanguage]?.general.signin}
                   </Link>{" "}
                   |{" "}
                   <Link href='/signup' color='blue.400'>
-                    Sign up
+                    {translations[selectedLanguage]?.general.signup}
                   </Link>
                 </Box>
               )}
@@ -210,7 +221,9 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
                   </HStack>
                 ))
               ) : (
-                <Text fontSize='sm'>No comments</Text>
+                <Text fontSize='sm'>
+                  {translations[selectedLanguage]?.general.noComments}
+                </Text>
               )}
             </VStack>
           </Box>

@@ -36,10 +36,14 @@ import ItemsManagement from "../components/ItemsManagement";
 import DeleteModal from "../components/DeleteModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const CollectionManagementPage = () => {
   const params = useParams();
   const navigate = useNavigate();
+
+  const { selectedLanguage } = useI18n();
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useCollectionFetch();
@@ -111,9 +115,16 @@ const CollectionManagementPage = () => {
                       <PopoverContent>
                         <PopoverArrow />
                         <PopoverCloseButton />
-                        <PopoverHeader>Delete collection image</PopoverHeader>
+                        <PopoverHeader>
+                          {
+                            translations[selectedLanguage]?.general
+                              .deleteCollectionImage
+                          }
+                        </PopoverHeader>
                         <PopoverBody>
-                          <Text mb={"2"}>Are you sure?</Text>
+                          <Text mb={"2"}>
+                            {translations[selectedLanguage]?.general.areYouSure}
+                          </Text>
                           <HStack>
                             <Button
                               size='xs'
@@ -123,10 +134,10 @@ const CollectionManagementPage = () => {
                                 deleteCollectionImage(params.collectionId)
                               }
                             >
-                              Yes
+                              {translations[selectedLanguage]?.general.yes}
                             </Button>
                             <Button size='xs' onClick={onClose}>
-                              Cancel
+                              {translations[selectedLanguage]?.general.cancel}
                             </Button>
                           </HStack>
                         </PopoverBody>
@@ -142,13 +153,15 @@ const CollectionManagementPage = () => {
         <Stack flexGrow={1}>
           <CardBody>
             <Box mb={2}>
-              Name:&nbsp;
+              {translations[selectedLanguage]?.general.name}
+              :&nbsp;
               <Text fontWeight={"semibold"} display='inline-block'>
                 {collection.title}
               </Text>{" "}
             </Box>
             <Flex mb={2}>
-              Description:&nbsp;
+              {translations[selectedLanguage]?.general.description}
+              :&nbsp;
               <Text fontWeight={"semibold"} display='inline-block' ml='3'>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {collection.description}
@@ -156,13 +169,15 @@ const CollectionManagementPage = () => {
               </Text>
             </Flex>
             <Box mb={2}>
-              Owner:&nbsp;
+              {translations[selectedLanguage]?.general.author}
+              :&nbsp;
               <Text fontWeight={"semibold"} as={"b"}>
                 {collection.author.name}
               </Text>{" "}
             </Box>
             <Box mb='2'>
-              Topic:&nbsp;
+              {translations[selectedLanguage]?.general.topic}
+              :&nbsp;
               <Badge rounded={"sm"} fontWeight={"semibold"} colorScheme='blue'>
                 {collection.topic.title}
               </Badge>
@@ -211,7 +226,7 @@ const CollectionManagementPage = () => {
               leftIcon={<EditIcon />}
               colorScheme='blue'
             >
-              Edit
+              {translations[selectedLanguage]?.general.edit}
             </Button>
             <Button
               onClick={onDeleteModalOpen}
@@ -219,7 +234,7 @@ const CollectionManagementPage = () => {
               leftIcon={<DeleteIcon />}
               colorScheme='red'
             >
-              Delete
+              {translations[selectedLanguage]?.general.delete}
             </Button>
           </Wrap>
         </Stack>
@@ -239,7 +254,7 @@ const CollectionManagementPage = () => {
           isOpen={isDeleteModalOpen}
           onClose={onDeleteModalClose}
           onDelete={() => deleteCollection(params.collectionId)}
-          deletedItemName={"collection"}
+          modalTitle={translations[selectedLanguage]?.general.deleteCollection}
           loading={isDeleting}
         />
       )}

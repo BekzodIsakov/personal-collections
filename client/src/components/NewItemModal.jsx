@@ -19,11 +19,12 @@ import { Select as ReactSelect } from "chakra-react-select";
 import { useFetchAllTags } from "../hooks/tags";
 import { useCreateItem } from "../hooks/items";
 import { useCurrentUser } from "../providers/currentUserProvider";
+import translations from "../utils/translations";
+import { useI18n } from "../providers/i18nProvider";
 
 const NewItemModal = ({
   isOpen,
   onClose,
-  onEdit,
   optionalItemFields,
   collection,
   setCollection,
@@ -35,6 +36,8 @@ const NewItemModal = ({
   const [options, setOptions] = React.useState([]);
 
   const params = useParams();
+
+  const { selectedLanguage } = useI18n();
 
   const { tags, fetchTags } = useFetchAllTags();
 
@@ -179,18 +182,24 @@ const NewItemModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>Create item</ModalHeader>
+        <ModalHeader>
+          {translations[selectedLanguage]?.general.createNewItem}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <VStack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.name}
+                </FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
-                <FormLabel>Tags</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.general.tags}
+                </FormLabel>
                 <ReactSelect
                   isMulti
                   value={selectedTags}
@@ -202,7 +211,7 @@ const NewItemModal = ({
               </FormControl>
             </VStack>
             <Button type='submit' colorScheme='blue' isLoading={loading}>
-              Create
+              {translations[selectedLanguage]?.general.create}
             </Button>
           </form>
         </ModalBody>

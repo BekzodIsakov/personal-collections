@@ -20,6 +20,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/authProvider";
 import { useUserSignIn } from "../hooks/user";
 import { useI18n } from "../providers/i18nProvider";
+import translations from "../utils/translations";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -64,7 +65,9 @@ const SignIn = () => {
     >
       <Stack spacing={8} mx='auto' maxW='lg' py='12' px='6'>
         <Stack align='center'>
-          <Heading fontSize='4xl'>Sign in to your account</Heading>
+          <Heading fontSize='4xl'>
+            {translations[selectedLanguage]?.auth.mainHeadings.signin}
+          </Heading>
         </Stack>
 
         <Box
@@ -76,7 +79,9 @@ const SignIn = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl id='email'>
-                <FormLabel>Email address</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.auth.emailAddress}
+                </FormLabel>
                 <Input
                   type='email'
                   required
@@ -85,7 +90,9 @@ const SignIn = () => {
                 />
               </FormControl>
               <FormControl id='password'>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>
+                  {translations[selectedLanguage]?.auth.password}
+                </FormLabel>
                 <InputGroup>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -95,7 +102,9 @@ const SignIn = () => {
                   />
                   <InputRightElement width='4.5rem'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword ? "Hide" : "Show"}
+                      {showPassword
+                        ? translations[selectedLanguage]?.general.hide
+                        : translations[selectedLanguage]?.general.show}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
@@ -114,16 +123,16 @@ const SignIn = () => {
                     bg: "blue.500",
                   }}
                 >
-                  Sign in
+                  {translations[selectedLanguage]?.auth.signin}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
         <Box color='gray.500'>
-          Don&apos;t have an account yet?&nbsp;&nbsp;
+          {translations[selectedLanguage]?.auth.noAccountYet}&nbsp;&nbsp;
           <Link as={RouterLink} to='/signup' color='blue.400' fontWeight='bold'>
-            Sign up
+            {translations[selectedLanguage]?.auth.signup}
           </Link>
         </Box>
       </Stack>

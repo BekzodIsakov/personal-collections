@@ -7,15 +7,6 @@ import {
   Flex,
   HStack,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Select,
   Text,
   useColorMode,
@@ -26,14 +17,12 @@ import Navigation from "./Navigations/Navigation";
 import { useAuth } from "../../providers/authProvider";
 import { useUserSignOut } from "../../hooks/user";
 import SVG from "../SVG";
-import React from "react";
 import { useI18n } from "../../providers/i18nProvider";
 import { useNavigate } from "react-router-dom";
 import SearchItemModal from "../SearchItemModal";
+import translations from "../../utils/translations";
 
 const Header = () => {
-  const [searchText, setSearchText] = React.useState("");
-
   const { loading, onSignOut } = useUserSignOut();
 
   const { token, user, setToken, setUser } = useAuth();
@@ -53,13 +42,11 @@ const Header = () => {
 
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const initialRef = React.useRef(null);
-
   return (
     <Box
       position={"sticky"}
       zIndex={"docked"}
-      top={0}
+      top='0'
       boxShadow='md'
       bg={useColorModeValue("gray.50", "gray.700")}
     >
@@ -70,11 +57,11 @@ const Header = () => {
           <Select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            ml={15}
-            size={"sm"}
+            ml='15'
+            size='sm'
             display={{ base: "none", xs: "block" }}
-            variant={"filled"}
-            rounded={"md"}
+            variant='filled'
+            rounded='md'
           >
             {Object.values(languages).map((language) => (
               <option key={language}>{language}</option>
@@ -131,12 +118,14 @@ const Header = () => {
                 px={{ base: "2px", xs: "12px" }}
                 minW={"max-content"}
               >
-                Sign out
+                {translations[selectedLanguage]?.auth.signout}
               </Button>
             </>
           ) : (
             <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
-              <Link to='/signin'>Sign in</Link>
+              <Link to='/signin'>
+                {translations[selectedLanguage]?.auth.signin}
+              </Link>
             </Button>
           )}
         </HStack>
@@ -145,40 +134,6 @@ const Header = () => {
       {isOpen && (
         <SearchItemModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
       )}
-
-      {/* <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        scrollBehavior='inside'
-        initialFocusRef={initialRef}
-      >
-        <ModalOverlay />
-        <ModalContent mx={3}>
-          <ModalHeader>Search items</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={5}>
-            <InputGroup>
-              <Input
-                ref={initialRef}
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <InputRightElement>
-                <IconButton
-                  onClick={onOpen}
-                  aria-label='Search database'
-                  size={"sm"}
-                  isLoading={false}
-                  isDisabled={searchText.length < 2}
-                  title={"Search"}
-                  icon={<SVG iconId={"search"} size={"20px"} />}
-                  colorScheme={"blue"}
-                />
-              </InputRightElement>
-            </InputGroup>
-          </ModalBody>
-        </ModalContent>
-      </Modal> */}
     </Box>
   );
 };
