@@ -59,7 +59,7 @@ export const useUserSignOut = () => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  async function onSignOut() {
+  async function signOut() {
     try {
       setLoading(true);
       await axios.post(`${import.meta.env.VITE_URL}/users/signout`, {
@@ -72,7 +72,7 @@ export const useUserSignOut = () => {
     }
   }
 
-  return { loading, errorMessage, onSignOut };
+  return { loading, errorMessage, signOut };
 };
 
 export const useFetchUser = () => {

@@ -48,6 +48,8 @@ const CollectionManagementPage = () => {
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useCollectionFetch();
 
+  console.log({ collection });
+
   const {
     loading: isDeleting,
     deleteCollection,

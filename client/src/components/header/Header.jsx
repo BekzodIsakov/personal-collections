@@ -7,7 +7,6 @@ import {
   Flex,
   HStack,
   IconButton,
-  Select,
   Text,
   useColorMode,
   useColorModeValue,
@@ -21,20 +20,21 @@ import { useI18n } from "../../providers/i18nProvider";
 import { useNavigate } from "react-router-dom";
 import SearchItemModal from "../SearchItemModal";
 import translations from "../../utils/translations";
+import LanguageSelect from "../LanguageSelect";
 
 const Header = () => {
-  const { loading, onSignOut } = useUserSignOut();
+  const { loading, signOut } = useUserSignOut();
 
   const { token, user, setToken, setUser } = useAuth();
 
-  const { languages, selectedLanguage, setSelectedLanguage } = useI18n();
+  const { selectedLanguage } = useI18n();
 
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSignOut = () => {
-    onSignOut();
+    signOut();
     navigate("/");
     setToken(null);
     setUser(null);
@@ -54,19 +54,7 @@ const Header = () => {
         <Navigation />
 
         <HStack alignItems='center' h='40%'>
-          <Select
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            ml='15'
-            size='sm'
-            display={{ base: "none", xs: "block" }}
-            variant='filled'
-            rounded='md'
-          >
-            {Object.values(languages).map((language) => (
-              <option key={language}>{language}</option>
-            ))}
-          </Select>
+          <LanguageSelect />
 
           <IconButton
             onClick={toggleColorMode}
