@@ -22,6 +22,7 @@ const CollectionPage = () => {
 
   const { loading, errorMessage, collection, fetchCollection } =
     useCollectionFetch();
+  console.log({ collection });
 
   let collectionResult = null;
 

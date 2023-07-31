@@ -13,7 +13,6 @@ import {
   useColorModeValue,
   Link,
   Text,
-  Select,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
@@ -21,12 +20,13 @@ import { useAuth } from "../providers/authProvider";
 import { useUserSignUp } from "../hooks/user";
 import { useI18n } from "../providers/i18nProvider";
 import translations from "../utils/translations";
+import LanguageSelect from "../components/LanguageSelect";
 
 const SignUp = () => {
   const { data, loading, errorMessage, onSignUp } = useUserSignUp();
 
   const { setToken, setUser } = useAuth();
-  const { selectedLanguage, setSelectedLanguage, languages } = useI18n();
+  const { selectedLanguage } = useI18n();
 
   const navigate = useNavigate();
 
@@ -147,19 +147,7 @@ const SignUp = () => {
         </Box>
 
         <Box pos='fixed' right='12' bottom='12'>
-          <Select
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            ml='15'
-            size='sm'
-            display={{ base: "none", xs: "block" }}
-            variant='filled'
-            rounded='md'
-          >
-            {Object.values(languages).map((language) => (
-              <option key={language}>{language}</option>
-            ))}
-          </Select>
+          <LanguageSelect />
         </Box>
       </Stack>
     </Flex>
