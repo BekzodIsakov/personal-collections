@@ -8,7 +8,6 @@ import {
   HStack,
   IconButton,
   Text,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -21,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import SearchItemModal from "../SearchItemModal";
 import translations from "../../utils/translations";
 import LanguageSelect from "../LanguageSelect";
+import ColorModeSwitch from "../ColorModeSwitch";
 
 const Header = () => {
   const { loading, signOut } = useUserSignOut();
@@ -40,8 +40,6 @@ const Header = () => {
     setUser(null);
   };
 
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Box
       position={"sticky"}
@@ -55,19 +53,7 @@ const Header = () => {
 
         <HStack alignItems='center' h='40%'>
           <LanguageSelect />
-
-          <IconButton
-            onClick={toggleColorMode}
-            variant={"ghost"}
-            size={"sm"}
-            icon={
-              colorMode === "light" ? (
-                <SVG iconId={"moon"} />
-              ) : (
-                <SVG iconId={"sun"} size={"22px"} />
-              )
-            }
-          />
+          <ColorModeSwitch />
 
           <IconButton
             icon={<SVG iconId={"search"} />}
