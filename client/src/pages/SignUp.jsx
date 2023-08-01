@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
 import { useAuth } from "../providers/authProvider";
 import { useUserSignUp } from "../hooks/user";
 import LanguageSelect from "../components/LanguageSelect";
@@ -102,9 +104,9 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <InputRightElement width='4.5rem'>
+                  <InputRightElement mr='1'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword ? t("global.hide") : t("global.show")}
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>

@@ -17,6 +17,8 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
 import { useAuth } from "../providers/authProvider";
 import { useUserSignIn } from "../hooks/user";
 import LanguageSelect from "../components/LanguageSelect";
@@ -32,7 +34,6 @@ const SignIn = () => {
 
   const { setToken, setUser } = useAuth();
   const { data, loading, errorMessage, onSignIn } = useUserSignIn();
-
 
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
@@ -93,9 +94,9 @@ const SignIn = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <InputRightElement width='4.5rem'>
+                  <InputRightElement mr='1'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword ? t("global.hide") : t("global.show")}
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
