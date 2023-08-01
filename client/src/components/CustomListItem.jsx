@@ -8,9 +8,12 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 const CustomListItem = ({ item, onClick, ...rest }) => {
   const tagColorMode = useColorModeValue("blackAlpha", "gray");
+
+  const { t } = useTranslation();
 
   return (
     <ListItem mb={5} {...rest}>
@@ -20,16 +23,16 @@ const CustomListItem = ({ item, onClick, ...rest }) => {
           <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
             {item.parentCollection.title}
           </Tag>
-          <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
-          <Text fontWeight={"medium"}>{item.author.name}</Text>
-          <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
+          <Divider h='5' orientation='vertical' borderColor='gray.400' />
+          <Text fontWeight='medium'>{item.author.name}</Text>
+          <Divider h='5' orientation='vertical' borderColor='gray.400' />
           <Button
-            size={"xs"}
-            variant={"outline"}
+            size='xs'
+            variant='outline'
             colorScheme='blue.400'
             onClick={onClick}
           >
-            View
+            {t("global.view")}
           </Button>
         </HStack>
       </Box>

@@ -21,11 +21,10 @@ import CustomLink from "../components/CustomLink";
 import NewCollectionModal from "../components/NewCollectionModal";
 import { AddIcon } from "@chakra-ui/icons";
 import { useCurrentUser } from "../providers/currentUserProvider";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
+import { useTranslation } from "react-i18next";
 
 const UserPage = () => {
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { currentUser, setCurrentUser } = useCurrentUser();
 
@@ -67,9 +66,7 @@ const UserPage = () => {
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Wrap spacing={"3"} mb='4' align='center'>
               <WrapItem>
-                <Heading size='md'>
-                  {translations[selectedLanguage]?.userPage.myCollections}
-                </Heading>
+                <Heading size='md'>{t("userPage.myCollections")}</Heading>
               </WrapItem>
               <WrapItem>
                 {userCollectionsLoading && <Spinner size='sm' />}
@@ -81,7 +78,7 @@ const UserPage = () => {
               colorScheme='blue'
               leftIcon={<AddIcon />}
             >
-              {translations[selectedLanguage]?.general.newCollection}
+              {t("global.newCollection")}
             </Button>
           </Stack>
 

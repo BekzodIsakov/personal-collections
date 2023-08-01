@@ -8,11 +8,10 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import translations from "../utils/translations";
-import { useI18n } from "../providers/i18nProvider";
+import { useTranslation } from "react-i18next";
 
 const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -28,10 +27,10 @@ const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
               size='sm'
               isLoading={loading}
             >
-              {translations[selectedLanguage]?.general.delete}
+              {t("global.delete")}
             </Button>
             <Button colorScheme='blue' mr='3' onClick={onClose} size='sm'>
-              {translations[selectedLanguage]?.general.cancel}
+              {t("global.cancel")}
             </Button>
           </HStack>
         </ModalFooter>

@@ -30,16 +30,16 @@ import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
 import { useItemFetch } from "../hooks/items";
 import { useFetchComments, useSendComment } from "../hooks/comments";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
+
 import SVG from "./SVG";
+import { useTranslation } from "react-i18next";
 
 const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
 
   const toast = useToast();
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { user, token } = useAuth();
 
@@ -69,17 +69,19 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
               <HStack justify={"space-between"} align={"center"} mb='2'>
                 <Text fontSize={"md"} fontWeight={"semibold"}>
                   <WarningIcon w='5' h='5' color='orange' mr='1' />{" "}
-                  {translations[selectedLanguage]?.general.unauthorized}
+                  {t("global.unauthorized")}
                 </Text>
                 <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
               </HStack>
-              {translations[selectedLanguage]?.general.please} &nbsp;
+              {t("global.please")}
+              &nbsp;
               <Link href='/signin' color={"blue.400"}>
-                {translations[selectedLanguage]?.general.signin}
+                {t("global.signIn")}
               </Link>
-              &nbsp; {translations[selectedLanguage]?.general.or} &nbsp;
+              &nbsp; {t("global.or")} &nbsp;
               <Link href='/signup' color={"blue.400"}>
-                {translations[selectedLanguage]?.general.signup}
+                {t("global.signUp")}
+
               </Link>
               .
             </Box>
@@ -125,8 +127,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
           <CardBody p='3'>
             <List>
               <ListItem>
-                {translations[selectedLanguage]?.general.author} -{" "}
-                {item.author.name}
+                {t("global.author")}- {item.author.name}
               </ListItem>
               {item.optionalFields[0] &&
                 JSON.parse(item.optionalFields).map((field, index) => (
@@ -151,7 +152,11 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
             ) : (
               <SVG iconId='like' />
             )}
-            <Text fontSize='sm' ml={item.likes.length ? "2" : "0"}>
+            <Text
+              color='blue.400'
+              fontSize='sm'
+              ml={item.likes.length ? "2" : "0"}
+            >
               {item.likes.length || null}
             </Text>
           </Button>
@@ -183,21 +188,21 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
                     isLoading={commentSending}
                     onClick={handleSendComment}
                   >
-                    {translations[selectedLanguage]?.general.send}
+                    {t("global.send")}
                   </Button>
                 </HStack>
               ) : (
                 <Box>
                   <Text fontWeight='medium'>
-                    {translations[selectedLanguage]?.general.loginToComment}.
+                    {t("global.loginToComment")}
                   </Text>{" "}
                   &nbsp;
                   <Link href='/signin' color='blue.400'>
-                    {translations[selectedLanguage]?.general.signin}
+                    {t("global.signIn")}
                   </Link>{" "}
                   |{" "}
                   <Link href='/signup' color='blue.400'>
-                    {translations[selectedLanguage]?.general.signup}
+                    {t("global.signUp")}
                   </Link>
                 </Box>
               )}
@@ -222,7 +227,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
                 ))
               ) : (
                 <Text fontSize='sm'>
-                  {translations[selectedLanguage]?.general.noComments}
+                  {t("global.noComments")}
                 </Text>
               )}
             </VStack>

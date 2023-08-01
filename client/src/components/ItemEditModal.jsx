@@ -18,8 +18,7 @@ import { useFetchAllTags } from "../hooks/tags";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
 import { useEditItem, useFetchItem } from "../hooks/items";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
+import { useTranslation } from "react-i18next";
 
 const EditItemModal = ({
   isOpen,
@@ -34,7 +33,7 @@ const EditItemModal = ({
   const [optionalFields, setOptionalFields] = React.useState(null);
   const [options, setOptions] = React.useState([]);
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { tags, fetchTags } = useFetchAllTags();
 
@@ -207,24 +206,18 @@ const EditItemModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>
-          {translations[selectedLanguage]?.general.editItem}
-        </ModalHeader>
+        <ModalHeader>{t("global.editItem")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <VStack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>
-                  {translations[selectedLanguage]?.general.name}
-                </FormLabel>
+                <FormLabel>{t("global.name")}</FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
-                <FormLabel>
-                  {translations[selectedLanguage]?.general.tags}
-                </FormLabel>
+                <FormLabel>{t("global.tags")}</FormLabel>
                 <ReactSelect
                   isMulti
                   value={selectedTags}
@@ -236,7 +229,7 @@ const EditItemModal = ({
               </FormControl>
             </VStack>
             <Button type='submit' colorScheme='blue' isLoading={loading}>
-              {translations[selectedLanguage]?.general.edit}
+              {t("global.edit")}
             </Button>
           </form>
         </ModalBody>

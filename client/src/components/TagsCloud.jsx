@@ -12,13 +12,13 @@ import {
 import { useFetchAllTags } from "../hooks/tags";
 import { useItemsFetchByTag } from "../hooks/items";
 import CustomList from "./CustomList";
-import translations from "../utils/translations";
-import { useI18n } from "../providers/i18nProvider";
+
+import { useTranslation } from "react-i18next";
 
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
 
@@ -51,14 +51,14 @@ const TagsCloud = () => {
     }
   }, [selectedTagId]);
 
-  let tagElements = <Text>Empty</Text>;
+  let tagElements = <Text>{t("global.empty")}</Text>;
 
   if (loading) {
     tagElements = (
       <>
-        <Skeleton w={"70px"} />
-        <Skeleton w={"50px"} />
-        <Skeleton w={"100px"} />
+        <Skeleton w='70px' />
+        <Skeleton w='50px' />
+        <Skeleton w='100px' />
       </>
     );
   } else if (tags.length) {
@@ -66,7 +66,7 @@ const TagsCloud = () => {
       <WrapItem key={tag._id} boxShadow={selectedTagId === tag._id ? "lg" : ""}>
         <Tag
           onClick={() => handleTagSelect(tag._id)}
-          cursor={"pointer"}
+          cursor='pointer'
           color={tagColor}
           bg={
             selectedTagId === tag._id
@@ -85,7 +85,7 @@ const TagsCloud = () => {
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb='4'>
-        {translations[selectedLanguage]?.main.tagsCloud}
+        {t("main.tagsCloud")}
       </Heading>
       <Wrap border='1px' borderColor='gray.300' rounded='md' p='2' mb='5'>
         {tagElements}

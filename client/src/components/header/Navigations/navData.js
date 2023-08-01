@@ -1,30 +1,27 @@
 import React from "react";
 import { useAuth } from "../../../providers/authProvider";
-import { useI18n } from "../../../providers/i18nProvider";
-import translations from "../../../utils/translations";
+import { useTranslation } from "react-i18next";
 
 export const useNavData = () => {
   const [navData, setNavData] = React.useState([]);
 
-  const { selectedLanguage } = useI18n();
+  const { t, i18n } = useTranslation();
 
   const { token, user } = useAuth();
 
   const publicNavItems = React.useMemo(
-    () => [{ label: translations[selectedLanguage]?.nav.mainPage, to: "/" }],
-    [selectedLanguage]
+    () => [{ label: t("nav.mainPage"), to: "/" }],
+    [i18n.resolvedLanguage]
   );
 
   const authenticatedNavItems = React.useMemo(
-    () => [{ label: translations[selectedLanguage]?.nav.myPage, to: "/me" }],
-    [selectedLanguage]
+    () => [{ label: t("nav.myPage"), to: "/me" }],
+    [i18n.resolvedLanguage]
   );
 
   const adminNavItems = React.useMemo(
-    () => [
-      { label: translations[selectedLanguage]?.nav.usersPage, to: "users" },
-    ],
-    [selectedLanguage]
+    () => [{ label: t("nav.usersPage"), to: "users" }],
+    [i18n.resolvedLanguage]
   );
 
   React.useEffect(() => {

@@ -72,7 +72,7 @@ const Routes = () => {
       element: <ParentRoute />,
       children: [
         { path: "/", element: <MainPage /> },
-        { path: "/collections/:id", element: <CollectionPage /> },
+        { path: "/collections/:collectionId", element: <CollectionPage /> },
         { path: "/items/:itemId", element: <ItemPage /> },
         ...(token ? routesForAuthenticated : []),
         ...(token && user.isAdmin ? routesForAdmins : []),

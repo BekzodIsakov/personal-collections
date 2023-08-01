@@ -19,8 +19,8 @@ import { Select as ReactSelect } from "chakra-react-select";
 import { useFetchAllTags } from "../hooks/tags";
 import { useCreateItem } from "../hooks/items";
 import { useCurrentUser } from "../providers/currentUserProvider";
-import translations from "../utils/translations";
-import { useI18n } from "../providers/i18nProvider";
+
+import { useTranslation } from "react-i18next";
 
 const NewItemModal = ({
   isOpen,
@@ -37,7 +37,7 @@ const NewItemModal = ({
 
   const params = useParams();
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { tags, fetchTags } = useFetchAllTags();
 
@@ -183,7 +183,7 @@ const NewItemModal = ({
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
         <ModalHeader>
-          {translations[selectedLanguage]?.general.createNewItem}
+          {t("global.createNewItem")}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -191,14 +191,14 @@ const NewItemModal = ({
             <VStack spacing='3' mb='7'>
               <FormControl>
                 <FormLabel>
-                  {translations[selectedLanguage]?.general.name}
+                  {t("global.name")}
                 </FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
                 <FormLabel>
-                  {translations[selectedLanguage]?.general.tags}
+                  {t("global.tags")}
                 </FormLabel>
                 <ReactSelect
                   isMulti
@@ -211,7 +211,7 @@ const NewItemModal = ({
               </FormControl>
             </VStack>
             <Button type='submit' colorScheme='blue' isLoading={loading}>
-              {translations[selectedLanguage]?.general.create}
+              {t("global.create")}
             </Button>
           </form>
         </ModalBody>
