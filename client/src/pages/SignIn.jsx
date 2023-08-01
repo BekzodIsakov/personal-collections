@@ -15,11 +15,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { useAuth } from "../providers/authProvider";
 import { useUserSignIn } from "../hooks/user";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
 import LanguageSelect from "../components/LanguageSelect";
 
 const SignIn = () => {
@@ -27,13 +26,13 @@ const SignIn = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const { setToken, setUser } = useAuth();
-
   const { data, loading, errorMessage, onSignIn } = useUserSignIn();
 
-  const { selectedLanguage } = useI18n();
 
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
@@ -65,9 +64,7 @@ const SignIn = () => {
     >
       <Stack spacing={8} mx='auto' maxW='lg' py='12' px='6'>
         <Stack align='center'>
-          <Heading fontSize='4xl'>
-            {translations[selectedLanguage]?.auth.mainHeadings.signin}
-          </Heading>
+          <Heading fontSize='4xl'>{t("auth.headings.signIn")}</Heading>
         </Stack>
 
         <Box
@@ -79,9 +76,7 @@ const SignIn = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl id='email'>
-                <FormLabel>
-                  {translations[selectedLanguage]?.auth.emailAddress}
-                </FormLabel>
+                <FormLabel>{t("auth.emailAddress")}</FormLabel>
                 <Input
                   type='email'
                   required
@@ -90,9 +85,7 @@ const SignIn = () => {
                 />
               </FormControl>
               <FormControl id='password'>
-                <FormLabel>
-                  {translations[selectedLanguage]?.auth.password}
-                </FormLabel>
+                <FormLabel>{t("auth.password")}</FormLabel>
                 <InputGroup>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -102,9 +95,7 @@ const SignIn = () => {
                   />
                   <InputRightElement width='4.5rem'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword
-                        ? translations[selectedLanguage]?.general.hide
-                        : translations[selectedLanguage]?.general.show}
+                      {showPassword ? t("global.hide") : t("global.show")}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
@@ -123,16 +114,16 @@ const SignIn = () => {
                     bg: "blue.500",
                   }}
                 >
-                  {translations[selectedLanguage]?.auth.signin}
+                  {t("auth.signIn")}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
         <Box color='gray.500'>
-          {translations[selectedLanguage]?.auth.noAccountYet}&nbsp;&nbsp;
+          {t("auth.noAccountYet?")}&nbsp;&nbsp;
           <Link as={RouterLink} to='/signup' color='blue.400' fontWeight='bold'>
-            {translations[selectedLanguage]?.auth.signup}
+            {t("auth.signUp")}
           </Link>
         </Box>
       </Stack>

@@ -1,21 +1,26 @@
 import { Select } from "@chakra-ui/react";
-import { useI18n } from "../providers/i18nProvider";
+import { locales } from "../constants";
+import { useTranslation } from "react-i18next";
 
 const LanguageSelect = () => {
-  const { languages, selectedLanguage, setSelectedLanguage } = useI18n();
+  const { i18n } = useTranslation();
 
   return (
     <Select
-      value={selectedLanguage}
-      onChange={(e) => setSelectedLanguage(e.target.value)}
+      value={i18n.resolvedLanguage}
+      onChange={(e) => {
+        i18n.changeLanguage(e.target.value);
+      }}
       ml='15'
       size='sm'
       display={{ base: "none", xs: "block" }}
       variant='filled'
       rounded='md'
     >
-      {Object.values(languages).map((language) => (
-        <option key={language}>{language}</option>
+      {Object.keys(locales).map((locale) => (
+        <option key={locale} value={locale}>
+          {locales[locale].title}
+        </option>
       ))}
     </Select>
   );

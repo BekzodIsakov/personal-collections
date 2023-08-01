@@ -16,13 +16,15 @@ import {
 import CustomList from "../components/CustomList";
 import GoBackButton from "../components/GoBackButton";
 import { useCollectionFetch } from "../hooks/collections";
+import { useTranslation } from "react-i18next";
 
 const CollectionPage = () => {
   const params = useParams();
 
+  const { t } = useTranslation();
+
   const { loading, errorMessage, collection, fetchCollection } =
     useCollectionFetch();
-  console.log({ collection });
 
   let collectionResult = null;
 
@@ -60,14 +62,14 @@ const CollectionPage = () => {
 
               <Box mb='2'>
                 <Text fontWeight={"semibold"} as={"b"}>
-                  Author:
+                  {t("global.author")}:
                 </Text>{" "}
                 {collection.author?.name}
               </Box>
 
               <Box mb={2}>
                 <Text fontWeight='semibold' as='b'>
-                  Topic:
+                  {t("global.topic")}:
                 </Text>{" "}
                 <Badge rounded='sm' fontWeight='semibold' colorScheme='blue'>
                   {collection.topic.title}
@@ -79,7 +81,7 @@ const CollectionPage = () => {
 
         <Box mt='8'>
           <Heading as='h2' fontSize='md' fontWeight='semibold' mb='3'>
-            Collection items
+            {t("global.collectionItems")}
           </Heading>
           <CustomList
             loading={loading}
@@ -95,8 +97,8 @@ const CollectionPage = () => {
   }
 
   React.useEffect(() => {
-    fetchCollection(params.id);
-  }, []);
+    fetchCollection(params.collectionId);
+  }, [params.collectionId]);
 
   return (
     <Box>

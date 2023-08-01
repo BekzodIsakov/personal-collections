@@ -1,16 +1,16 @@
 import { Box, Heading, Link, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 const NotFoundPage = () => {
+  const { t } = useTranslation();
   return (
     <Box px='10' pt='10' textAlign='center'>
       <Heading as='h1' mb='7' size='xl'>
         <Text mb='3'>404</Text>
-        <Text fontWeight={"normal"}>
-          Page you are looking for could not be found.
-        </Text>
+        <Text fontWeight={"normal"}>{t("notFoundPage.pageNotFound")}</Text>
       </Heading>
       <Link href='/' color='blue.400'>
-        Go to main page
+        {t("notFoundPage.goToMainPage")}
       </Link>
     </Box>
   );

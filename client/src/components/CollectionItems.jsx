@@ -12,23 +12,22 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import ReactTable from "./ReactTable";
-import { useParams } from "react-router-dom";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useFetchCollectionItems } from "../hooks/collections";
 import DeleteModal from "./DeleteModal";
 import { useItemDelete } from "../hooks/items";
 import ItemEditModal from "./ItemEditModal";
 import NewItemModal from "./NewItemModal";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
 
-const ItemsManagePage = () => {
+import { useTranslation } from "react-i18next";
+
+const CollectionItems = ({ collectionId }) => {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [columns, setColumns] = React.useState([]);
 
   const selectedItemId = Object.keys(selectedRow)[0];
 
-  const { selectedLanguage } = useI18n();
+  const { t, i18n } = useTranslation();
 
   const { collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
@@ -38,8 +37,6 @@ const ItemsManagePage = () => {
   const [data, setData] = React.useState([]);
 
   const columnHelper = createColumnHelper();
-
-  const params = useParams();
 
   const {
     isOpen: isDeleteModalOpen,
@@ -63,8 +60,10 @@ const ItemsManagePage = () => {
   }
 
   React.useEffect(() => {
-    fetchCollection(params.collectionId);
-  }, []);
+    if (collectionId) {
+      fetchCollection(collectionId);
+    }
+  }, [collectionId]);
 
   React.useEffect(() => {
     if (itemDeleted) {
@@ -113,7 +112,7 @@ const ItemsManagePage = () => {
         }),
         columnHelper.accessor("name", {
           cell: (info) => info.getValue(),
-          header: translations[selectedLanguage]?.general.name,
+          header: t("global.name"),
         }),
         columnHelper.accessor("tags", {
           cell: ({ row }) => (
@@ -125,7 +124,7 @@ const ItemsManagePage = () => {
               ))}
             </Wrap>
           ),
-          header: translations[selectedLanguage]?.general.tags,
+          header: t("global.tags"),
         }),
       ];
 
@@ -158,7 +157,7 @@ const ItemsManagePage = () => {
       }
       setColumns(_columns);
     }
-  }, [collection, selectedLanguage]);
+  }, [collection, i18n.resolvedLanguage]);
 
   return (
     <Box mt='5'>
@@ -170,7 +169,7 @@ const ItemsManagePage = () => {
         mb={3}
       >
         <Heading fontSize={"lg"} my='3'>
-          {translations[selectedLanguage]?.general.collectionItems}
+          {t("global.collectionItems")}
         </Heading>
         <Wrap>
           <Button
@@ -179,7 +178,7 @@ const ItemsManagePage = () => {
             colorScheme='blue'
             onClick={onNewItemModalOpen}
           >
-            {translations[selectedLanguage]?.general.newItem}
+            {t("global.newItem")}
           </Button>
           <Button
             leftIcon={<EditIcon />}
@@ -188,7 +187,7 @@ const ItemsManagePage = () => {
             colorScheme='blue'
             onClick={onEditModalOpen}
           >
-            {translations[selectedLanguage]?.general.edit}
+            {t("global.edit")}
           </Button>
           <Button
             leftIcon={<DeleteIcon />}
@@ -197,7 +196,7 @@ const ItemsManagePage = () => {
             colorScheme='red'
             onClick={onDeleteModalOpen}
           >
-            {translations[selectedLanguage]?.general.delete}
+            {t("global.delete")}
           </Button>
         </Wrap>
       </Stack>
@@ -240,11 +239,11 @@ const ItemsManagePage = () => {
           onClose={onDeleteModalClose}
           onDelete={() => deleteItem(selectedItemId)}
           deleting={deleting}
-          modalTitle={translations[selectedLanguage]?.general.deleteItem}
+          modalTitle={t("global.deleteItem")}
         />
       )}
     </Box>
   );
 };
 
-export default ItemsManagePage;
+export default CollectionItems;

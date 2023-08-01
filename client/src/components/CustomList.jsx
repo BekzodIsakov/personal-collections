@@ -16,8 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import ItemViewModal from "./ItemViewModal";
-import { useI18n } from "../providers/i18nProvider";
-import translations from "../utils/translations";
+import { useTranslation } from "react-i18next";
 
 const CustomList = ({
   list,
@@ -33,7 +32,7 @@ const CustomList = ({
 
   const tagColorMode = useColorModeValue("blackAlpha", "gray");
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const openItemModal = (itemId, itemName) => {
     setItemId(itemId);
@@ -58,34 +57,34 @@ const CustomList = ({
           <Text mb={1} display={"inline-block"}>
             {item.name}
           </Text>
-          {!showDetails && (
+
+          {showDetails ? (
+            <HStack>
+              <Tag colorScheme={tagColorMode} fontSize='sm' py='1'>
+                {item.parentCollection.title}
+              </Tag>
+              <Divider h='5' orientation='vertical' borderColor='gray.400' />
+              <Text fontWeight='medium'>{item.author.name}</Text>
+              <Divider h='5' orientation='vertical' borderColor='gray.400' />
+              <Button
+                size='xs'
+                variant='outline'
+                colorScheme='blue.400'
+                onClick={() => openItemModal(item._id, item.name)}
+              >
+                {t("global.view")}
+              </Button>
+            </HStack>
+          ) : (
             <Button
-              size={"xs"}
-              variant={"outline"}
+              size='xs'
+              variant='outline'
               colorScheme='blue.400'
               ml={3}
               onClick={() => openItemModal(item._id, item.name)}
             >
-              {translations[selectedLanguage]?.general.view}
+              {t("global.view")}
             </Button>
-          )}
-          {showDetails && (
-            <HStack>
-              <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
-                {item.parentCollection.title}
-              </Tag>
-              <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
-              <Text fontWeight={"medium"}>{item.author.name}</Text>
-              <Divider h='5' orientation='vertical' borderColor={"gray.400"} />
-              <Button
-                size={"xs"}
-                variant={"outline"}
-                colorScheme='blue.400'
-                onClick={() => openItemModal(item._id, item.name)}
-              >
-                {translations[selectedLanguage]?.general.view}
-              </Button>
-            </HStack>
           )}
         </Box>
       </ListItem>
@@ -93,7 +92,7 @@ const CustomList = ({
   } else if (errorMessage) {
     listItems = (
       <Text fontSize='md' color='red'>
-        {translations[selectedLanguage]?.general.error}
+        {t("global.error")}
       </Text>
     );
   }

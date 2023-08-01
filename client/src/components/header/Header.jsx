@@ -15,19 +15,18 @@ import Navigation from "./Navigations/Navigation";
 import { useAuth } from "../../providers/authProvider";
 import { useUserSignOut } from "../../hooks/user";
 import SVG from "../SVG";
-import { useI18n } from "../../providers/i18nProvider";
 import { useNavigate } from "react-router-dom";
 import SearchItemModal from "../SearchItemModal";
-import translations from "../../utils/translations";
 import LanguageSelect from "../LanguageSelect";
 import ColorModeSwitch from "../ColorModeSwitch";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { loading, signOut } = useUserSignOut();
 
   const { token, user, setToken, setUser } = useAuth();
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -42,13 +41,13 @@ const Header = () => {
 
   return (
     <Box
-      position={"sticky"}
-      zIndex={"docked"}
+      position='sticky'
+      zIndex='docked'
       top='0'
       boxShadow='md'
       bg={useColorModeValue("gray.50", "gray.700")}
     >
-      <Flex h={14} px={4} alignItems={"center"} justifyContent='space-between'>
+      <Flex h='14' px='4' alignItems='center' justifyContent='space-between'>
         <Navigation />
 
         <HStack alignItems='center' h='40%'>
@@ -57,11 +56,11 @@ const Header = () => {
 
           <IconButton
             icon={<SVG iconId={"search"} />}
-            variant={"ghost"}
-            size={"sm"}
+            variant='ghost'
+            size='sm'
             onClick={onOpen}
             aria-label='Search database'
-            title={"Search"}
+            title='Search'
             _hover={{ bg: "transparent" }}
             mr={2}
           />
@@ -80,26 +79,24 @@ const Header = () => {
                 orientation='vertical'
                 variant='solid'
                 borderColor='gray.400'
-                mx={2}
+                mx='2'
               />
               <Button
                 isLoading={loading}
-                loadingText={"Sign out"}
-                variant={"ghost"}
-                colorScheme={"red"}
-                size={"sm"}
+                loadingText='Sign out'
+                variant='ghost'
+                colorScheme='red'
+                size='sm'
                 onClick={handleSignOut}
                 px={{ base: "2px", xs: "12px" }}
-                minW={"max-content"}
+                minW='max-content'
               >
-                {translations[selectedLanguage]?.auth.signout}
+                {t("auth.signOut")}
               </Button>
             </>
           ) : (
-            <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
-              <Link to='/signin'>
-                {translations[selectedLanguage]?.auth.signin}
-              </Link>
+            <Button variant='link' colorScheme='blue' size='sm'>
+              <Link to='/signin'>{t("auth.signIn")}</Link>
             </Button>
           )}
         </HStack>

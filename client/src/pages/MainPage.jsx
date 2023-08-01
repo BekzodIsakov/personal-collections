@@ -15,11 +15,12 @@ import { fetchTopFiveCollections } from "../store/slices/topCollectionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import TagsCloud from "../components/TagsCloud";
 import CustomList from "../components/CustomList";
-import translations from "../utils/translations";
-import { useI18n } from "../providers/i18nProvider";
+import { useTranslation } from "react-i18next";
 
 const MainPage = () => {
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const {
     latestItems,
@@ -31,7 +32,6 @@ const MainPage = () => {
     (state) => state.topCollectionsReducer
   );
 
-  const { selectedLanguage } = useI18n();
 
   let collectionsList = null;
   switch (collectionsStatus) {
@@ -55,7 +55,7 @@ const MainPage = () => {
             <CustomLink to={`/collections/${collection._id}`}>
               {collection.title}
             </CustomLink>{" "}
-            - {collection.itemsLength} items
+            - {collection.itemsLength} {t("main.items").toLowerCase()}
           </Box>
         </ListItem>
       ));
@@ -63,7 +63,7 @@ const MainPage = () => {
     case "failed":
       collectionsList = (
         <Text fontSize='md' color='red'>
-          {translations[selectedLanguage]?.general.error}
+          {t("global.somethingWentWrong")}
         </Text>
       );
   }
@@ -78,8 +78,7 @@ const MainPage = () => {
       <VStack spacing='8' align='stretch'>
         <Box>
           <Heading as='h2' fontSize='2xl' mb='4'>
-            {translations[selectedLanguage]?.main.latestItems}
-            {console.log(translations[selectedLanguage]?.main.latestItem)}
+            {t("main.latestItems")}
           </Heading>
           <UnorderedList>
             <CustomList
@@ -92,7 +91,7 @@ const MainPage = () => {
 
         <Box>
           <Heading as='h2' fontSize='2xl' mb='4'>
-            {translations[selectedLanguage]?.main.topFiveCollections}
+            {t("main.topFiveCollections")}
           </Heading>
           <OrderedList>{collectionsList}</OrderedList>
         </Box>

@@ -1,0 +1,88 @@
+{
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "emailAddress": "Email address",
+    "password": "Password",
+    "name": "Name",
+    "noAccountYet?": "Don't have an account yet?",
+    "hasAccount?": "Already have an account?",
+    "headings": {
+      "signIn": "Sign in to your account",
+      "signUp": "Create your account"
+    }
+  },
+  "main": {
+    "latestItems": "Latest items",
+    "topFiveCollections": "Top five collections",
+    "tagsCloud": "Tags cloud",
+    "items": "Items"
+  },
+  "userPage": {
+    "myCollections": "My collections"
+  },
+  "notFoundPage": {
+    "pageNotFound": "Page you are looking for could not be found",
+    "goToMainPage": "Go to main page"
+  },
+  "nav": {
+    "mainPage": "Main page",
+    "myPage": "My page",
+    "usersPage": "Users page"
+  },
+  "global": {
+    "items": "Elementlar",
+    "nonExistant": "Not available!",
+    "empty": "Empty",
+    "somethingWentWrong": "Something went wrong!",
+    "error": "Error",
+    "show": "Show",
+    "hide": "Hide",
+    "view": "View",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "name": "Name",
+    "newCollection": "New collection",
+    "createNewCollection": "Create new collection",
+    "please": "Please",
+    "or": "or",
+    "signIn": "Sign in",
+    "signUp": "Create new account",
+    "unauthorized": "Unauthorized",
+    "noComments": "No comments",
+    "loginToComment": "You must be logged in to comment",
+    "send": "Send",
+    "comments": "Comments",
+    "like": "Like",
+    "liked": "Liked",
+    "author": "Author",
+    "title": "Title",
+    "description": "Description",
+    "topic": "Topic",
+    "dropImageHere": "Drop image here",
+    "orClick": "or click to upload",
+    "done": "Done",
+    "add": "Add",
+    "optionalFields": "Optional fields",
+    "users": "Users",
+    "editUser": "Edit user",
+    "userName": "User name",
+    "blocked": "Blocked",
+    "deleteUser": "Delete user",
+    "goBack": "Back",
+    "editCollection": "Edit collection",
+    "deleteCollection": "Delete collection",
+    "deleteCollectionImage": "Delete collection image",
+    "areYouSure": "Are you sure?",
+    "collectionItems": "Collection items",
+    "newItem": "New item",
+    "createNewItem": "Create new item",
+    "tags": "Tags",
+    "create": "Create",
+    "editItem": "Edit element",
+    "deleteItem": "Delete item"
+  }
+}

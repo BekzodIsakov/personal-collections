@@ -1,0 +1,87 @@
+{
+  "auth": {
+    "signIn": "Kirish",
+    "signUp": "Ro'yxatdan o'tish",
+    "signOut": "Chiqish",
+    "emailAddress": "E-pochta manzili",
+    "password": "Parol",
+    "name": "Ism",
+    "noAccountYet?": "Hali ro'yxatdan o'tmadingizmi?",
+    "hasAccount?": "Ro'yxatdan o'tib bolganmisiz?",
+    "headings": {
+      "signIn": "Akkauntga kirish",
+      "signUp": "Ro'yxatdan o'tish"
+    }
+  },
+  "main": {
+    "latestItems": "Eng so'ngi elementlar",
+    "topFiveCollections": "Top 5 kolleksiyalar",
+    "tagsCloud": "Teglar to'plami",
+    "items": "Element"
+  },
+  "userPage": {
+    "myCollections": "Mening kolleksiyalarim"
+  },
+  "notFoundPage": {
+    "pageNotFound": "Siz izlayotgan sahifa mavjud emas",
+    "goToMainPage": "Asosiy sahifaga qaytish"
+  },
+  "nav": {
+    "mainPage": "Asosiy sahifa",
+    "myPage": "Mening sahifam",
+    "usersPage": "Foydalanuvchi sahifasi"
+  },
+  "global": {
+    "items": "Elementlar",
+    "nonExistant": "Mavjud emas!",
+    "empty": "Bo'sh",
+    "somethingWentWrong": "Xatolik yuz berdi!",
+    "error": "Xatolik!",
+    "show": "Ko'rsat",
+    "hide": "Yashir",
+    "view": "Ko'rish",
+    "delete": "O'chirish",
+    "edit": "O'zgartirish",
+    "cancel": "Bekor qilish",
+    "yes": "Ha",
+    "name": "Nomi",
+    "newCollection": "Yangi kolleksiya",
+    "createNewCollection": "Yangi kolleksiya yaratish",
+    "please": "Iltimos",
+    "or": "yoki",
+    "signIn": "Tizimga kiring",
+    "signUp": "Royxatdan o'ting",
+    "unauthorized": "Ruxsatsiz",
+    "noComments": "Izohlar mavjud emas",
+    "loginToComment": "Izoh qoldirish uchun tizimga kirgan bo'lishingiz kerak",
+    "send": "Yuborish",
+    "comments": "Izohlar",
+    "like": "Like",
+    "author": "Muallif",
+    "title": "Nomi",
+    "description": "Tavsif",
+    "topic": "Mavzu",
+    "dropImageHere": "Rasimni bu yerga tashlang",
+    "orClick": "yoki bu yerga bosing",
+    "done": "Tayyor",
+    "add": "Qo'shish",
+    "optionalFields": "Ixtiyoriy maydonlar",
+    "users": "Foyalanuvchilar",
+    "editUser": "Foydalanuvchini o'zgartirish",
+    "userName": "Foydalanuvchi ismi",
+    "blocked": "Bloklangan",
+    "deleteUser": "Foydalanuvchini o'chirish",
+    "goBack": "Ortga",
+    "editCollection": "Kolleksiyani o'zgartirish",
+    "deleteCollection": "Kolleksiyani o'chirish",
+    "deleteCollectionImage": "Kolleksiya rasmini o'chirish",
+    "areYouSure": "Ishonchingiz komilmi?",
+    "collectionItems": "Kolleksiya elementlari",
+    "newItem": "Yangi element",
+    "createNewItem": "Yangi element yaratish",
+    "tags": "Teglar",
+    "create": "Yaratish",
+    "editItem": "Elementni o'zgartirish",
+    "deleteItem": "Elementni o'chirish"
+  }
+}

@@ -7,13 +7,12 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  Select,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavData } from "./navData";
 import MobileNav from "./MobileNav";
 import DesktopNav from "./DesktopNav";
-import { useI18n } from "../../../providers/i18nProvider";
+import LanguageSelect from "../../LanguageSelect";
 
 const Navigation = () => {
   const { navData } = useNavData();
@@ -21,8 +20,6 @@ const Navigation = () => {
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const menuBgColor = useColorModeValue("white", "gray.700");
-
-  const { languages, setSelectedLanguage, selectedLanguage } = useI18n();
 
   return (
     <>
@@ -37,7 +34,7 @@ const Navigation = () => {
               <MenuButton
                 as={IconButton}
                 isActive={false}
-                size={"sm"}
+                size='sm'
                 colorScheme='gray'
                 icon={
                   isOpen ? (
@@ -49,34 +46,20 @@ const Navigation = () => {
               />
               <MenuList
                 p='0'
-                w={"100vw"}
-                boxShadow={"xl"}
-                border={"none"}
+                w='100vw'
+                boxShadow='xl'
+                border='none'
                 bg={menuBgColor}
                 borderTopRadius='0'
               >
-                <HStack justifyContent={"space-between"}>
+                <HStack justifyContent='space-between' alignItems='flex-start'>
                   <MobileNav
                     navItems={navData}
                     linkColor={linkColor}
                     linkHoverColor={linkHoverColor}
                   />
-                  <Box p='4'>
-                    <Select
-                      value={selectedLanguage}
-                      onChange={(e) => setSelectedLanguage(e.target.value)}
-                      size={"sm"}
-                      w='max-content'
-                      mr='0'
-                      ml='auto'
-                      display={{ base: "auto", xs: "none" }}
-                      variant={"filled"}
-                      rounded={"md"}
-                    >
-                      {Object.values(languages).map((language) => (
-                        <option key={language}>{language}</option>
-                      ))}
-                    </Select>
+                  <Box p='4' mr='2'>
+                    <LanguageSelect />
                   </Box>
                 </HStack>
               </MenuList>

@@ -24,11 +24,15 @@ import { Link, useParams } from "react-router-dom";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useFetchComments, useSendComment } from "../hooks/comments";
 import { useAuth } from "../providers/authProvider";
+import { useTranslation } from "react-i18next";
+import SVG from "../components/SVG";
 
 const ItemPage = () => {
   const [comment, setComment] = React.useState("");
   const [errorTitle, setErrorTitle] = React.useState("");
   const [likeLoading, setLikeLoading] = React.useState(false);
+
+  const { t } = useTranslation();
 
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
 
@@ -72,15 +76,14 @@ const ItemPage = () => {
                 </Text>
                 <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
               </HStack>
-              Please &nbsp;
+              {t("global.please")} &nbsp;
               <Link href='/signin' color={"blue.400"}>
-                sign in
+                {t("global.singIn")}
               </Link>
-              &nbsp; or &nbsp;
+              &nbsp; {t("global.or")} &nbsp;
               <Link href='/signup' color={"blue.400"}>
-                create new account
+                {t("global.signUp")}
               </Link>
-              .
             </Box>
           ),
           duration: 4000,
@@ -113,7 +116,9 @@ const ItemPage = () => {
         <Card variant='outline'>
           <CardBody p='3'>
             <List>
-              <ListItem>Author - {item.author.name}</ListItem>
+              <ListItem>
+                {t("global.author")} - {item.author.name}
+              </ListItem>
               {item.optionalFields?.length &&
                 item.optionalFields.map((field, index) => (
                   <ListItem key={index}>
@@ -124,16 +129,19 @@ const ItemPage = () => {
           </CardBody>
         </Card>
 
-        <HStack my='1'>
+        <HStack my='1' spacing='5'>
           <Button
             isLoading={likeLoading}
             isDisabled={likeLoading}
             onClick={() => likeUnlikeItem(item._id)}
             variant='ghost'
             size={"sm"}
-            color={item.likes.includes(user?.id) ? "blue.400" : ""}
           >
-            {item.likes.includes(user?.id) ? "Liked" : "Like"}
+            {item.likes.includes(user?.id) ? (
+              <SVG iconId='like-solid' />
+            ) : (
+              <SVG iconId='like' />
+            )}
             <Text
               color='blue.400'
               fontSize='sm'
@@ -143,7 +151,11 @@ const ItemPage = () => {
             </Text>
           </Button>
           <Button size='sm' variant='ghost' onClick={onToggle}>
-            Comments
+            {isCollapsed ? (
+              <SVG iconId='comments-solid' />
+            ) : (
+              <SVG iconId='comments' />
+            )}
           </Button>
         </HStack>
         <Collapse in={isCollapsed} animateOpacity>
@@ -166,21 +178,19 @@ const ItemPage = () => {
                     isLoading={commentSending}
                     onClick={handleSendComment}
                   >
-                    comment
+                    {t("global.send")}
                   </Button>
                 </HStack>
               ) : (
                 <Box>
-                  <Text fontWeight='medium'>
-                    You must be logged in to comment.
-                  </Text>{" "}
+                  <Text fontWeight='medium'>{t("global.loginToComment")}</Text>{" "}
                   &nbsp;
                   <Link href='/signin' color='blue.400'>
-                    Sign in
+                    {t("global.signIn")}
                   </Link>{" "}
                   |{" "}
                   <Link href='/signup' color='blue.400'>
-                    Sign up
+                    {t("global.signUp")}
                   </Link>
                 </Box>
               )}
@@ -204,7 +214,7 @@ const ItemPage = () => {
                   </HStack>
                 ))
               ) : (
-                <Text fontSize='sm'>No comments</Text>
+                <Text fontSize='sm'>{t("global.noComments")}</Text>
               )}
             </VStack>
           </Box>

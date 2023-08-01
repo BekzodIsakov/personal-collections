@@ -24,8 +24,7 @@ import { useParams } from "react-router-dom";
 import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useCollectionEdit } from "../hooks/collections";
-import translations from "../utils/translations";
-import { useI18n } from "../providers/i18nProvider";
+import { useTranslation } from "react-i18next";
 
 const EditCollectionModal = ({
   isOpen,
@@ -41,7 +40,7 @@ const EditCollectionModal = ({
 
   const fileInputRef = React.useRef(null);
 
-  const { selectedLanguage } = useI18n();
+  const { t } = useTranslation();
 
   const { topics, fetchTopics } = useFetchTopics();
 
@@ -118,17 +117,13 @@ const EditCollectionModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>
-          {translations[selectedLanguage]?.general.editCollection}
-        </ModalHeader>
+        <ModalHeader>{t("global.editCollection")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <Stack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>
-                  {translations[selectedLanguage]?.general.name}
-                </FormLabel>
+                <FormLabel>{t("global.name")}</FormLabel>
                 <Input
                   name={"title"}
                   value={title}
@@ -137,9 +132,7 @@ const EditCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>
-                  {translations[selectedLanguage]?.general.description}
-                </FormLabel>
+                <FormLabel>{t("global.description")}</FormLabel>
                 <Textarea
                   name={"description"}
                   value={description}
@@ -148,9 +141,7 @@ const EditCollectionModal = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel>
-                  {translations[selectedLanguage]?.general.topic}
-                </FormLabel>
+                <FormLabel>{t("global.topic")}</FormLabel>
                 <Select
                   name='selectedTopic'
                   value={selectedTopic}
@@ -208,13 +199,10 @@ const EditCollectionModal = ({
                               color='gray.700'
                               fontWeight='semibold'
                             >
-                              {
-                                translations[selectedLanguage]?.general
-                                  .dropImageHere
-                              }
+                              {t("global.dropImageHere")}
                             </Heading>
                             <Text fontWeight='light'>
-                              {translations[selectedLanguage]?.general.orClick}
+                              {t("global.orClick")}
                             </Text>
                           </Stack>
                         </Stack>
@@ -262,7 +250,7 @@ const EditCollectionModal = ({
               colorScheme='blue'
               isLoading={updatingCollection}
             >
-              {translations[selectedLanguage]?.general.done}
+              {t("global.done")}
             </Button>
           </form>
         </ModalBody>
