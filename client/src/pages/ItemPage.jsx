@@ -16,8 +16,9 @@ import {
   useColorModeValue,
   useDisclosure,
   useToast,
+  Link,
 } from "@chakra-ui/react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useTranslation } from "react-i18next";
 
@@ -27,20 +28,16 @@ import { useAuth } from "../providers/authProvider";
 import CommentsSection from "../components/CommentsSection";
 
 const ItemPage = () => {
-  const [errorTitle, setErrorTitle] = React.useState("");
   const [likeLoading, setLikeLoading] = React.useState(false);
 
-  const { t } = useTranslation();
-
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
-
   const toast = useToast();
+  const toastBgColor = useColorModeValue("white", "gray.800");
 
+  const { t } = useTranslation();
   const { itemId } = useParams();
 
   const { user } = useAuth();
-
-  const toastBgColor = useColorModeValue("white", "gray.800");
 
   const { loading, item, onItemFetch, updateItem } = useItemFetch();
 
@@ -53,19 +50,20 @@ const ItemPage = () => {
       updateItem({ likes: result.data });
     } catch (error) {
       if (error.response.status === 401) {
-        setErrorTitle("Unauthorized");
         toast({
           render: ({ onClose }) => (
-            <Box p={3} bg={toastBgColor} borderRadius='md' boxShadow='lg'>
-              <HStack justify='space-between' align='center' mb='2'>
-                <Text fontSize='m' fontWeight='semibold'>
-                  <WarningIcon w='5' h='5' color='orange' mr='1' /> {errorTitle}
+            <Box p='3' bg={toastBgColor} borderRadius={"md"} boxShadow={"lg"}>
+              <HStack justify={"space-between"} align={"center"} mb='2'>
+                <Text fontSize={"md"} fontWeight={"semibold"}>
+                  <WarningIcon w='5' h='5' color='orange' mr='1' />{" "}
+                  {t("global.unauthorized")}
                 </Text>
                 <IconButton size='xs' icon={<CloseIcon />} onClick={onClose} />
               </HStack>
-              {t("global.please")} &nbsp;
+              {t("global.please")}
+              &nbsp;
               <Link href='/signin' color={"blue.400"}>
-                {t("global.singIn")}
+                {t("global.signIn")}
               </Link>
               &nbsp; {t("global.or")} &nbsp;
               <Link href='/signup' color={"blue.400"}>

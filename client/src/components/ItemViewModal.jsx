@@ -19,6 +19,7 @@ import {
   Skeleton,
   Spinner,
   Text,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -40,6 +41,8 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
   const { user } = useAuth();
   const { loading, item, onItemFetch, updateItem } = useItemFetch();
 
+  const toastBgColor = useColorModeValue("white", "gray.800");
+
   const likeUnlikeItem = async (itemId) => {
     try {
       setLikeLoading(true);
@@ -51,7 +54,7 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
       if (error.response.status === 401) {
         toast({
           render: ({ onClose }) => (
-            <Box p='3' bg='white' borderRadius={"md"} boxShadow={"lg"}>
+            <Box p='3' bg={toastBgColor} borderRadius={"md"} boxShadow={"lg"}>
               <HStack justify={"space-between"} align={"center"} mb='2'>
                 <Text fontSize={"md"} fontWeight={"semibold"}>
                   <WarningIcon w='5' h='5' color='orange' mr='1' />{" "}
@@ -68,7 +71,6 @@ const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {
               <Link href='/signup' color={"blue.400"}>
                 {t("global.signUp")}
               </Link>
-              .
             </Box>
           ),
           duration: 4000,
