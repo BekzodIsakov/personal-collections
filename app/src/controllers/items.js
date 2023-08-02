@@ -151,10 +151,12 @@ const likeUnlikeItem = async (req, res) => {
 
 const getItemComments = async (req, res) => {
   try {
-    const comments = await Item.findById(req.params.id).populate({
-      path: "comments.author",
-      select: "name",
-    });
+    const comments = await Item.findById(req.params.id)
+      .populate({
+        path: "comments.author",
+        select: "name",
+      })
+      .select("comments");
 
     res.send(comments);
   } catch (error) {
