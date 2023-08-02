@@ -4,18 +4,18 @@ import React from "react";
 export const useSendComment = () => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [comment, setComment] = React.useState(null);
+  const [result, setResult] = React.useState(null);
 
   async function sendComment(itemId, comment) {
     try {
       setLoading(true);
-      if (comment) setComment(false);
+      if (comment) setResult(null);
       const result = await axios.post(
         `${import.meta.env.VITE_URL}/items/${itemId}/comments/new`,
-        comment,
+        { comment },
         { header: { "Content-Type": "application/json" } }
       );
-      setComment(result.data);
+      setResult(result.data);
     } catch (error) {
       setErrorMessage(error.response.data.message);
     } finally {
@@ -26,8 +26,7 @@ export const useSendComment = () => {
   return {
     loading,
     errorMessage,
-    comment,
-    setComment,
+    result,
     sendComment,
   };
 };

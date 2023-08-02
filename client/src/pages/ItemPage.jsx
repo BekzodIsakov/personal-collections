@@ -1,8 +1,6 @@
 import React from "react";
-import { useItemFetch } from "../hooks/items";
 import axios from "axios";
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -13,22 +11,22 @@ import {
   List,
   ListItem,
   Skeleton,
+  Spinner,
   Text,
-  Textarea,
-  VStack,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
-import { useFetchComments, useSendComment } from "../hooks/comments";
-import { useAuth } from "../providers/authProvider";
 import { useTranslation } from "react-i18next";
+
 import SVG from "../components/SVG";
+import { useItemFetch } from "../hooks/items";
+import { useAuth } from "../providers/authProvider";
+import CommentsSection from "../components/CommentsSection";
 
 const ItemPage = () => {
-  const [comment, setComment] = React.useState("");
   const [errorTitle, setErrorTitle] = React.useState("");
   const [likeLoading, setLikeLoading] = React.useState(false);
 
@@ -40,22 +38,11 @@ const ItemPage = () => {
 
   const { itemId } = useParams();
 
-  const { user, token } = useAuth();
+  const { user } = useAuth();
 
-  const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
-  const commentTextBg = useColorModeValue("gray.200", "gray.600");
-  const commentTextColor = useColorModeValue("black", "gray.50");
   const toastBgColor = useColorModeValue("white", "gray.800");
 
-  const { fetchComments, comments } = useFetchComments();
-
-  const { loading, item, setItem, onItemFetch, updateItem } = useItemFetch();
-
-  const {
-    comment: sentComment,
-    sendComment,
-    loading: commentSending,
-  } = useSendComment();
+  const { loading, item, onItemFetch, updateItem } = useItemFetch();
 
   const likeUnlikeItem = async (itemId) => {
     try {
@@ -94,10 +81,6 @@ const ItemPage = () => {
     }
   };
 
-  function handleSendComment() {
-    sendComment(itemId, { comment });
-  }
-
   let modalContent = null;
 
   if (loading) {
@@ -117,21 +100,19 @@ const ItemPage = () => {
           <CardBody p='3'>
             <List>
               <ListItem>
-                {t("global.author")} - {item.author.name}
+                <Text as='b'>{t("global.author")}</Text> - {item.author.name}
               </ListItem>
-              {item.optionalFields?.length &&
-                item.optionalFields.map((field, index) => (
-                  <ListItem key={index}>
-                    {field.key} - {field.value}
-                  </ListItem>
-                ))}
+              {JSON.parse(item.optionalFields).map((field, index) => (
+                <ListItem key={index}>
+                  <Text as='b'>{field.name}</Text> - {field.value}
+                </ListItem>
+              ))}
             </List>
           </CardBody>
         </Card>
 
         <HStack my='1' spacing='5'>
           <Button
-            isLoading={likeLoading}
             isDisabled={likeLoading}
             onClick={() => likeUnlikeItem(item._id)}
             variant='ghost'
@@ -147,7 +128,11 @@ const ItemPage = () => {
               fontSize='sm'
               ml={item.likes.length ? "2" : "0"}
             >
-              {item.likes.length || null}
+              {likeLoading ? (
+                <Spinner size='xs' />
+              ) : item.likes.length ? (
+                item.likes.length
+              ) : null}
             </Text>
           </Button>
           <Button size='sm' variant='ghost' onClick={onToggle}>
@@ -159,98 +144,11 @@ const ItemPage = () => {
           </Button>
         </HStack>
         <Collapse in={isCollapsed} animateOpacity>
-          <Box p='3' bg={commentsSectionBg} rounded='md'>
-            <Box mb='4'>
-              {token ? (
-                <HStack align='start'>
-                  <Avatar name={user?.name} size='xs' />
-                  <Textarea
-                    rows='2'
-                    rounded='lg'
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  <Button
-                    size='xs'
-                    colorScheme='blue'
-                    px='3'
-                    isDisabled={!comment}
-                    isLoading={commentSending}
-                    onClick={handleSendComment}
-                  >
-                    {t("global.send")}
-                  </Button>
-                </HStack>
-              ) : (
-                <Box>
-                  <Text fontWeight='medium'>{t("global.loginToComment")}</Text>{" "}
-                  &nbsp;
-                  <Link href='/signin' color='blue.400'>
-                    {t("global.signIn")}
-                  </Link>{" "}
-                  |{" "}
-                  <Link href='/signup' color='blue.400'>
-                    {t("global.signUp")}
-                  </Link>
-                </Box>
-              )}
-            </Box>
-            <VStack spacing='3' align={"stretch"} rounded='md'>
-              {item.comments.length ? (
-                item.comments.map((c) => (
-                  <HStack key={c._id} align='start'>
-                    <Avatar name={c.author?.name} size='xs' />
-                    <Text
-                      color={commentTextColor}
-                      bg={commentTextBg}
-                      fontSize='sm'
-                      rounded='md'
-                      py='1'
-                      px='2'
-                      w='100%'
-                    >
-                      {c.comment}
-                    </Text>
-                  </HStack>
-                ))
-              ) : (
-                <Text fontSize='sm'>{t("global.noComments")}</Text>
-              )}
-            </VStack>
-          </Box>
+          {isCollapsed && <CommentsSection itemId={itemId} />}
         </Collapse>
       </>
     );
   }
-
-  React.useEffect(() => {
-    if (!isCollapsed) return;
-
-    const intervalId = setInterval(() => {
-      fetchComments(itemId);
-    }, 4500);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isCollapsed]);
-
-  React.useEffect(() => {
-    if (comments.length) {
-      const _item = { ...item };
-      _item.comments = comments;
-      setItem(_item);
-    }
-  }, [comments.length]);
-
-  React.useEffect(() => {
-    if (sentComment) {
-      setComment("");
-      const _item = item;
-      item.comments.push(sentComment);
-      setItem(_item);
-    }
-  }, [sentComment]);
 
   React.useEffect(() => {
     if (itemId) {
