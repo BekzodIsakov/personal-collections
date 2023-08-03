@@ -7,13 +7,13 @@ const ColorModeSwitch = () => {
   return (
     <IconButton
       onClick={toggleColorMode}
-      variant={"ghost"}
-      size={"sm"}
+      variant='ghost'
+      size='sm'
       icon={
         colorMode === "light" ? (
-          <SVG iconId={"moon"} />
+          <SVG iconId='moon' />
         ) : (
-          <SVG iconId={"sun"} size={"22px"} />
+          <SVG iconId='sun' size='22px' />
         )
       }
     />

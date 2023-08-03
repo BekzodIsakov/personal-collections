@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import SVG from "./SVG";
-import CommentsSection from "./CommentsSection";
+import CommentsSection from "./comments-section/CommentsSection";
 import { useItemFetch } from "../hooks/items";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
@@ -47,7 +47,7 @@ const ItemCard = ({ itemId, itemName }) => {
       if (error.response.status === 401) {
         toast({
           render: ({ onClose }) => (
-            <Box p='3' bg={toastBgColor} borderRadius='md' boxShadow={"lg"}>
+            <Box p='3' bg={toastBgColor} borderRadius='md' boxShadow='lg'>
               <HStack justify='space-between' align='center' mb='2'>
                 <Text fontSize='md' fontWeight='semibold'>
                   <WarningIcon w='5' h='5' color='orange' mr='1' />{" "}
