@@ -81,7 +81,12 @@ const CommentsSection = ({ itemId }) => {
       <VStack spacing='3' align='stretch' rounded='md' mb='5'>
         {comments.length ? (
           comments.map((c) => (
-            <Comment key={c._id} name={c.author?.name} comment={c.comment} />
+            <Comment
+              key={c._id}
+              name={c.author?.name}
+              comment={c.comment}
+              authorId={c.author?._id}
+            />
           ))
         ) : (
           <Text fontSize='sm'>{t("global.noComments")}</Text>

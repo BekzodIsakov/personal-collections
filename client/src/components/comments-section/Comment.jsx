@@ -7,10 +7,12 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useAuth } from "../../providers/authProvider";
 
-const Comment = ({ src, name, comment }) => {
+const Comment = ({ src, name, comment, authorId }) => {
   const bgColor = useColorModeValue("gray.200", "gray.600");
   const textColor = useColorModeValue("blackAlpha.700", "gray.200");
+  const { user } = useAuth();
 
   return (
     <HStack alignItems='flex-start'>
@@ -31,13 +33,14 @@ const Comment = ({ src, name, comment }) => {
           </Text>
           <Box lineHeight='1.4'>{comment}</Box>
         </VStack>
-        <HStack ml='1' mt='1'>
+        <HStack spacing='3' ml='3' mt='1'>
           <Button
             variant='unstyled'
             fontSize='xs'
             fontWeight='bold'
             color={textColor}
             height='max-content'
+            minWidth='max-content'
           >
             Like
           </Button>
@@ -47,10 +50,35 @@ const Comment = ({ src, name, comment }) => {
             fontWeight='bold'
             color={textColor}
             height='max-content'
+            minWidth='max-content'
           >
             Reply
           </Button>
-          <Text fontSize='xs' ml='2' color='gray.500' fontWeight='medium'>
+          {authorId === user.id && (
+            <>
+              <Button
+                variant='unstyled'
+                fontSize='xs'
+                fontWeight='bold'
+                color={textColor}
+                height='max-content'
+                minWidth='max-content'
+              >
+                Edit
+              </Button>
+              <Button
+                variant='unstyled'
+                fontSize='xs'
+                fontWeight='bold'
+                color={textColor}
+                height='max-content'
+                minWidth='max-content'
+              >
+                Delete
+              </Button>
+            </>
+          )}
+          <Text fontSize='xs' color='gray.500' fontWeight='medium'>
             4d
           </Text>
         </HStack>
