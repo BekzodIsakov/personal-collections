@@ -102,7 +102,10 @@ const ItemCard = ({ itemId, itemName }) => {
               {item.optionalFields[0] &&
                 JSON.parse(item.optionalFields).map((field, index) => (
                   <ListItem key={index} mb='1'>
-                    <Text as='b'>{field.name}</Text>: {String(field.value)}
+                    <Text as='b' textTransform={"capitalize"}>
+                      {field.name}
+                    </Text>
+                    : {String(field.value)}
                   </ListItem>
                 ))}
             </List>
