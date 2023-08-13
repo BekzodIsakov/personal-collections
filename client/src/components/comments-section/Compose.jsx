@@ -2,9 +2,10 @@ import React from "react";
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   HStack,
-  IconButton,
+  Text,
   Textarea,
   VStack,
   useColorModeValue,
@@ -12,7 +13,16 @@ import {
 import SVG from "../SVG";
 import { useAutoSizeTextarea } from "../../hooks/useAutoSizeTextarea";
 
-const Compose = ({ src, name, onSend, sending, comment, setComment }) => {
+const Compose = ({
+  src,
+  name,
+  comment,
+  setComment,
+  loading,
+  onSend,
+  editMode,
+  turnOffEditMode,
+}) => {
   const textAreaRef = React.useRef(null);
 
   useAutoSizeTextarea(textAreaRef.current, comment);
@@ -21,7 +31,7 @@ const Compose = ({ src, name, onSend, sending, comment, setComment }) => {
 
   return (
     <HStack alignItems='flex-start' width='100%'>
-      <Avatar src={src} name={name} size='sm' />
+      {!editMode && <Avatar src={src} name={name} size='sm' />}
       <VStack
         spacing='0'
         bg={bgColor}
@@ -34,6 +44,7 @@ const Compose = ({ src, name, onSend, sending, comment, setComment }) => {
       >
         <Box lineHeight='1.4' width='100%'>
           <Textarea
+            autoFocus
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             p='1'
@@ -43,18 +54,43 @@ const Compose = ({ src, name, onSend, sending, comment, setComment }) => {
             ref={textAreaRef}
             rows='1'
             placeholder='Comment'
+            bg='whiteAlpha.700'
           ></Textarea>
-          <Flex justifyContent='flex-end'>
-            <IconButton
-              onClick={onSend}
-              isDisabled={sending}
-              variant='unstyled'
-              icon={<SVG iconId='send' color='#3182ce' />}
+          <HStack justifyContent='flex-end'>
+            {editMode && (
+              <Button
+                mt='1'
+                variant={editMode ? "solid" : "unstyled"}
+                size={editMode ? "xs" : "md"}
+                isDisabled={loading || !comment}
+                display='flex'
+                justifyContent='center'
+                height='30px'
+                onClick={turnOffEditMode}
+              >
+                Cancel
+              </Button>
+            )}
+            <Button
+              mt='1'
+              variant={editMode ? "solid" : "unstyled"}
+              size={editMode ? "xs" : "md"}
+              isDisabled={loading || !comment}
               display='flex'
               justifyContent='center'
               height='30px'
-            ></IconButton>
-          </Flex>
+              onClick={onSend}
+              color='blue.400'
+            >
+              {editMode ? (
+                <Text fontSize='12px' fontWeight='semibold'>
+                  Done
+                </Text>
+              ) : (
+                <SVG iconId='send' color='#3182ce' />
+              )}
+            </Button>
+          </HStack>
         </Box>
       </VStack>
     </HStack>

@@ -8,11 +8,30 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useAuth } from "../../providers/authProvider";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import moment from "moment";
+import React from "react";
+import Compose from "./Compose";
+import { socket } from "../../socket";
 
-const Comment = ({ src, name, comment, authorId }) => {
+const Comment = ({ src, name, commentId, comment, authorId, date }) => {
   const bgColor = useColorModeValue("gray.200", "gray.600");
   const textColor = useColorModeValue("blackAlpha.700", "gray.200");
   const { user } = useAuth();
+
+  const [content, setContent] = React.useState(comment);
+  const [editMode, setEditMode] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const today = new Date();
+
+  function handleEditComment() {
+    setLoading(true);
+    socket.emit("editComment", { commentId, content }, () => {
+      setLoading(false);
+      setEditMode(false);
+    });
+  }
 
   return (
     <HStack alignItems='flex-start'>
@@ -22,18 +41,32 @@ const Comment = ({ src, name, comment, authorId }) => {
           spacing='0'
           bg={bgColor}
           rounded='2xl'
-          px='3'
-          py='2'
+          px={editMode ? "0" : "3"}
+          py={editMode ? "0" : "2"}
           alignItems='flex-start'
           fontSize='sm'
           width='100%'
         >
-          <Text as='b' fontWeight='semibold' mb='0.5'>
-            {name}
-          </Text>
-          <Box lineHeight='1.4'>{comment}</Box>
+          {editMode ? (
+            <Compose
+              name={name}
+              comment={content}
+              setComment={setContent}
+              onSend={handleEditComment}
+              loading={loading}
+              editMode={editMode}
+              turnOffEditMode={() => setEditMode(false)}
+            />
+          ) : (
+            <>
+              <Text as='b' fontWeight='semibold' mb='0.5'>
+                {name}
+              </Text>
+              <Box lineHeight='1.4'>{content}</Box>
+            </>
+          )}
         </VStack>
-        <HStack spacing='3' ml='3' mt='1'>
+        <HStack spacing='3' ml='2' mt='1'>
           <Button
             variant='unstyled'
             fontSize='xs'
@@ -54,8 +87,8 @@ const Comment = ({ src, name, comment, authorId }) => {
           >
             Reply
           </Button>
-          {authorId === user.id && (
-            <>
+          {authorId === user?.id && (
+            <HStack spacing='4' ml='3'>
               <Button
                 variant='unstyled'
                 fontSize='xs'
@@ -63,6 +96,9 @@ const Comment = ({ src, name, comment, authorId }) => {
                 color={textColor}
                 height='max-content'
                 minWidth='max-content'
+                leftIcon={<EditIcon />}
+                iconSpacing='1'
+                onClick={() => setEditMode(true)}
               >
                 Edit
               </Button>
@@ -73,13 +109,15 @@ const Comment = ({ src, name, comment, authorId }) => {
                 color={textColor}
                 height='max-content'
                 minWidth='max-content'
+                leftIcon={<DeleteIcon />}
+                iconSpacing='1'
               >
                 Delete
               </Button>
-            </>
+            </HStack>
           )}
           <Text fontSize='xs' color='gray.500' fontWeight='medium'>
-            4d
+            {moment(date).from(moment(today), true)}
           </Text>
         </HStack>
       </VStack>
