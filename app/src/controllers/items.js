@@ -1,4 +1,4 @@
-const { Item, Comment } = require("../models/itemModel");
+const Item = require("../models/itemModel");
 const Collection = require("../models/collectionModel");
 const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
@@ -67,11 +67,8 @@ const getItems = async (req, res) => {
 const getItemById = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id)
-      .populate({
-        path: "author",
-        select: "name",
-      })
-      .populate({ path: "comments.author", select: "name" });
+      .populate("author", "name")
+      .select("-comments");
 
     if (!item) return res.status(400).send({ message: "Not found!" });
     res.send(item);
@@ -83,12 +80,14 @@ const getItemById = async (req, res) => {
 const createNewItem = async (req, res) => {
   try {
     const item = new Item({ ...req.body });
+
     await item.save();
     await collection.updateOne(
       { _id: req.body.parentCollection },
       { $push: { items: item._id }, $inc: { itemsLength: 1 } }
     );
     await item.populate("tags");
+
     res.status(201).send(item);
   } catch (error) {
     res.status(500).send({ message: error.message });
