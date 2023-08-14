@@ -3,6 +3,13 @@ import {
   Box,
   Button,
   HStack,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Text,
   VStack,
   useColorModeValue,
@@ -102,18 +109,41 @@ const Comment = ({ src, name, commentId, comment, authorId, date }) => {
               >
                 Edit
               </Button>
-              <Button
-                variant='unstyled'
-                fontSize='xs'
-                fontWeight='bold'
-                color={textColor}
-                height='max-content'
-                minWidth='max-content'
-                leftIcon={<DeleteIcon />}
-                iconSpacing='1'
-              >
-                Delete
-              </Button>
+              <Popover>
+                {({ _, onClose }) => (
+                  <>
+                    <PopoverTrigger>
+                      <Button
+                        variant='unstyled'
+                        fontSize='xs'
+                        fontWeight='bold'
+                        color={textColor}
+                        height='max-content'
+                        minWidth='max-content'
+                        leftIcon={<DeleteIcon />}
+                        iconSpacing='1'
+                      >
+                        Delete
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent width='var(--chakra-sizes-3xs)'>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverHeader>
+                        <Text color='red'>Delete comment</Text>
+                      </PopoverHeader>
+                      <PopoverBody>
+                        <Button size='xs' mr='3' onClick={onClose}>
+                          Cancel
+                        </Button>
+                        <Button colorScheme='red' size='xs'>
+                          Delete
+                        </Button>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </>
+                )}
+              </Popover>
             </HStack>
           )}
           <Text fontSize='xs' color='gray.500' fontWeight='medium'>

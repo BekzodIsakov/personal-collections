@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Button,
-  Flex,
   HStack,
   Text,
   Textarea,
@@ -28,6 +27,7 @@ const Compose = ({
   useAutoSizeTextarea(textAreaRef.current, comment);
 
   const bgColor = useColorModeValue("gray.200", "gray.600");
+  const textAreaBgColor = useColorModeValue("whiteAlpha.700", "whiteAlpha.400");
 
   return (
     <HStack alignItems='flex-start' width='100%'>
@@ -54,7 +54,7 @@ const Compose = ({
             ref={textAreaRef}
             rows='1'
             placeholder='Comment'
-            bg='whiteAlpha.700'
+            bg={textAreaBgColor}
           ></Textarea>
           <HStack justifyContent='flex-end'>
             {editMode && (
