@@ -77,13 +77,3 @@ const port = process.env.PORT || 3000;
 httpServer.listen(port, () => {
   console.log("Server is live on port " + port);
 });
-
-// import { createServer } from "http";
-// import { Server } from "socket.io";
-
-// const httpServer = createServer();
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "https://example.com"
-//   }
-// })

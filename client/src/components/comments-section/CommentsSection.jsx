@@ -27,8 +27,6 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
   const [comment, setComment] = React.useState("");
   const [sendingComment, setSendingComment] = React.useState(false);
 
-  console.log(comment);
-
   function handleSendComment() {
     setSendingComment(true);
     socket.emit("comment", comment, () => {
@@ -91,6 +89,8 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
               comment={c.content}
               authorId={c.author?._id}
               date={c.createdAt}
+              setComments={setComments}
+              comments={comments}
             />
           ))
         ) : (

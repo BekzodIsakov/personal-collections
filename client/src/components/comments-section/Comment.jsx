@@ -21,22 +21,41 @@ import React from "react";
 import Compose from "./Compose";
 import { socket } from "../../socket";
 
-const Comment = ({ src, name, commentId, comment, authorId, date }) => {
+const Comment = ({
+  src,
+  name,
+  commentId,
+  comment,
+  authorId,
+  date,
+  setComments,
+  comments,
+}) => {
   const bgColor = useColorModeValue("gray.200", "gray.600");
   const textColor = useColorModeValue("blackAlpha.700", "gray.200");
   const { user } = useAuth();
 
   const [content, setContent] = React.useState(comment);
   const [editMode, setEditMode] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [editing, setEditing] = React.useState(false);
+  const [deleting, setDeleting] = React.useState(false);
 
   const today = new Date();
 
   function handleEditComment() {
-    setLoading(true);
+    setEditing(true);
     socket.emit("editComment", { commentId, content }, () => {
-      setLoading(false);
+      setEditing(false);
       setEditMode(false);
+    });
+  }
+
+  function handleDeleteComment() {
+    setDeleting(true);
+    socket.emit("deleteComment", commentId, () => {
+      setDeleting(false);
+      const _comments = comments.filter((c) => c._id !== commentId);
+      setComments(_comments);
     });
   }
 
@@ -60,7 +79,7 @@ const Comment = ({ src, name, commentId, comment, authorId, date }) => {
               comment={content}
               setComment={setContent}
               onSend={handleEditComment}
-              loading={loading}
+              loading={editing}
               editMode={editMode}
               turnOffEditMode={() => setEditMode(false)}
             />
@@ -136,7 +155,12 @@ const Comment = ({ src, name, commentId, comment, authorId, date }) => {
                         <Button size='xs' mr='3' onClick={onClose}>
                           Cancel
                         </Button>
-                        <Button colorScheme='red' size='xs'>
+                        <Button
+                          colorScheme='red'
+                          size='xs'
+                          isLoading={deleting}
+                          onClick={handleDeleteComment}
+                        >
                           Delete
                         </Button>
                       </PopoverBody>
