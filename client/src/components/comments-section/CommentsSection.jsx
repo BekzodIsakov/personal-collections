@@ -35,10 +35,7 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     });
   }
 
-  console.log({ comments });
-
   function handleEditComment({ commentId, content }) {
-    console.log({ commentId, content });
     const _comments = comments.map((comment) => {
       if (comment._id === commentId) {
         return {
@@ -47,15 +44,14 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
         };
       }
 
-      // if (comment._id === commentId) {
-      //   comment = { ...comment, content };
-      // }
-      // comment = comment._id === commentId ? { ...comment, content } : comment;
       return comment;
     });
 
-    console.log({ _comments });
+    setComments(_comments);
+  }
 
+  function handleDeleteComment(commentId) {
+    const _comments = comments.filter((c) => c._id !== commentId);
     setComments(_comments);
   }
 
@@ -69,12 +65,14 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     socket.on("connect", joinUser);
     socket.on("comment", handleReceivedComment);
     socket.on("editComment", handleEditComment);
+    socket.on("deleteComment", handleDeleteComment);
 
     return () => {
       socket.disconnect();
       socket.off("connect", joinUser);
       socket.off("comment", handleReceivedComment);
       socket.off("editComment", handleEditComment);
+      socket.off("editComment", handleDeleteComment);
     };
   }, []);
 

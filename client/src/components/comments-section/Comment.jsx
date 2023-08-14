@@ -61,7 +61,7 @@ const Comment = ({
 
   React.useEffect(() => {
     setContent(comment);
-  }, comment);
+  }, [comment]);
 
   return (
     <HStack alignItems='flex-start'>

@@ -62,8 +62,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("deleteComment", async (commentId, callback) => {
+    const { roomId } = getUser(socket.id);
+
     await deleteComment(commentId);
     callback();
+    io.to(roomId).emit("deleteComment", commentId);
   });
 });
 
