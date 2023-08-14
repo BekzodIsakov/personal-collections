@@ -59,6 +59,10 @@ const Comment = ({
     });
   }
 
+  React.useEffect(() => {
+    setContent(comment);
+  }, comment);
+
   return (
     <HStack alignItems='flex-start'>
       <Avatar src={src} size='sm' name={name} />

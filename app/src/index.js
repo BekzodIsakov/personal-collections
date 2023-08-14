@@ -54,8 +54,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("editComment", async ({ commentId, content }, callback) => {
+    const { roomId } = getUser(socket.id);
+
     await editComment(commentId, content);
     callback();
+    io.to(roomId).emit("editComment", { commentId, content });
   });
 
   socket.on("deleteComment", async (commentId, callback) => {

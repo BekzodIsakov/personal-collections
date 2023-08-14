@@ -35,6 +35,30 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     });
   }
 
+  console.log({ comments });
+
+  function handleEditComment({ commentId, content }) {
+    console.log({ commentId, content });
+    const _comments = comments.map((comment) => {
+      if (comment._id === commentId) {
+        return {
+          ...comment,
+          content,
+        };
+      }
+
+      // if (comment._id === commentId) {
+      //   comment = { ...comment, content };
+      // }
+      // comment = comment._id === commentId ? { ...comment, content } : comment;
+      return comment;
+    });
+
+    console.log({ _comments });
+
+    setComments(_comments);
+  }
+
   function joinUser() {
     socket.emit("join", { userId: user.id, roomId: itemId });
   }
@@ -44,11 +68,13 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
 
     socket.on("connect", joinUser);
     socket.on("comment", handleReceivedComment);
+    socket.on("editComment", handleEditComment);
 
     return () => {
       socket.disconnect();
       socket.off("connect", joinUser);
       socket.off("comment", handleReceivedComment);
+      socket.off("editComment", handleEditComment);
     };
   }, []);
 
