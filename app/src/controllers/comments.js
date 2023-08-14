@@ -82,22 +82,28 @@ const deleteComment = async (commentId) => {
   }
 };
 
-// old
-// const deleteComment = async (req, res) => {
-//   try {
-//     const comment = await Models.commentModel.findByIdAndDelete(req.params.id);
+const likeUnlikeComment = async (commentId, userId) => {
+  try {
+    console.log({ userId });
+    const comment = await Comment.findById(commentId);
 
-//     if (!comment) return res.status(404).send({ message: "Not found!" });
+    if (comment.likes.includes(userId)) {
+      comment.likes.pull(userId);
+    } else {
+      comment.likes.push(userId);
+    }
 
-//     res.status(204).send();
-//   } catch (error) {
-//     res.status(500).send({ message: error.message });
-//   }
-// };
+    await comment.save();
+    return comment.likes;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 module.exports = {
   getComments,
   composeComment,
   editComment,
   deleteComment,
+  likeUnlikeComment,
 };

@@ -59,6 +59,18 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     socket.emit("join", { userId: user.id, roomId: itemId });
   }
 
+  function handleLikeUnlikeItem({ commentId, likes }) {
+    const _comments = comments.map((comment) => {
+      if (comment._id === commentId) {
+        comment.likes = likes;
+      }
+
+      return comment;
+    });
+
+    setComments(_comments);
+  }
+
   React.useEffect(() => {
     socket.connect();
 
@@ -66,6 +78,7 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     socket.on("comment", handleReceivedComment);
     socket.on("editComment", handleEditComment);
     socket.on("deleteComment", handleDeleteComment);
+    socket.on("likeUnlikeItem", handleLikeUnlikeItem);
 
     return () => {
       socket.disconnect();
@@ -73,8 +86,11 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
       socket.off("comment", handleReceivedComment);
       socket.off("editComment", handleEditComment);
       socket.off("editComment", handleDeleteComment);
+      socket.off("likeUnlikeItem", handleLikeUnlikeItem);
     };
   }, []);
+
+  console.log({ comments });
 
   return (
     <Box p='3' pt='5' bg={commentsSectionBg} rounded='md'>
@@ -112,6 +128,7 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
               name={c.author?.name}
               comment={c.content}
               authorId={c.author?._id}
+              likes={c.likes}
               date={c.createdAt}
               setComments={setComments}
               comments={comments}

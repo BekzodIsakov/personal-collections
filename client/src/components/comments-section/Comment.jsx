@@ -30,15 +30,18 @@ const Comment = ({
   date,
   setComments,
   comments,
+  likes,
 }) => {
+  const { user } = useAuth();
+
   const bgColor = useColorModeValue("gray.200", "gray.600");
   const textColor = useColorModeValue("blackAlpha.700", "gray.200");
-  const { user } = useAuth();
 
   const [content, setContent] = React.useState(comment);
   const [editMode, setEditMode] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
   const [deleting, setDeleting] = React.useState(false);
+  const [likeUnlikeLoading, setLikeUnlikeLoading] = React.useState(false);
 
   const today = new Date();
 
@@ -59,9 +62,18 @@ const Comment = ({
     });
   }
 
+  function likeUnlikeItem() {
+    setLikeUnlikeLoading(true);
+    socket.emit("likeUnlikeItem", { commentId, userId: user.id }, () => {
+      setLikeUnlikeLoading(false);
+    });
+  }
+
   React.useEffect(() => {
     setContent(comment);
   }, [comment]);
+
+  console.log({ likes });
 
   return (
     <HStack alignItems='flex-start'>
@@ -98,14 +110,16 @@ const Comment = ({
         </VStack>
         <HStack spacing='3' ml='2' mt='1'>
           <Button
+            isDisabled={likeUnlikeLoading}
             variant='unstyled'
             fontSize='xs'
             fontWeight='bold'
-            color={textColor}
+            color={likes.includes(user.id) ? "blue.400" : textColor}
             height='max-content'
             minWidth='max-content'
+            onClick={likeUnlikeItem}
           >
-            Like
+            Like {likes?.length > 0 ? likes.length : null}
           </Button>
           <Button
             variant='unstyled'

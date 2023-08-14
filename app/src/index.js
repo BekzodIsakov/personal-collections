@@ -12,6 +12,7 @@ const {
   composeComment,
   editComment,
   deleteComment,
+  likeUnlikeComment,
 } = require("./controllers/comments");
 
 const { users, getUser, addUser, removeUser } = require("./utils/users");
@@ -67,6 +68,14 @@ io.on("connection", (socket) => {
     await deleteComment(commentId);
     callback();
     io.to(roomId).emit("deleteComment", commentId);
+  });
+
+  socket.on("likeUnlikeItem", async ({ commentId, userId }, callback) => {
+    const { roomId } = getUser(socket.id);
+    const likes = await likeUnlikeComment(commentId, userId);
+    callback();
+
+    io.to(roomId).emit("likeUnlikeItem", { commentId, likes });
   });
 });
 
