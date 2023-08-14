@@ -8,7 +8,11 @@ const itemsRouter = require("./routers/items");
 const commentsRouter = require("./routers/comments");
 require("./mongoose");
 
-const { composeComment, editComment } = require("./controllers/comments");
+const {
+  composeComment,
+  editComment,
+  deleteComment,
+} = require("./controllers/comments");
 
 const { users, getUser, addUser, removeUser } = require("./utils/users");
 
@@ -51,6 +55,11 @@ io.on("connection", (socket) => {
 
   socket.on("editComment", async ({ commentId, content }, callback) => {
     await editComment(commentId, content);
+    callback();
+  });
+
+  socket.on("deleteComment", async (commentId, callback) => {
+    await deleteComment(commentId);
     callback();
   });
 });

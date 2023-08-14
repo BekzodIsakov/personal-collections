@@ -74,24 +74,30 @@ const editComment = async (commentId, content) => {
   }
 };
 
-// old
-const deleteComment = async (req, res) => {
+const deleteComment = async (commentId) => {
   try {
-    const comment = await Models.commentModel.findByIdAndDelete(req.params.id);
-
-    if (!comment) return res.status(404).send({ message: "Not found!" });
-
-    res.status(204).send();
+    await Comment.findByIdAndDelete(commentId);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return error.message;
   }
 };
 
-module.exports = {
-  editComment,
-  deleteComment,
+// old
+// const deleteComment = async (req, res) => {
+//   try {
+//     const comment = await Models.commentModel.findByIdAndDelete(req.params.id);
 
+//     if (!comment) return res.status(404).send({ message: "Not found!" });
+
+//     res.status(204).send();
+//   } catch (error) {
+//     res.status(500).send({ message: error.message });
+//   }
+// };
+
+module.exports = {
   getComments,
   composeComment,
   editComment,
+  deleteComment,
 };
