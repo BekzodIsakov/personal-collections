@@ -3,20 +3,20 @@ const router = express.Router();
 const checkAuth = require("../middlewares/checkAuth");
 const comments = require("../controllers/comments");
 
-router.get("/comments", checkAuth, comments.getComments);
+router.get("/comments/:itemId", comments.getComments);
+router.post("/comments/compose/:itemId", checkAuth, comments.composeComment);
 
-router.post("/comments/search", comments.searchComments);
+// old
+// router.post("/comments/search", comments.searchComments);
 
-router.post("/comments/new", checkAuth, comments.addNewComment);
+// router.delete("/comments/:id", checkAuth, comments.deleteComment);
 
-router.delete("/comments/:id", checkAuth, comments.deleteComment);
+// router.patch("/comments/:id", checkAuth, comments.editComment);
 
-router.patch("/comments/:id", checkAuth, comments.editComment);
+// router.post("/fakeCollections/new", comments.addNewFakeCollection);
+// router.get("/fakeCollections", comments.getFakeCollections);
 
-router.post("/fakeCollections/new", comments.addNewFakeCollection);
-router.get("/fakeCollections", comments.getFakeCollections);
-
-router.post("/fakeItems/new", comments.addNewFakeItem);
-router.get("/fakeItems", comments.getFakeItems);
+// router.post("/fakeItems/new", comments.addNewFakeItem);
+// router.get("/fakeItems", comments.getFakeItems);
 
 module.exports = router;

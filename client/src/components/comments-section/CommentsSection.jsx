@@ -9,60 +9,100 @@ import {
 } from "@chakra-ui/react";
 import { useAuth } from "../../providers/authProvider";
 import { useTranslation } from "react-i18next";
-import { useFetchComments, useSendComment } from "../../hooks/comments";
 import Comment from "./Comment";
 import Compose from "./Compose";
 
-const CommentsSection = ({ itemId }) => {
-  const [comment, setComment] = React.useState();
+import { socket } from "../../socket";
 
+const CommentsSection = ({ itemId, comments, setComments }) => {
   const { token, user } = useAuth();
 
-  const { fetchComments, comments, setComments } = useFetchComments();
-  const { result, sendComment, loading: sendingComment } = useSendComment();
-
   const { t } = useTranslation();
-
   const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
 
-  React.useEffect(() => {
-    fetchComments(itemId);
-  }, []);
-
-  React.useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchComments(itemId);
-    }, 4500);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [itemId]);
-
-  React.useEffect(() => {
-    if (result) {
-      const updatedComments = [...comments];
-      updatedComments.push(result);
-      setComments(updatedComments);
-      setComment("");
-    }
-  }, [result]);
-
-  function handleSendComment() {
-    sendComment(itemId, comment);
+  function handleReceivedComment(newComment) {
+    setComments((prevComments) => [...prevComments, newComment]);
   }
 
+  const [comment, setComment] = React.useState("");
+  const [sendingComment, setSendingComment] = React.useState(false);
+
+  function handleSendComment() {
+    setSendingComment(true);
+    socket.emit("comment", comment, () => {
+      setSendingComment(false);
+      setComment("");
+    });
+  }
+
+  function handleEditComment({ commentId, content }) {
+    const _comments = comments.map((comment) => {
+      if (comment._id === commentId) {
+        return {
+          ...comment,
+          content,
+        };
+      }
+
+      return comment;
+    });
+
+    setComments(_comments);
+  }
+
+  function handleDeleteComment(commentId) {
+    const _comments = comments.filter((c) => c._id !== commentId);
+    setComments(_comments);
+  }
+
+  function joinUser() {
+    socket.emit("join", { userId: user.id, roomId: itemId });
+  }
+
+  function handleLikeUnlikeItem({ commentId, likes }) {
+    const _comments = comments.map((comment) => {
+      if (comment._id === commentId) {
+        comment.likes = likes;
+      }
+
+      return comment;
+    });
+
+    setComments(_comments);
+  }
+
+  React.useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", joinUser);
+    socket.on("comment", handleReceivedComment);
+    socket.on("editComment", handleEditComment);
+    socket.on("deleteComment", handleDeleteComment);
+    socket.on("likeUnlikeItem", handleLikeUnlikeItem);
+
+    return () => {
+      socket.disconnect();
+      socket.off("connect", joinUser);
+      socket.off("comment", handleReceivedComment);
+      socket.off("editComment", handleEditComment);
+      socket.off("editComment", handleDeleteComment);
+      socket.off("likeUnlikeItem", handleLikeUnlikeItem);
+    };
+  }, []);
+
+  console.log({ comments });
+
   return (
-    <Box p='3' bg={commentsSectionBg} rounded='md'>
+    <Box p='3' pt='5' bg={commentsSectionBg} rounded='md'>
       <Box mb='4'>
         {token ? (
           <HStack align='start'>
             <Compose
               name={user?.name}
-              onSend={handleSendComment}
               comment={comment}
               setComment={setComment}
-              sending={sendingComment}
+              onSend={handleSendComment}
+              loading={sendingComment}
             />
           </HStack>
         ) : (
@@ -78,14 +118,20 @@ const CommentsSection = ({ itemId }) => {
           </Box>
         )}
       </Box>
+
       <VStack spacing='3' align='stretch' rounded='md' mb='5'>
         {comments.length ? (
           comments.map((c) => (
             <Comment
               key={c._id}
+              commentId={c._id}
               name={c.author?.name}
-              comment={c.comment}
+              comment={c.content}
               authorId={c.author?._id}
+              likes={c.likes}
+              date={c.createdAt}
+              setComments={setComments}
+              comments={comments}
             />
           ))
         ) : (

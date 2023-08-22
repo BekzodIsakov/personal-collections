@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
+import { useFetchComments } from "../hooks/comments";
+import Compose from "./comments-section/Compose";
 
 const ItemCard = ({ itemId, itemName }) => {
   const [likeLoading, setLikeLoading] = React.useState(false);
@@ -32,9 +34,13 @@ const ItemCard = ({ itemId, itemName }) => {
   const { user } = useAuth();
   const toast = useToast();
 
+  const { fetchComments, comments, setComments } = useFetchComments();
+
   const { loading, item, onItemFetch, updateItem } = useItemFetch();
 
   const { t } = useTranslation();
+
+  const { token } = useAuth();
 
   const likeUnlikeItem = async (itemId) => {
     try {
@@ -73,6 +79,10 @@ const ItemCard = ({ itemId, itemName }) => {
       setLikeLoading(false);
     }
   };
+
+  React.useEffect(() => {
+    if (itemId) fetchComments(itemId);
+  }, []);
 
   React.useEffect(() => {
     if (itemId) {
@@ -146,8 +156,15 @@ const ItemCard = ({ itemId, itemName }) => {
             <Text ml='1'>{t("global.comments")}</Text>
           </Button>
         </HStack>
+
         <Collapse in={isCollapsed} animateOpacity>
-          {isCollapsed && <CommentsSection itemId={itemId} />}
+          {isCollapsed && (
+            <CommentsSection
+              itemId={itemId}
+              comments={comments}
+              setComments={setComments}
+            />
+          )}
         </Collapse>
       </>
     );

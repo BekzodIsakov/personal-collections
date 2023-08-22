@@ -1,29 +1,46 @@
 const mongoose = require("mongoose");
+const User = require("./userModel");
+// const CommentReply = require("./commentReplyModel");
 
-const fakeCollectionSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    index: true,
+const replySchema = new mongoose.Schema(
+  {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    likes: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: User }],
+      default: Array,
+    },
   },
-});
-
-const fakeCollectionModel = new mongoose.model(
-  "fakeCollection",
-  fakeCollectionSchema
+  { timestamps: true }
 );
-fakeCollectionSchema.index({ name: "text" });
 
-const fakeItemSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    index: true,
+const commentSchema = new mongoose.Schema(
+  {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    likes: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: User }],
+      default: Array,
+    },
+    replies: [replySchema],
   },
-});
+  { timestamps: true }
+);
 
-const fakeItemModel = new mongoose.model("fakeItem", fakeItemSchema);
-fakeItemSchema.index({ name: "text" });
-
-module.exports = {
-  fakeCollectionModel,
-  fakeItemModel,
-};
+module.exports = new mongoose.model("Comment", commentSchema);
