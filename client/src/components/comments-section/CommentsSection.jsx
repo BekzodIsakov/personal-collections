@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Box,
   HStack,
@@ -20,10 +20,6 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
   const { t } = useTranslation();
   const commentsSectionBg = useColorModeValue("gray.50", "gray.700");
 
-  function handleReceivedComment(newComment) {
-    setComments((prevComments) => [...prevComments, newComment]);
-  }
-
   const [comment, setComment] = React.useState("");
   const [sendingComment, setSendingComment] = React.useState(false);
 
@@ -35,46 +31,65 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     });
   }
 
-  function handleEditComment({ commentId, content }) {
-    const _comments = comments.map((comment) => {
-      if (comment._id === commentId) {
-        return {
-          ...comment,
-          content,
-        };
-      }
+  const handleReceivedComment = useCallback(
+    (newComment) => {
+      setComments((prevComments) => [...prevComments, newComment]);
+    },
+    [setComments]
+  );
 
-      return comment;
-    });
+  const handleEditComment = useCallback(
+    ({ commentId, content }) => {
+      const _comments = comments.map((comment) => {
+        if (comment._id === commentId) {
+          return {
+            ...comment,
+            content,
+          };
+        }
 
-    setComments(_comments);
-  }
+        return comment;
+      });
 
-  function handleDeleteComment(commentId) {
-    const _comments = comments.filter((c) => c._id !== commentId);
-    setComments(_comments);
-  }
+      setComments(_comments);
+    },
+    [setComments, comments]
+  );
 
-  function joinUser() {
+  const handleDeleteComment = useCallback(
+    (commentId) => {
+      const _comments = comments.filter((c) => c._id !== commentId);
+      setComments(_comments);
+    },
+    [setComments, comments]
+  );
+
+  const joinUser = useCallback(() => {
     socket.emit("join", { userId: user.id, roomId: itemId });
-  }
+  }, [itemId, user?.id]);
 
-  function handleLikeUnlikeItem({ commentId, likes }) {
-    const _comments = comments.map((comment) => {
-      if (comment._id === commentId) {
-        comment.likes = likes;
-      }
+  const handleLikeUnlikeItem = useCallback(
+    ({ commentId, likes }) => {
+      const _comments = comments.map((comment) => {
+        if (comment._id === commentId) {
+          comment.likes = likes;
+        }
 
-      return comment;
-    });
+        return comment;
+      });
 
-    setComments(_comments);
-  }
+      setComments(_comments);
+    },
+    [comments, setComments]
+  );
 
   React.useEffect(() => {
     socket.connect();
 
-    socket.on("connect", joinUser);
+    if (user) {
+      socket.on("connect", joinUser);
+    }
+
     socket.on("comment", handleReceivedComment);
     socket.on("editComment", handleEditComment);
     socket.on("deleteComment", handleDeleteComment);
@@ -88,9 +103,14 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
       socket.off("editComment", handleDeleteComment);
       socket.off("likeUnlikeItem", handleLikeUnlikeItem);
     };
-  }, []);
-
-  console.log({ comments });
+  }, [
+    user,
+    joinUser,
+    handleReceivedComment,
+    handleEditComment,
+    handleDeleteComment,
+    handleLikeUnlikeItem,
+  ]);
 
   return (
     <Box p='3' pt='5' bg={commentsSectionBg} rounded='md'>
