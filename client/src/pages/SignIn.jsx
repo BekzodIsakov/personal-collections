@@ -22,11 +22,11 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useAuth } from "../providers/authProvider";
 import { useUserSignIn } from "../hooks/user";
 import LanguageSelect from "../components/LanguageSelect";
+import useForm from "../hooks/useForm";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [values, handleChange] = useForm({ email: "", password: "" });
 
   const { t } = useTranslation();
 
@@ -41,7 +41,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSignIn({ email, password });
+    onSignIn({ email: values.email, password: values.password });
   };
 
   React.useEffect(() => {
@@ -87,8 +87,9 @@ const SignIn = () => {
                 <Input
                   type='email'
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name='email'
+                  value={values.email}
+                  onChange={handleChange}
                 />
               </FormControl>
               <FormControl id='password'>
@@ -97,8 +98,9 @@ const SignIn = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name='password'
+                    value={values.password}
+                    onChange={handleChange}
                   />
                   <InputRightElement mr='1'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
