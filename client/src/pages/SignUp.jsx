@@ -22,6 +22,7 @@ import { useAuth } from "../providers/authProvider";
 import { useUserSignUp } from "../hooks/user";
 import LanguageSelect from "../components/LanguageSelect";
 import { useTranslation } from "react-i18next";
+import useForm from "../hooks/useForm";
 
 const SignUp = () => {
   const { data, loading, errorMessage, onSignUp } = useUserSignUp();
@@ -33,17 +34,22 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+
+  const [values, handleChange] = useForm({ name: "", email: "", password: "" });
 
   const handlePasswordShowClick = () => {
     setShowPassword(!showPassword);
   };
 
+  const { name, email, password } = values;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSignUp({ name, email, password });
+    onSignUp({
+      name,
+      email,
+      password,
+    });
   };
 
   React.useEffect(() => {
@@ -88,8 +94,9 @@ const SignUp = () => {
                 <FormLabel>{t("auth.name")}</FormLabel>
                 <Input
                   required
+                  name='name'
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={handleChange}
                 />
               </FormControl>
               <FormControl id='email'>
@@ -97,8 +104,9 @@ const SignUp = () => {
                 <Input
                   type='email'
                   required
+                  name='email'
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleChange}
                 />
               </FormControl>
               <FormControl id='password'>
@@ -107,8 +115,9 @@ const SignUp = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     required
+                    name='password'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChange}
                   />
                   <InputRightElement mr='1'>
                     <Button size='sm' onClick={handlePasswordShowClick}>
