@@ -25,6 +25,7 @@ import { useFetchTopics } from "../hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useCollectionEdit } from "../hooks/collections";
 import { useTranslation } from "react-i18next";
+import useForm from "../hooks/useForm";
 
 const EditCollectionModal = ({
   isOpen,
@@ -32,11 +33,20 @@ const EditCollectionModal = ({
   collection,
   setCollection,
 }) => {
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [selectedTopic, setSelectedTopic] = React.useState("");
+  // const [title, setTitle] = React.useState("");
+  // const [description, setDescription] = React.useState("");
+  // const [selectedTopic, setSelectedTopic] = React.useState("");
   const [selectedImage, setSelectedImage] = React.useState("");
   const [preview, setPreview] = React.useState("");
+
+  const { title, description } = collection;
+  const topicId = collection?.topic._id;
+
+  const [values, handleChange] = useForm({
+    title,
+    description,
+    topicId,
+  });
 
   const fileInputRef = React.useRef(null);
 
@@ -58,12 +68,15 @@ const EditCollectionModal = ({
   function handleOnSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("topic", selectedTopic);
+
+    formData.append("title", values.title);
+    formData.append("description", values.description);
+    formData.append("topic", values.topicId);
+
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
+
     updateCollection(params.collectionId, formData);
   }
 
@@ -97,13 +110,13 @@ const EditCollectionModal = ({
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedImage]);
 
-  React.useEffect(() => {
-    if (collection) {
-      setTitle(collection.title);
-      setDescription(collection.description);
-      setSelectedTopic(collection.topic._id);
-    }
-  }, [collection]);
+  // React.useEffect(() => {
+  //   if (collection) {
+  //     setTitle(collection.title);
+  //     setDescription(collection.description);
+  //     setSelectedTopic(collection.topic._id);
+  //   }
+  // }, [collection]);
 
   React.useEffect(() => {
     if (updatedCollection) {
@@ -126,8 +139,8 @@ const EditCollectionModal = ({
                 <FormLabel>{t("global.name")}</FormLabel>
                 <Input
                   name={"title"}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={values.title}
+                  onChange={handleChange}
                 />
               </FormControl>
 
@@ -135,8 +148,8 @@ const EditCollectionModal = ({
                 <FormLabel>{t("global.description")}</FormLabel>
                 <Textarea
                   name={"description"}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={values.description}
+                  onChange={handleChange}
                 ></Textarea>
               </FormControl>
 
@@ -144,8 +157,8 @@ const EditCollectionModal = ({
                 <FormLabel>{t("global.topic")}</FormLabel>
                 <Select
                   name='selectedTopic'
-                  value={selectedTopic}
-                  onChange={(e) => setSelectedTopic(e.target.value)}
+                  value={values.topicId}
+                  onChange={handleChange}
                 >
                   {topics.map((topic) => (
                     <option key={topic._id} value={topic._id}>
