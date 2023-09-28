@@ -7,12 +7,12 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useAuth } from "../../providers/authProvider";
+import { useAuth } from "@/providers/authProvider";
 import { useTranslation } from "react-i18next";
 import Comment from "./Comment";
 import Compose from "./Compose";
 
-import { socket } from "../../socket";
+import { socket } from "@/socket";
 
 const CommentsSection = ({ itemId, comments, setComments }) => {
   const { token, user } = useAuth();

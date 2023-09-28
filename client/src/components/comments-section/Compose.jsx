@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import SVG from "../SVG";
-import { useAutoSizeTextarea } from "../../hooks/useAutoSizeTextarea";
+import { useAutoSizeTextarea } from "@/hooks/useAutoSizeTextarea";
 
 const Compose = ({
   src,

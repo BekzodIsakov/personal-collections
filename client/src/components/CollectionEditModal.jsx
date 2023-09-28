@@ -21,11 +21,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useFetchTopics } from "../hooks/topics";
+import { useFetchTopics } from "@/hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useCollectionEdit } from "../hooks/collections";
+import { useCollectionEdit } from "@/hooks/collections";
 import { useTranslation } from "react-i18next";
-import useForm from "../hooks/useForm";
+import useForm from "@/hooks/useForm";
 
 const EditCollectionModal = ({
   isOpen,

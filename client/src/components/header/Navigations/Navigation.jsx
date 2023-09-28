@@ -12,7 +12,7 @@ import {
 import { useNavData } from "./navData";
 import MobileNav from "./MobileNav";
 import DesktopNav from "./DesktopNav";
-import LanguageSelect from "../../LanguageSelect";
+import LanguageSelect from "@/components/LanguageSelect";
 
 const Navigation = () => {
   const { navData } = useNavData();

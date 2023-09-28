@@ -13,9 +13,9 @@ import {
 } from "@chakra-ui/react";
 import ReactTable from "./ReactTable";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { useFetchCollectionItems } from "../hooks/collections";
+import { useFetchCollectionItems } from "@/hooks/collections";
 import DeleteModal from "./DeleteModal";
-import { useItemDelete } from "../hooks/items";
+import { useItemDelete } from "@/hooks/items";
 import ItemEditModal from "./ItemEditModal";
 import NewItemModal from "./NewItemModal";
 

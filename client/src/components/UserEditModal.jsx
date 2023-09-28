@@ -14,8 +14,8 @@ import {
   Spinner,
   Switch,
 } from "@chakra-ui/react";
-import { useFetchUser, useUpdateUser } from "../hooks/user";
-import { useAuth } from "../providers/authProvider";
+import { useFetchUser, useUpdateUser } from "@/hooks/user";
+import { useAuth } from "@/providers/authProvider";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

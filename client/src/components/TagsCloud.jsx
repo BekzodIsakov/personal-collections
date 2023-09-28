@@ -9,8 +9,8 @@ import {
   WrapItem,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useFetchAllTags } from "../hooks/tags";
-import { useItemsFetchByTag } from "../hooks/items";
+import { useFetchAllTags } from "@/hooks/tags";
+import { useItemsFetchByTag } from "@/hooks/items";
 import CustomList from "./CustomList";
 
 import { useTranslation } from "react-i18next";

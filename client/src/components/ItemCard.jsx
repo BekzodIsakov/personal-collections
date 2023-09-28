@@ -19,15 +19,14 @@ import {
 import React from "react";
 import SVG from "./SVG";
 import CommentsSection from "./comments-section/CommentsSection";
-import { useItemFetch } from "../hooks/items";
+import { useItemFetch } from "@/hooks/items";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
-import { useAuth } from "../providers/authProvider";
-import { useFetchComments } from "../hooks/comments";
-import Compose from "./comments-section/Compose";
+import { useAuth } from "@/providers/authProvider";
+import { useFetchComments } from "@/hooks/comments";
 
-const ItemCard = ({ itemId, itemName }) => {
+const ItemCard = ({ itemId }) => {
   const [likeLoading, setLikeLoading] = React.useState(false);
   const toastBgColor = useColorModeValue("white", "gray.800");
   const { isOpen: isCollapsed, onToggle } = useDisclosure();
@@ -36,11 +35,9 @@ const ItemCard = ({ itemId, itemName }) => {
 
   const { fetchComments, comments, setComments } = useFetchComments();
 
-  const { loading, item, onItemFetch, updateItem } = useItemFetch();
+  const { loading, item, fetchItem, updateItem } = useItemFetch();
 
   const { t } = useTranslation();
-
-  const { token } = useAuth();
 
   const likeUnlikeItem = async (itemId) => {
     try {
@@ -86,7 +83,7 @@ const ItemCard = ({ itemId, itemName }) => {
 
   React.useEffect(() => {
     if (itemId) {
-      onItemFetch(itemId);
+      fetchItem(itemId);
     }
   }, [itemId]);
 

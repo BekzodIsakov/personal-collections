@@ -6,7 +6,7 @@ export const useItemFetch = () => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [item, setItem] = React.useState(null);
 
-  async function onItemFetch(itemId) {
+  async function fetchItem(itemId) {
     try {
       setLoading(true);
       const result = await axios.get(
@@ -33,7 +33,7 @@ export const useItemFetch = () => {
     errorMessage,
     item,
     setItem,
-    onItemFetch,
+    fetchItem,
     updateItem,
   };
 };

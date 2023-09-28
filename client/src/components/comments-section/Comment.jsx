@@ -14,12 +14,12 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useAuth } from "../../providers/authProvider";
+import { useAuth } from "@/providers/authProvider";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import React from "react";
 import Compose from "./Compose";
-import { socket } from "../../socket";
+import { socket } from "@/socket";
 
 const Comment = ({
   src,

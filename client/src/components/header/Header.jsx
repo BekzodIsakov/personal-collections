@@ -12,8 +12,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Navigation from "./Navigations/Navigation";
-import { useAuth } from "../../providers/authProvider";
-import { useUserSignOut } from "../../hooks/user";
+import { useAuth } from "@/providers/authProvider";
+import { useUserSignOut } from "@/hooks/user";
 import SVG from "../SVG";
 import { useNavigate } from "react-router-dom";
 import SearchItemModal from "../SearchItemModal";

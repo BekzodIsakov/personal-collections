@@ -16,9 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Select as ReactSelect } from "chakra-react-select";
-import { useFetchAllTags } from "../hooks/tags";
-import { useCreateItem } from "../hooks/items";
-import { useCurrentUser } from "../providers/currentUserProvider";
+import { useFetchAllTags } from "@/hooks/tags";
+import { useCreateItem } from "@/hooks/items";
+import { useCurrentUser } from "@/providers/currentUserProvider";
 
 import { useTranslation } from "react-i18next";
 
@@ -182,24 +182,18 @@ const NewItemModal = ({
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
       <ModalOverlay />
       <ModalContent mx='3' pb='3'>
-        <ModalHeader>
-          {t("global.createNewItem")}
-        </ModalHeader>
+        <ModalHeader>{t("global.createNewItem")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleOnSubmit}>
             <VStack spacing='3' mb='7'>
               <FormControl>
-                <FormLabel>
-                  {t("global.name")}
-                </FormLabel>
+                <FormLabel>{t("global.name")}</FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
-                <FormLabel>
-                  {t("global.tags")}
-                </FormLabel>
+                <FormLabel>{t("global.tags")}</FormLabel>
                 <ReactSelect
                   isMulti
                   value={selectedTags}

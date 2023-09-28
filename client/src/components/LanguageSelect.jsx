@@ -1,5 +1,5 @@
 import { Select } from "@chakra-ui/react";
-import { locales } from "../constants";
+import { locales } from "@/constants";
 import { useTranslation } from "react-i18next";
 
 const LanguageSelect = () => {

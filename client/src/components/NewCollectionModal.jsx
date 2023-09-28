@@ -20,11 +20,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-import { useFetchTopics } from "../hooks/topics";
+import { useFetchTopics } from "@/hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
-import { useCreateCollection } from "../hooks/collections";
-import { useCurrentUser } from "../providers/currentUserProvider";
+import { useCreateCollection } from "@/hooks/collections";
+import { useCurrentUser } from "@/providers/currentUserProvider";
 
 import { useTranslation } from "react-i18next";
 
@@ -63,7 +63,7 @@ const NewCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
     setSelectedImage("");
   }
 
-  function handleOnSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
 
@@ -114,7 +114,7 @@ const NewCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
         <ModalHeader>{t("global.createNewCollection")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <form onSubmit={handleOnSubmit}>
+          <form onSubmit={handleSubmit}>
             <Stack spacing='3' mb='7'>
               <FormControl>
                 <FormLabel>{t("global.title")}</FormLabel>

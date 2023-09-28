@@ -18,7 +18,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useSearchItems } from "../hooks/items";
+import { useSearchItems } from "@/hooks/items";
 
 const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
   const [searchText, setSearchText] = React.useState("");
