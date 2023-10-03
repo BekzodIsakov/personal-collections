@@ -5,10 +5,14 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import {
+  ColorSwitch,
+  UserProfile,
+  SearchModal,
+  SearchButton,
+  LanguageSelect,
+} from "@/components";
 import Navigation from "./Navigations/Navigation";
-import LanguageSelect from "../LanguageSelect";
-import { ColorSwitch, UserProfile, SearchModal } from "@/components";
-import SearchButton from "../SearchButton";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
