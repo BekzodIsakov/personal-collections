@@ -11,18 +11,16 @@ import {
   InputRightElement,
   Stack,
   useColorModeValue,
-  Link,
   Text,
 } from "@chakra-ui/react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-
-import { useAuth } from "../providers/authProvider";
-import { useUserSignIn } from "../hooks/user";
-import LanguageSelect from "../components/LanguageSelect";
-import useForm from "../hooks/useForm";
+import { useAuth } from "@/providers/authProvider";
+import { useUserSignIn } from "@/hooks/user";
+import LanguageSelect from "@/components/LanguageSelect";
+import useForm from "@/hooks/useForm";
+import Link from "@/components/Link";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -117,11 +115,7 @@ const SignIn = () => {
                   isLoading={loading}
                   loadingText='Submitting'
                   type='submit'
-                  bg='blue.400'
-                  color='white'
-                  _hover={{
-                    bg: "blue.500",
-                  }}
+                  colorScheme='telegram'
                 >
                   {t("auth.signIn")}
                 </Button>
@@ -131,7 +125,7 @@ const SignIn = () => {
         </Box>
         <Box color='gray.500'>
           {t("auth.noAccountYet?")}&nbsp;&nbsp;
-          <Link as={RouterLink} to='/signup' color='blue.400' fontWeight='bold'>
+          <Link to='/signup' color='blue.500'>
             {t("auth.signUp")}
           </Link>
         </Box>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
@@ -11,8 +12,6 @@ import {
   TagLabel,
   Wrap,
 } from "@chakra-ui/react";
-
-import { useTranslation } from "react-i18next";
 
 const FIELD_TYPES = ["number", "text", "textarea", "checkbox", "date"];
 
@@ -97,7 +96,7 @@ const OptionalFieldGenerator = ({
         />
       </FormControl>
 
-      <Button size={"sm"} onClick={createOptionalField}>
+      <Button onClick={createOptionalField} size={"sm"}>
         {t("global.add")}
       </Button>
 

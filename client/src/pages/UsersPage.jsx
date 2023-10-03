@@ -1,3 +1,5 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
@@ -9,12 +11,8 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { useDeleteUser, useFetchUsers } from "../hooks/user";
-import CustomLink from "../components/CustomLink";
-import DeleteModal from "../components/DeleteModal";
-import UserEditModal from "../components/UserEditModal";
-import { useTranslation } from "react-i18next";
+import { useDeleteUser, useFetchUsers } from "@/hooks/user";
+import { Link, DeleteModal, UserEditModal } from "@/components";
 
 const UsersPage = () => {
   const { loading, fetchUsers, users, setUsers } = useFetchUsers();
@@ -79,7 +77,7 @@ const UsersPage = () => {
           <ListItem key={user._id} mb='4' backgroundColor={"transparent"}>
             <Wrap spacingX='10'>
               <WrapItem>
-                <CustomLink to={`${user._id}`}>{user.name}</CustomLink>
+                <Link to={`${user._id}`}>{user.name}</Link>
               </WrapItem>
               <WrapItem>
                 <Button

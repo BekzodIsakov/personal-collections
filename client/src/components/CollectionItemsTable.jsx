@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
 import {
   Badge,
@@ -11,17 +12,17 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import ReactTable from "./ReactTable";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  CreateItemModal,
+  DeleteModal,
+  ItemEditModal,
+  ReactTable,
+} from "@/components";
 import { useFetchCollectionItems } from "@/hooks/collections";
-import DeleteModal from "./DeleteModal";
 import { useItemDelete } from "@/hooks/items";
-import ItemEditModal from "./ItemEditModal";
-import NewItemModal from "./NewItemModal";
 
-import { useTranslation } from "react-i18next";
-
-const CollectionItems = ({ collectionId }) => {
+const CollectionItemsTable = ({ collectionId }) => {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [columns, setColumns] = React.useState([]);
 
@@ -209,7 +210,7 @@ const CollectionItems = ({ collectionId }) => {
       />
 
       {isNewItemModalOpen && (
-        <NewItemModal
+        <CreateItemModal
           isOpen={isNewItemModalOpen}
           onClose={onNewItemModalClose}
           optionalItemFields={
@@ -246,4 +247,4 @@ const CollectionItems = ({ collectionId }) => {
   );
 };
 
-export default CollectionItems;
+export default CollectionItemsTable;

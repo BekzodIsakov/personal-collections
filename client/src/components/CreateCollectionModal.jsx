@@ -1,3 +1,5 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
@@ -19,16 +21,13 @@ import {
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
-import { useFetchTopics } from "@/hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
-import OptionalFieldGenerator from "./OptionalFieldGenerator";
+import { OptionalFieldGenerator } from "@/components";
+import { useFetchTopics } from "@/hooks/topics";
 import { useCreateCollection } from "@/hooks/collections";
 import { useCurrentUser } from "@/providers/currentUserProvider";
 
-import { useTranslation } from "react-i18next";
-
-const NewCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
+const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedTopic, setSelectedTopic] = React.useState("");
@@ -260,4 +259,4 @@ const NewCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
   );
 };
 
-export default NewCollectionModal;
+export default CreateCollectionModal;

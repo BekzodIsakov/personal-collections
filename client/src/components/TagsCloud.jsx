@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Heading,
@@ -9,11 +10,9 @@ import {
   WrapItem,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { CustomList } from "@/components";
 import { useFetchAllTags } from "@/hooks/tags";
 import { useItemsFetchByTag } from "@/hooks/items";
-import CustomList from "./CustomList";
-
-import { useTranslation } from "react-i18next";
 
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
@@ -29,7 +28,7 @@ const TagsCloud = () => {
     fetchItemsByTag,
   } = useItemsFetchByTag();
 
-  function handleTagSelect(tagId) {
+  function toggleTagSelect(tagId) {
     if (tagId === selectedTagId) {
       setSelectedTagId("");
     } else {
@@ -65,7 +64,7 @@ const TagsCloud = () => {
     tagElements = tags.map((tag) => (
       <WrapItem key={tag._id} boxShadow={selectedTagId === tag._id ? "lg" : ""}>
         <Tag
-          onClick={() => handleTagSelect(tag._id)}
+          onClick={() => toggleTagSelect(tag._id)}
           cursor='pointer'
           color={tagColor}
           bg={

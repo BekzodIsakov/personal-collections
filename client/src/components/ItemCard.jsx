@@ -1,3 +1,6 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -16,12 +19,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
-import SVG from "./SVG";
-import CommentsSection from "./comments-section/CommentsSection";
+import { SVG } from "@/components";
+import CommentsSection from "@/components/comments-section/CommentsSection";
 import { useItemFetch } from "@/hooks/items";
-import { useTranslation } from "react-i18next";
-import axios from "axios";
+
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "@/providers/authProvider";
 import { useFetchComments } from "@/hooks/comments";
@@ -97,7 +98,9 @@ const ItemCard = ({ itemId }) => {
         </HStack>
       </>
     );
-  } else if (item) {
+  }
+
+  if (item) {
     return (
       <>
         <Card variant='outline'>

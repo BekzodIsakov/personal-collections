@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
@@ -8,17 +9,16 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 
-const CustomListItem = ({ item, onClick, ...rest }) => {
+const CustomListItem = ({ item, onClick, ...otherProps }) => {
   const tagColorMode = useColorModeValue("blackAlpha", "gray");
 
   const { t } = useTranslation();
 
   return (
-    <ListItem mb={5} {...rest}>
+    <ListItem mb='5' {...otherProps}>
       <Box>
-        <Text mb={1}>{item.name}</Text>
+        <Text mb='1'>{item.name}</Text>
         <HStack>
           <Tag colorScheme={tagColorMode} fontSize={"sm"} py='1'>
             {item.parentCollection.title}

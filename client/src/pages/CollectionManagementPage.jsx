@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Badge,
   Box,
@@ -22,28 +24,28 @@ import {
   Wrap,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import GoBackButton from "../components/GoBackButton";
+import {
+  GoBackButton,
+  CollectionEditModal,
+  DeleteModal,
+  CollectionItemsTable,
+} from "@/components";
 import {
   useCollectionFetch,
   useDeleteCollection,
   useDeleteCollectionImage,
-} from "../hooks/collections";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import CollectionEditModal from "../components/CollectionEditModal";
-import DeleteModal from "../components/DeleteModal";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { useTranslation } from "react-i18next";
-import CollectionItems from "../components/CollectionItems";
+} from "@/hooks/collections";
 
 const CollectionManagementPage = () => {
   const params = useParams();
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-
 
   const { loading, errorMessage, collection, setCollection, fetchCollection } =
     useCollectionFetch();
@@ -236,7 +238,7 @@ const CollectionManagementPage = () => {
       )}
       <Box mb='10'>{collectionManagementPage}</Box>
 
-      <CollectionItems collectionId={collection?._id} />
+      <CollectionItemsTable collectionId={collection?._id} />
 
       {isEditModalOpen && (
         <CollectionEditModal

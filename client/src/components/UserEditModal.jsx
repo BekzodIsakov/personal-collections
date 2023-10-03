@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   FormControl,
@@ -16,8 +18,6 @@ import {
 } from "@chakra-ui/react";
 import { useFetchUser, useUpdateUser } from "@/hooks/user";
 import { useAuth } from "@/providers/authProvider";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
   const [name, setName] = React.useState("");

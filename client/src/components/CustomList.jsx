@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
@@ -15,8 +16,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import ItemViewModal from "./ItemViewModal";
-import { useTranslation } from "react-i18next";
+import { ItemViewModal } from "@/components";
 
 const CustomList = ({
   list,
@@ -40,82 +40,89 @@ const CustomList = ({
     onOpen();
   };
 
-  let listItems = [];
-
   if (loading) {
-    listItems = (
+    return (
       <Stack>
         <Skeleton height='30px' startColor='gray.300' endColor='gray.100' />
         <Skeleton height='30px' startColor='gray.300' endColor='gray.100' />
         <Skeleton height='30px' startColor='gray.300' endColor='gray.100' />
       </Stack>
     );
-  } else if (list?.length) {
-    listItems = list.map((item) => (
-      <ListItem key={item._id} mb={showDetails ? 5 : 2}>
-        <Box>
-          <Text mb={1} display={"inline-block"}>
-            {item.name}
-          </Text>
+  }
 
-          {showDetails ? (
-            <HStack>
-              <Tag colorScheme={tagColorMode} fontSize='sm' py='1'>
-                {item.parentCollection.title}
-              </Tag>
-              <Divider h='5' orientation='vertical' borderColor='gray.400' />
-              <Text fontWeight='medium'>{item.author.name}</Text>
-              <Divider h='5' orientation='vertical' borderColor='gray.400' />
-              <Button
-                size='xs'
-                variant='outline'
-                colorScheme='blue.400'
-                onClick={() => openItemModal(item._id, item.name)}
-              >
-                {t("global.view")}
-              </Button>
-            </HStack>
-          ) : (
-            <Button
-              size='xs'
-              variant='outline'
-              colorScheme='blue.400'
-              ml={3}
-              onClick={() => openItemModal(item._id, item.name)}
-            >
-              {t("global.view")}
-            </Button>
-          )}
-        </Box>
-      </ListItem>
-    ));
-  } else if (errorMessage) {
-    listItems = (
+  if (errorMessage) {
+    return (
       <Text fontSize='md' color='red'>
         {t("global.error")}
       </Text>
     );
   }
 
-  return (
-    <>
-      {type === "ol" ? (
-        <OrderedList>{listItems}</OrderedList>
-      ) : (
-        <UnorderedList>{listItems}</UnorderedList>
-      )}
-      {isOpen && (
-        <ItemViewModal
-          isOpen={isOpen}
-          onOpen={onOpen}
-          onClose={onClose}
-          itemId={itemId}
-          setItemId={setItemId}
-          itemName={itemName}
-        />
-      )}
-    </>
-  );
+  if (list?.length) {
+    const List = type === "ol" ? OrderedList : UnorderedList;
+    return (
+      <>
+        <List>
+          {list.map((item) => (
+            <ListItem key={item._id} mb={showDetails ? "5" : "2"}>
+              <Box>
+                <Text mb={1} display={"inline-block"}>
+                  {item.name}
+                </Text>
+
+                {showDetails ? (
+                  <HStack>
+                    <Tag colorScheme={tagColorMode} fontSize='sm' py='1'>
+                      {item.parentCollection.title}
+                    </Tag>
+                    <Divider
+                      h='5'
+                      orientation='vertical'
+                      borderColor='gray.400'
+                    />
+                    <Text fontWeight='medium'>{item.author.name}</Text>
+                    <Divider
+                      h='5'
+                      orientation='vertical'
+                      borderColor='gray.400'
+                    />
+                    <Button
+                      size='xs'
+                      variant='outline'
+                      colorScheme='blue.400'
+                      onClick={() => openItemModal(item._id, item.name)}
+                    >
+                      {t("global.view")}
+                    </Button>
+                  </HStack>
+                ) : (
+                  <Button
+                    size='xs'
+                    variant='outline'
+                    colorScheme='blue.400'
+                    ml={3}
+                    onClick={() => openItemModal(item._id, item.name)}
+                  >
+                    {t("global.view")}
+                  </Button>
+                )}
+              </Box>
+            </ListItem>
+          ))}
+        </List>
+        {isOpen && (
+          <ItemViewModal
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
+            itemId={itemId}
+            setItemId={setItemId}
+            itemName={itemName}
+          />
+        )}
+      </>
+    );
+  }
 };
 
 CustomList.propTypes = {

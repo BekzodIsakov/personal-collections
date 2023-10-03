@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Button,
   HStack,
@@ -8,7 +9,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 
 const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
   const { t } = useTranslation();
@@ -22,14 +22,14 @@ const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
         <ModalFooter>
           <HStack>
             <Button
-              colorScheme={"red"}
               onClick={onDelete}
-              size='sm'
               isLoading={loading}
+              colorScheme={"red"}
+              size='sm'
             >
               {t("global.delete")}
             </Button>
-            <Button colorScheme='blue' mr='3' onClick={onClose} size='sm'>
+            <Button onClick={onClose} colorScheme='telegram' size='sm' mr='3'>
               {t("global.cancel")}
             </Button>
           </HStack>

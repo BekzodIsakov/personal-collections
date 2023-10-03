@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Avatar,
   Badge,
@@ -15,13 +16,11 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useFetchUser } from "../hooks/user";
-import { useFetchUserCollections } from "../hooks/collections";
-import CustomLink from "../components/CustomLink";
-import NewCollectionModal from "../components/NewCollectionModal";
 import { AddIcon } from "@chakra-ui/icons";
-import { useCurrentUser } from "../providers/currentUserProvider";
-import { useTranslation } from "react-i18next";
+import { Link, CreateCollectionModal } from "@/components";
+import { useFetchUser } from "@/hooks/user";
+import { useFetchUserCollections } from "@/hooks/collections";
+import { useCurrentUser } from "@/providers/currentUserProvider";
 
 const UserPage = () => {
   const { t } = useTranslation();
@@ -38,66 +37,6 @@ const UserPage = () => {
     fetchUserCollections,
   } = useFetchUserCollections();
 
-  let userPage = null;
-
-  if (loading) {
-    userPage = (
-      <Box>
-        <Spinner />
-      </Box>
-    );
-  } else if (user) {
-    userPage = (
-      <Box>
-        <HStack mb={7}>
-          <Avatar name={user.name} alt={user.name} mr={2} />
-          <Box>
-            <HStack>
-              <Heading as='h1' size='md' mr={1}>
-                {user.name}
-              </Heading>
-              <Badge colorScheme={"orange"}>{user.isAdmin && "Admin"}</Badge>
-            </HStack>
-            <Text color='gray'>{user.email}</Text>
-          </Box>
-        </HStack>
-
-        <Box>
-          <Stack direction={"row"} justifyContent={"space-between"}>
-            <Wrap spacing={"3"} mb='4' align='center'>
-              <WrapItem>
-                <Heading size='md'>{t("userPage.myCollections")}</Heading>
-              </WrapItem>
-              <WrapItem>
-                {userCollectionsLoading && <Spinner size='sm' />}
-              </WrapItem>
-            </Wrap>
-            <Button
-              size='sm'
-              onClick={onOpen}
-              colorScheme='blue'
-              leftIcon={<AddIcon />}
-            >
-              {t("global.newCollection")}
-            </Button>
-          </Stack>
-
-          <UnorderedList>
-            {userCollections.map((collection) => (
-              <ListItem key={collection._id} mb={2}>
-                <CustomLink to={`collections/${collection._id}`}>
-                  {collection.title}
-                </CustomLink>
-              </ListItem>
-            ))}
-          </UnorderedList>
-        </Box>
-      </Box>
-    );
-  } else if (errorMessage) {
-    userPage = <Text color={"orange"}>{errorMessage}</Text>;
-  }
-
   React.useEffect(() => {
     fetchUser();
   }, [location]);
@@ -112,18 +51,72 @@ const UserPage = () => {
     }
   }, [user]);
 
-  return (
-    <Box>
-      {userPage}
-      {isOpen && (
-        <NewCollectionModal
-          isOpen={isOpen}
-          onClose={onClose}
-          fetchUserCollections={fetchUserCollections}
-        />
-      )}
-    </Box>
-  );
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (errorMessage) {
+    return <Text color={"orange"}>{errorMessage}</Text>;
+  }
+
+  if (user) {
+    return (
+      <>
+        <Box>
+          <HStack mb={7}>
+            <Avatar name={user.name} alt={user.name} mr={2} />
+            <Box>
+              <HStack>
+                <Heading as='h1' size='md' mr={1}>
+                  {user.name}
+                </Heading>
+                <Badge colorScheme={"orange"}>{user.isAdmin && "Admin"}</Badge>
+              </HStack>
+              <Text color='gray'>{user.email}</Text>
+            </Box>
+          </HStack>
+
+          <Box>
+            <Stack direction={"row"} justifyContent={"space-between"}>
+              <Wrap spacing={"3"} mb='4' align='center'>
+                <WrapItem>
+                  <Heading size='md'>{t("userPage.myCollections")}</Heading>
+                </WrapItem>
+                <WrapItem>
+                  {userCollectionsLoading && <Spinner size='sm' />}
+                </WrapItem>
+              </Wrap>
+              <Button
+                size='sm'
+                onClick={onOpen}
+                colorScheme='blue'
+                leftIcon={<AddIcon />}
+              >
+                {t("global.newCollection")}
+              </Button>
+            </Stack>
+
+            <UnorderedList>
+              {userCollections.map((collection) => (
+                <ListItem key={collection._id} mb={2}>
+                  <Link to={`collections/${collection._id}`}>
+                    {collection.title}
+                  </Link>
+                </ListItem>
+              ))}
+            </UnorderedList>
+          </Box>
+        </Box>
+        {isOpen && (
+          <CreateCollectionModal
+            isOpen={isOpen}
+            onClose={onClose}
+            fetchUserCollections={fetchUserCollections}
+          />
+        )}
+      </>
+    );
+  }
 };
 
 export default UserPage;

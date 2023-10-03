@@ -1,7 +1,6 @@
-import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-
-import ItemCard from "../components/ItemCard";
+import { Box } from "@chakra-ui/react";
+import { ItemCard } from "@/components";
 
 const ItemPage = () => {
   const { itemId } = useParams();

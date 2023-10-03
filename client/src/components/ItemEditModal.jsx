@@ -1,3 +1,7 @@
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Select as ReactSelect } from "chakra-react-select";
 import {
   Button,
   Checkbox,
@@ -13,14 +17,11 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
-import { useFetchAllTags } from "@/hooks/tags";
-import { useParams } from "react-router-dom";
-import { Select as ReactSelect } from "chakra-react-select";
-import { useEditItem, useFetchItem } from "@/hooks/items";
-import { useTranslation } from "react-i18next";
 
-const EditItemModal = ({
+import { useFetchAllTags } from "@/hooks/tags";
+import { useEditItem, useFetchItem } from "@/hooks/items";
+
+const ItemEditModal = ({
   isOpen,
   onClose,
   optionalItemFields,
@@ -238,4 +239,4 @@ const EditItemModal = ({
   );
 };
 
-export default EditItemModal;
+export default ItemEditModal;

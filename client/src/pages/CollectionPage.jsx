@@ -13,10 +13,9 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import CustomList from "../components/CustomList";
-import GoBackButton from "../components/GoBackButton";
-import { useCollectionFetch } from "../hooks/collections";
 import { useTranslation } from "react-i18next";
+import { CustomList, GoBackButton } from "@/components";
+import { useCollectionFetch } from "@/hooks/collections";
 
 const CollectionPage = () => {
   const params = useParams();

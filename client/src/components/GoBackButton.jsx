@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@chakra-ui/react";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { useTranslation } from "react-i18next";
 
 const GoBackButton = () => {
   const navigate = useNavigate();
@@ -10,12 +10,12 @@ const GoBackButton = () => {
 
   return (
     <Button
-      leftIcon={<ChevronLeftIcon />}
+      onClick={() => navigate(-1)}
       variant='link'
-      colorScheme='blue'
+      leftIcon={<ChevronLeftIcon />}
+      colorScheme='telegram'
       fontWeight='normal'
       mb='7'
-      onClick={() => navigate(-1)}
     >
       {t("global.goBack")}
     </Button>

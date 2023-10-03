@@ -1,4 +1,7 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { Select as ReactSelect } from "chakra-react-select";
 import {
   Button,
   Checkbox,
@@ -14,15 +17,11 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { Select as ReactSelect } from "chakra-react-select";
 import { useFetchAllTags } from "@/hooks/tags";
 import { useCreateItem } from "@/hooks/items";
 import { useCurrentUser } from "@/providers/currentUserProvider";
 
-import { useTranslation } from "react-i18next";
-
-const NewItemModal = ({
+const CreateItemModal = ({
   isOpen,
   onClose,
   optionalItemFields,
@@ -214,4 +213,4 @@ const NewItemModal = ({
   );
 };
 
-export default NewItemModal;
+export default CreateItemModal;

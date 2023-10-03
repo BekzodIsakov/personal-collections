@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useSearchItems } from "@/hooks/items";
 
-const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
+const SearchModal = ({ isOpen, onClose, onOpen }) => {
   const [searchText, setSearchText] = React.useState("");
 
   const initialRef = React.useRef();
@@ -106,4 +106,4 @@ const SearchItemModal = ({ isOpen, onClose, onOpen }) => {
   );
 };
 
-export default SearchItemModal;
+export default SearchModal;

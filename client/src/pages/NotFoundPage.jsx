@@ -1,5 +1,5 @@
-import { Box, Heading, Link, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import { Box, Heading, Link, Text } from "@chakra-ui/react";
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
