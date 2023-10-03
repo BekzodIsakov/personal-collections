@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { fetchTopFiveCollections } from "@/store/slices/topCollectionsSlice";
+import { fetchLatestItems } from "@/store/slices/latestItemsSlice";
 import { Link, TagsCloud, CustomList } from "@/components";
 
 const MainPage = () => {
