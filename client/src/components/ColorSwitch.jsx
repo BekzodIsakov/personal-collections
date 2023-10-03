@@ -1,7 +1,7 @@
 import { IconButton, useColorMode } from "@chakra-ui/react";
 import { SVG } from "@/components";
 
-const ColorModeSwitch = () => {
+const ColorSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -20,4 +20,4 @@ const ColorModeSwitch = () => {
   );
 };
 
-export default ColorModeSwitch;
+export default ColorSwitch;
