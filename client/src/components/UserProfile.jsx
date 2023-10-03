@@ -38,13 +38,12 @@ const UserProfile = () => {
             mx='2'
           />
           <Button
+            onClick={handleSignOut}
             isLoading={loading}
             loadingText='Sign out'
-            variant='ghost'
             colorScheme='red'
             size='sm'
-            onClick={handleSignOut}
-            px={{ base: "2px", xs: "12px" }}
+            variant='ghost'
             minW='max-content'
           >
             {t("auth.signOut")}
