@@ -14,6 +14,7 @@ import {
 import { fetchTopFiveCollections } from "@/store/slices/topCollectionsSlice";
 import { fetchLatestItems } from "@/store/slices/latestItemsSlice";
 import { Link, TagsCloud, CustomList } from "@/components";
+import TopCollections from "../components/TopCollections";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -25,45 +26,6 @@ const MainPage = () => {
     status: itemsStatus,
     error,
   } = useSelector((state) => state.latestItemsReducer);
-
-  const { topCollections, status: collectionsStatus } = useSelector(
-    (state) => state.topCollectionsReducer
-  );
-
-  let collectionsList = null;
-  switch (collectionsStatus) {
-    case "pending":
-      {
-        Array.from(new Array(5)).map((n, index) => (
-          <Skeleton
-            key={index}
-            height='30px'
-            startColor='gray.300'
-            endColor='gray.100'
-          />
-        ));
-      }
-
-      break;
-    case "succeeded":
-      collectionsList = topCollections.map((collection) => (
-        <ListItem key={collection._id} mb='2'>
-          <Box>
-            <Link to={`/collections/${collection._id}`}>
-              {collection.title}
-            </Link>{" "}
-            - {collection.itemsLength} {t("main.items").toLowerCase()}
-          </Box>
-        </ListItem>
-      ));
-      break;
-    case "failed":
-      collectionsList = (
-        <Text fontSize='md' color='red'>
-          {t("global.somethingWentWrong")}
-        </Text>
-      );
-  }
 
   React.useEffect(() => {
     dispatch(fetchLatestItems({ sortBy: "updatedAt_desc", limit: 10 }));
@@ -90,7 +52,7 @@ const MainPage = () => {
           <Heading as='h2' fontSize='2xl' mb='4'>
             {t("main.topFiveCollections")}
           </Heading>
-          <OrderedList>{collectionsList}</OrderedList>
+          <TopCollections />
         </Box>
 
         <TagsCloud />
