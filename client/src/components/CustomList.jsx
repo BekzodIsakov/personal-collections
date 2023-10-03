@@ -30,7 +30,7 @@ const CustomList = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const tagColorMode = useColorModeValue("blackAlpha", "gray");
+  const tagColor = useColorModeValue("blackAlpha", "gray");
 
   const { t } = useTranslation();
 
@@ -70,42 +70,35 @@ const CustomList = ({
                   {item.name}
                 </Text>
 
-                {showDetails ? (
-                  <HStack>
-                    <Tag colorScheme={tagColorMode} fontSize='sm' py='1'>
-                      {item.parentCollection.title}
-                    </Tag>
-                    <Divider
-                      h='5'
-                      orientation='vertical'
-                      borderColor='gray.400'
-                    />
-                    <Text fontWeight='medium'>{item.author.name}</Text>
-                    <Divider
-                      h='5'
-                      orientation='vertical'
-                      borderColor='gray.400'
-                    />
-                    <Button
-                      size='xs'
-                      variant='outline'
-                      colorScheme='blue.400'
-                      onClick={() => openItemModal(item._id, item.name)}
-                    >
-                      {t("global.view")}
-                    </Button>
-                  </HStack>
-                ) : (
+                <HStack>
+                  {showDetails && (
+                    <>
+                      <Tag colorScheme={tagColor} fontSize='sm' py='1'>
+                        {item.parentCollection.title}
+                      </Tag>
+                      <Divider
+                        h='5'
+                        orientation='vertical'
+                        borderColor='gray.400'
+                      />
+                      <Text fontWeight='medium'>{item.author.name}</Text>
+                      <Divider
+                        h='5'
+                        orientation='vertical'
+                        borderColor='gray.400'
+                      />
+                    </>
+                  )}
+
                   <Button
                     size='xs'
                     variant='outline'
-                    colorScheme='blue.400'
-                    ml={3}
+                    colorScheme='telegram'
                     onClick={() => openItemModal(item._id, item.name)}
                   >
                     {t("global.view")}
                   </Button>
-                )}
+                </HStack>
               </Box>
             </ListItem>
           ))}
