@@ -1,32 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Box,
-  Heading,
-  Skeleton,
-  Tag,
-  Text,
-  Wrap,
-  WrapItem,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { CustomList } from "@/components";
-import { useFetchAllTags } from "@/hooks/tags";
+import { Box, Heading } from "@chakra-ui/react";
+import { CustomList, Tags } from "@/components";
 import { useItemsFetchByTag } from "@/hooks/items";
 
 const TagsCloud = () => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
 
   const { t } = useTranslation();
-
-  const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
-
-  const {
-    loading: itemsLoading,
-    items,
-    setItems,
-    fetchItemsByTag,
-  } = useItemsFetchByTag();
 
   function toggleTagSelect(tagId) {
     if (tagId === selectedTagId) {
@@ -36,11 +17,12 @@ const TagsCloud = () => {
     }
   }
 
-  const tagColor = useColorModeValue("BlackAlpha.50", "gray.700");
-
-  React.useEffect(() => {
-    fetchTags();
-  }, []);
+  const {
+    loading: itemsLoading,
+    items,
+    setItems,
+    fetchItemsByTag,
+  } = useItemsFetchByTag();
 
   React.useEffect(() => {
     if (selectedTagId) {
@@ -50,49 +32,16 @@ const TagsCloud = () => {
     }
   }, [selectedTagId]);
 
-  let tagElements = <Text>{t("global.empty")}</Text>;
-
-  if (loading) {
-    tagElements = (
-      <>
-        <Skeleton w='70px' />
-        <Skeleton w='50px' />
-        <Skeleton w='100px' />
-      </>
-    );
-  } else if (tags.length) {
-    tagElements = tags.map((tag) => (
-      <WrapItem key={tag._id} boxShadow={selectedTagId === tag._id ? "lg" : ""}>
-        <Tag
-          onClick={() => toggleTagSelect(tag._id)}
-          cursor='pointer'
-          color={tagColor}
-          bg={
-            selectedTagId === tag._id
-              ? "blue.300"
-              : selectedTagId
-              ? "blue.50"
-              : "blue.100"
-          }
-        >
-          {tag.title}
-        </Tag>
-      </WrapItem>
-    ));
-  }
-
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb='4'>
         {t("main.tagsCloud")}
       </Heading>
-      <Wrap border='1px' borderColor='gray.300' rounded='md' p='2' mb='5'>
-        {tagElements}
-      </Wrap>
+      <Tags selectedTagId={selectedTagId} onTagSelect={toggleTagSelect} />
       <CustomList
         loading={itemsLoading}
         list={items}
-        errorMessage={errorMessage}
+        // errorMessage={errorMessage}
       />
     </Box>
   );

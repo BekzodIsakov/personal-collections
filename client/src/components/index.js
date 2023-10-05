@@ -23,6 +23,7 @@ import SearchModal from "./SearchModal";
 import TagsCloud from "./TagsCloud";
 import UserEditModal from "./UserEditModal";
 import ItemEditModal from "./ItemEditModal";
+import Tags from "./Tags";
 
 export {
   Header,
@@ -50,4 +51,5 @@ export {
   TagsCloud,
   UserEditModal,
   ItemEditModal,
+  Tags,
 };
