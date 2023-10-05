@@ -40,7 +40,11 @@ const Tags = ({ onTagSelect, selectedTagId }) => {
         {tags.map((tag) => {
           const isSelected = selectedTagId === tag._id;
           return (
-            <WrapItem key={tag._id} boxShadow={isSelected ? "lg" : "sm"}>
+            <WrapItem
+              key={tag._id}
+              boxShadow={isSelected ? "lg" : "sm"}
+              translate=''
+            >
               <Tag
                 onClick={() => onTagSelect(tag._id)}
                 cursor='pointer'
