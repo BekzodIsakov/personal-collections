@@ -49,7 +49,7 @@ const Tags = ({ onTagSelect, selectedTagId }) => {
                 onClick={() => onTagSelect(tag._id)}
                 cursor='pointer'
                 color={isSelected ? "gray.50" : tagColor}
-                bg={isSelected ? "blue.400" : "blue.100"}
+                bg={isSelected ? "blue.500" : "blue.100"}
               >
                 {tag.title}
               </Tag>
