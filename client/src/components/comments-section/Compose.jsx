@@ -52,7 +52,7 @@ const Compose = ({
             fontSize='sm'
             resize='none'
             ref={textAreaRef}
-            rows='1'
+            rows='2'
             placeholder='Comment'
             bg={textAreaBgColor}
           ></Textarea>
