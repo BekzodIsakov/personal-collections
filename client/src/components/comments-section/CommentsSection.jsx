@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {
   Box,
   HStack,
@@ -31,14 +31,14 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     });
   }
 
-  const handleReceivedComment = useCallback(
+  const handleReceivedComment = React.useCallback(
     (newComment) => {
       setComments((prevComments) => [...prevComments, newComment]);
     },
     [setComments]
   );
 
-  const handleEditComment = useCallback(
+  const handleEditComment = React.useCallback(
     ({ commentId, content }) => {
       const _comments = comments.map((comment) => {
         if (comment._id === commentId) {
@@ -56,7 +56,7 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     [setComments, comments]
   );
 
-  const handleDeleteComment = useCallback(
+  const handleDeleteComment = React.useCallback(
     (commentId) => {
       const _comments = comments.filter((c) => c._id !== commentId);
       setComments(_comments);
@@ -64,11 +64,11 @@ const CommentsSection = ({ itemId, comments, setComments }) => {
     [setComments, comments]
   );
 
-  const joinUser = useCallback(() => {
+  const joinUser = React.useCallback(() => {
     socket.emit("join", { userId: user.id, roomId: itemId });
   }, [itemId, user?.id]);
 
-  const handleLikeUnlikeItem = useCallback(
+  const handleLikeUnlikeItem = React.useCallback(
     ({ commentId, likes }) => {
       const _comments = comments.map((comment) => {
         if (comment._id === commentId) {

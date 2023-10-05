@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -11,8 +13,6 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 
 const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
   const popoverContentBgColor = useColorModeValue("white", "gray.600");

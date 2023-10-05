@@ -101,6 +101,7 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
                     isChecked={isAdmin}
                     onChange={(e) => setIsAdmin(e.target.checked)}
                     id='adminId'
+                    colorScheme='telegram'
                   />
                 </FormControl>
                 <FormControl width='max-content'>
@@ -109,11 +110,16 @@ const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
                     isChecked={isBlocked}
                     onChange={(e) => setIsBlocked(e.target.checked)}
                     id='blockId'
+                    colorScheme='telegram'
                   />
                 </FormControl>
               </HStack>
 
-              <Button type='submit' colorScheme='blue' isLoading={updatingUser}>
+              <Button
+                type='submit'
+                colorScheme='telegram'
+                isLoading={updatingUser}
+              >
                 {t("global.done")}
               </Button>
             </form>

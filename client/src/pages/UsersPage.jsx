@@ -83,7 +83,7 @@ const UsersPage = () => {
                 <Button
                   size='xs'
                   variant='outline'
-                  colorScheme='black'
+                  colorScheme='telegram'
                   mr='2'
                   onClick={() => handleModalOpen("edit", user._id)}
                 >

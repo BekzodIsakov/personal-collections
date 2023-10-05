@@ -176,7 +176,7 @@ const CollectionItemsTable = ({ collectionId }) => {
           <Button
             leftIcon={<AddIcon />}
             size='xs'
-            colorScheme='blue'
+            colorScheme='telegram'
             onClick={onNewItemModalOpen}
           >
             {t("global.newItem")}
@@ -185,7 +185,7 @@ const CollectionItemsTable = ({ collectionId }) => {
             leftIcon={<EditIcon />}
             size='xs'
             isDisabled={!selectedItemId}
-            colorScheme='blue'
+            colorScheme='telegram'
             onClick={onEditModalOpen}
           >
             {t("global.edit")}

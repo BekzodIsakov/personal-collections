@@ -1,19 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  Heading,
-  ListItem,
-  OrderedList,
-  Skeleton,
-  Text,
-  UnorderedList,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Heading, UnorderedList, VStack } from "@chakra-ui/react";
 import { fetchTopFiveCollections } from "@/store/slices/topCollectionsSlice";
 import { fetchLatestItems } from "@/store/slices/latestItemsSlice";
-import { Link, TagsCloud, CustomList } from "@/components";
+import { TagsCloud, CustomList } from "@/components";
 import TopCollections from "../components/TopCollections";
 
 const MainPage = () => {

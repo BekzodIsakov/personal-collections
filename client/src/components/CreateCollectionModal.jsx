@@ -249,7 +249,7 @@ const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
                 setOptionalItemFields={setOptionalItemFields}
               />
             </Stack>
-            <Button type='submit' colorScheme='blue' isLoading={loading}>
+            <Button type='submit' colorScheme='telegram' isLoading={loading}>
               {t("global.done")}
             </Button>
           </form>

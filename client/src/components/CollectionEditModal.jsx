@@ -33,9 +33,6 @@ const EditCollectionModal = ({
   collection,
   setCollection,
 }) => {
-  // const [title, setTitle] = React.useState("");
-  // const [description, setDescription] = React.useState("");
-  // const [selectedTopic, setSelectedTopic] = React.useState("");
   const [selectedImage, setSelectedImage] = React.useState("");
   const [preview, setPreview] = React.useState("");
 
@@ -109,14 +106,6 @@ const EditCollectionModal = ({
 
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedImage]);
-
-  // React.useEffect(() => {
-  //   if (collection) {
-  //     setTitle(collection.title);
-  //     setDescription(collection.description);
-  //     setSelectedTopic(collection.topic._id);
-  //   }
-  // }, [collection]);
 
   React.useEffect(() => {
     if (updatedCollection) {
@@ -260,7 +249,7 @@ const EditCollectionModal = ({
             </Stack>
             <Button
               type='submit'
-              colorScheme='blue'
+              colorScheme='telegram'
               isLoading={updatingCollection}
             >
               {t("global.done")}

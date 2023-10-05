@@ -70,7 +70,7 @@ const UserPage = () => {
                 <Heading as='h1' size='md' mr={1}>
                   {user.name}
                 </Heading>
-                <Badge colorScheme={"orange"}>{user.isAdmin && "Admin"}</Badge>
+                {user.isAdmin && <Badge colorScheme={"orange"}>Admin</Badge>}
               </HStack>
               <Text color='gray'>{user.email}</Text>
             </Box>
@@ -89,7 +89,7 @@ const UserPage = () => {
               <Button
                 size='sm'
                 onClick={onOpen}
-                colorScheme='blue'
+                colorScheme='telegram'
                 leftIcon={<AddIcon />}
               >
                 {t("global.newCollection")}

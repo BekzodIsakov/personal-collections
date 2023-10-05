@@ -1,4 +1,3 @@
-import React from "react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,

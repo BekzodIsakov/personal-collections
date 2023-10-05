@@ -79,7 +79,7 @@ const CollectionManagementPage = () => {
   if (loading) {
     collectionManagementPage = (
       <Box>
-        <Spinner color='blue.400' />
+        <Spinner color='blue.500' />
       </Box>
     );
   } else if (collection) {
@@ -118,7 +118,9 @@ const CollectionManagementPage = () => {
                         <PopoverArrow />
                         <PopoverCloseButton />
                         <PopoverHeader>
-                          {t("global.deleteCollectionImage")}
+                          <Text as='b'>
+                            {t("global.deleteCollectionImage")}
+                          </Text>
                         </PopoverHeader>
                         <PopoverBody>
                           <Text mb={"2"}>{t("global.areYouSure")}</Text>
@@ -133,7 +135,11 @@ const CollectionManagementPage = () => {
                             >
                               {t("global.yes")}
                             </Button>
-                            <Button size='xs' onClick={onClose}>
+                            <Button
+                              size='xs'
+                              onClick={onClose}
+                              colorScheme='telegram'
+                            >
                               {t("global.cancel")}
                             </Button>
                           </HStack>
@@ -221,7 +227,7 @@ const CollectionManagementPage = () => {
               onClick={onEditModalOpen}
               size='xs'
               leftIcon={<EditIcon />}
-              colorScheme='blue'
+              colorScheme='telegram'
             >
               {t("global.edit")}
             </Button>
