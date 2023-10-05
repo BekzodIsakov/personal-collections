@@ -1,3 +1,4 @@
+import React from "react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -19,7 +20,7 @@ const Navigation = () => {
 
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
-  const menuBgColor = useColorModeValue("white", "gray.700");
+  const menuBg = useColorModeValue("white", "gray.700");
 
   return (
     <>
@@ -49,8 +50,9 @@ const Navigation = () => {
                 w='100vw'
                 boxShadow='xl'
                 border='none'
-                bg={menuBgColor}
+                bg={menuBg}
                 borderTopRadius='0'
+                closeOnSelect={true}
               >
                 <HStack justifyContent='space-between' alignItems='flex-start'>
                   <MobileNav

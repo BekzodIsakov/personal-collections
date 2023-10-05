@@ -5,6 +5,7 @@ import {
   Flex,
   Icon,
   Link,
+  MenuItem,
   Stack,
   Text,
   useColorModeValue,
@@ -39,30 +40,32 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
 
   return (
     <Stack spacing='0' onClick={children && onToggle}>
-      <Flex
-        py='2'
-        as={NavLink}
-        _activeLink={{ color: "blue.400", textDecoration: "none" }}
-        to={to}
-        justify='space-between'
-        align='center'
-        _hover={{
-          textDecoration: "none",
-        }}
-        color={linkColor}
-      >
-        <Text fontWeight={children ? 600 : 500}>{label}</Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition='all .25s ease-in-out'
-            transform={isOpen ? "rotate(180deg)" : ""}
-            w='6'
-            h='6'
-            mr='2'
-          />
-        )}
-      </Flex>
+      <MenuItem bg='none'>
+        <Flex
+          py='2'
+          as={NavLink}
+          _activeLink={{ color: "blue.400", textDecoration: "none" }}
+          to={to}
+          justify='space-between'
+          align='center'
+          _hover={{
+            textDecoration: "none",
+          }}
+          color={linkColor}
+        >
+          <Text fontWeight={children ? 600 : 500}>{label}</Text>
+          {children && (
+            <Icon
+              as={ChevronDownIcon}
+              transition='all .25s ease-in-out'
+              transform={isOpen ? "rotate(180deg)" : ""}
+              w='6'
+              h='6'
+              mr='2'
+            />
+          )}
+        </Flex>
+      </MenuItem>
       <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
         <Stack
           spacing='1'
