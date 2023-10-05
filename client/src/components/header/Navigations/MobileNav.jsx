@@ -44,9 +44,8 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
         as={NavLink}
         _activeLink={{ color: "blue.400", textDecoration: "none" }}
         to={to}
-        justify={"space-between"}
-        align={"center"}
-        textDecoration={"underline"}
+        justify='space-between'
+        align='center'
         _hover={{
           textDecoration: "none",
         }}
@@ -56,7 +55,7 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
         {children && (
           <Icon
             as={ChevronDownIcon}
-            transition={"all .25s ease-in-out"}
+            transition='all .25s ease-in-out'
             transform={isOpen ? "rotate(180deg)" : ""}
             w='6'
             h='6'
@@ -69,14 +68,14 @@ const MobileNavItem = ({ to, label, children, linkColor }) => {
           spacing='1'
           pl='4'
           borderLeft='1'
-          borderStyle={"solid"}
+          borderStyle='solid'
           borderColor={useColorModeValue("gray.200", "gray.700")}
-          align={"start"}
+          align='start'
         >
           {children &&
             children.map((child) => (
               <Box key={child.label}>
-                <Link as={NavLink} to={child.to} color={linkColor} py={0.5}>
+                <Link as={NavLink} to={child.to} color={linkColor} py='0.5'>
                   {child.label}
                 </Link>
               </Box>

@@ -3,7 +3,7 @@ import {
   Box,
   Flex,
   Icon,
-  Link,
+  Link as ChakraLink,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -23,27 +23,26 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
         <Box key={index}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
-              <Link
+              <ChakraLink
                 as={NavLink}
                 _activeLink={{ color: "blue.400", textDecoration: "none" }}
-                p={2}
+                p='2'
                 to={navItem.to}
                 fontSize='md'
-                fontWeight={navItem.children ? 600 : 500}
+                fontWeight={navItem.children ? "600" : "500"}
                 color={linkColor}
-                textDecoration={"underline"}
                 _hover={{
                   color: linkHoverColor,
                   textDecoration: "none",
                 }}
               >
                 {navItem.label}
-              </Link>
+              </ChakraLink>
             </PopoverTrigger>
 
             {navItem.children && (
               <PopoverContent
-                border={0}
+                border='0'
                 boxShadow='xl'
                 bg={popoverContentBgColor}
                 p='4'
@@ -77,7 +76,7 @@ DesktopNav.propTypes = {
 
 const DesktopSubNav = ({ label, subLabel, to }) => {
   return (
-    <Link
+    <ChakraLink
       as={NavLink}
       to={to}
       role='group'
@@ -91,7 +90,7 @@ const DesktopSubNav = ({ label, subLabel, to }) => {
           <Text
             transition={"all .3s ease"}
             _groupHover={{ color: "gray.500" }}
-            fontWeight={500}
+            fontWeight='500'
           >
             {label}
           </Text>
@@ -104,12 +103,12 @@ const DesktopSubNav = ({ label, subLabel, to }) => {
           _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
           justify='flex-end'
           align='center'
-          flex={1}
+          flex='1'
         >
           <Icon color='gray.500' w='5' h='5' as={ChevronRightIcon} />
         </Flex>
       </Stack>
-    </Link>
+    </ChakraLink>
   );
 };
 
