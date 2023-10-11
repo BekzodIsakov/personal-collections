@@ -17,8 +17,6 @@ name, type and tags. Optional fields and values can be added to each item.
 
 ## Technologies used
 
-[![Technologies](https://skillicons.dev/icons?i=react,vite,redux,nodejs,express,mongodb,aws&theme=light)](https://skillicons.dev)
-
 ### Frontend
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -56,6 +54,16 @@ The build is minified and the filenames include the hashes. Your app is ready to
 be deployed!
 
 ### In the `/app` directory:
+
+#### Create .env file and add the following keys:
+
+```js
+ATLAS_CONNECTION_PASSWORD=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+S3_BUCKET=
+S3_REGION=
+```
 
 #### `npm run dev`:
 
