@@ -15,6 +15,7 @@ name, type and tags. Optional fields and values can be added to each item.
 
 ![App screenshot](/app-screenshots/Screenshot%202023-10-11%20at%2019.50.41.png "Main page")
 ![App screenshot](/app-screenshots/Screenshot%202023-10-11%20at%2019.51.15.png "Collection page")
+![App screenshot](/app-screenshots/Screenshot%202023-10-11%20at%2019.57.51.png "Collection page")
 
 ## Technologies used
 
