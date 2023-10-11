@@ -4,7 +4,7 @@ Collection app that lets create, update and delete collections of different
 items. There're 3 types of users. Anauthenticated users can only view
 collections. Authenticated users can control their collection while admin users
 can authorize other users, such as enabling/disabling other admins and
-blocking/unblocking users.
+blocking/unblocking users. The app also responds to different viewport sizes.
 
 Each collection has a name, author, description and items. Each items has a
 name, type and tags. Optional fields and values can be added to each item.
