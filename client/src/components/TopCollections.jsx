@@ -26,7 +26,7 @@ const TopCollections = () => {
               <Link to={`/collections/${collection._id}`}>
                 {collection.title}
               </Link>{" "}
-              - {collection.itemsLength} {t("main.items").toLowerCase()}
+              - {collection.items.length} {t("main.items").toLowerCase()}
             </Box>
           </ListItem>
         ))}
