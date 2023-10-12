@@ -18,10 +18,15 @@ const getCollections = async (req, res) => {
 
 const getTopFiveCollections = async (req, res) => {
   try {
-    const collections = await Collection.find({}, null, {
-      sort: { itemsLength: -1 },
-      limit: 5,
-    });
+    // const collections = await Collection.find({}, null, {
+    //   sort: { "items.length": -1 },
+    //   limit: 5,
+    // });
+
+    const collections = await Collection.find({}).sort({ items: 1 }).limit(5);
+    // const collections = await Collection.aggregate([{ $sort: { items: -1 } }]);
+    // .sort({ items: -1 })
+    // .limit(5);
     res.send(collections);
   } catch (error) {
     res.status(500).send(error);
@@ -120,6 +125,7 @@ const updateCollection = async (req, res) => {
 
 const deleteCollection = async (req, res) => {
   const collection = await Collection.findOne({ _id: req.params.id });
+  console.log({ collection });
   collection.deleteOne();
 
   res.status(204).send();

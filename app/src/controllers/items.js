@@ -1,6 +1,5 @@
 const Item = require("../models/itemModel");
 const Collection = require("../models/collectionModel");
-const collection = require("../models/collectionModel");
 const isUnauthorized = require("../utils/isUnauthorized");
 
 const searchItems = async (req, res) => {
@@ -82,9 +81,12 @@ const createNewItem = async (req, res) => {
     const item = new Item({ ...req.body });
 
     await item.save();
-    await collection.updateOne(
+    await Collection.updateOne(
       { _id: req.body.parentCollection },
-      { $push: { items: item._id }, $inc: { itemsLength: 1 } }
+      {
+        $push: { items: item._id },
+        // $inc: { itemsLength: 1 }
+      }
     );
     await item.populate("tags");
 
@@ -123,6 +125,11 @@ const deleteItem = async (req, res) => {
     if (isUnauthorized(req.user, item.author, res)) return;
 
     await item.deleteOne();
+
+    const collection = await Collection.findById(item.parentCollection);
+    collection.items.pull({ _id: item._id });
+    collection.save();
+
     res.status(204).send();
   } catch (error) {
     res.status(500).send({ message: error.message });

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Collection = require("../models/collectionModel");
 
 const itemSchema = new mongoose.Schema(
   {
@@ -38,6 +39,22 @@ const itemSchema = new mongoose.Schema(
 
 // itemSchema.index({ name: "text" });
 // commentSchema.index({ comment: "text" });
+
+// itemSchema.pre(
+//   "deleteOne",
+//   { document: true, query: false },
+//   async function () {
+//     const currentItem = this;
+//     // await Collection.findByIdAndUpdate("65279018f9a55745082c5832", {
+//     //   itemsLength: { $inc: -1 },
+//     // });
+
+//     // console.log(currentItem.parentCollection);
+
+//     const collection = await Collection.findById("65279018f9a55745082c5832");
+//     console.log({ collection });
+//   }
+// );
 
 const Item = new mongoose.model("Item", itemSchema);
 module.exports = Item;

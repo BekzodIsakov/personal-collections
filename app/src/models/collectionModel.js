@@ -31,10 +31,6 @@ const collectionSchema = new mongoose.Schema({
     location: String,
     key: String,
   },
-  itemsLength: {
-    type: Number,
-    default: 0,
-  },
   optionalItemFields: [{ name: "String", type: "String" }],
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
 });
@@ -51,4 +47,5 @@ collectionSchema.pre(
   }
 );
 
-module.exports = new mongoose.model("Collection", collectionSchema);
+const Collection = new mongoose.model("Collection", collectionSchema);
+module.exports = Collection;
