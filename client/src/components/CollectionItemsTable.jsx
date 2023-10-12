@@ -33,7 +33,7 @@ const CollectionItemsTable = ({ collectionId }) => {
   const { collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
 
-  const { loading: deleting, itemDeleted, deleteItem } = useItemDelete();
+  const { loading: deletingItem, itemDeleted, deleteItem } = useItemDelete();
 
   const [data, setData] = React.useState([]);
 
@@ -239,7 +239,7 @@ const CollectionItemsTable = ({ collectionId }) => {
           isOpen={isDeleteModalOpen}
           onClose={onDeleteModalClose}
           onDelete={() => deleteItem(selectedItemId)}
-          deleting={deleting}
+          isLoading={deletingItem}
           modalTitle={t("global.deleteItem")}
         />
       )}

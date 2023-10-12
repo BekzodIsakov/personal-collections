@@ -260,7 +260,7 @@ const CollectionManagementPage = () => {
           onClose={onDeleteModalClose}
           onDelete={() => deleteCollection(params.collectionId)}
           modalTitle={t("global.deleteCollection")}
-          loading={isDeleting}
+          isLoading={isDeleting}
         />
       )}
     </Box>

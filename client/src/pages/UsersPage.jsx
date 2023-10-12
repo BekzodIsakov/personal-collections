@@ -109,7 +109,7 @@ const UsersPage = () => {
           onClose={onDeleteModalClose}
           onDelete={() => deleteUser(selectedUserId)}
           modalTitle={t("global.deleteUser")}
-          loading={deletingUser}
+          isLoading={deletingUser}
         />
       )}
       <UserEditModal

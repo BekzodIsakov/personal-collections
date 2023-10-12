@@ -10,7 +10,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
-const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
+const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, isLoading }) => {
   const { t } = useTranslation();
 
   return (
@@ -23,7 +23,7 @@ const DeleteModal = ({ isOpen, onClose, onDelete, modalTitle, loading }) => {
           <HStack>
             <Button
               onClick={onDelete}
-              isLoading={loading}
+              isLoading={isLoading}
               colorScheme={"red"}
               size='sm'
             >
