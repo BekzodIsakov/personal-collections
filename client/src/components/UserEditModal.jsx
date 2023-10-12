@@ -13,11 +13,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   Switch,
 } from "@chakra-ui/react";
 import { useFetchUser, useUpdateUser } from "@/hooks/user";
 import { useAuth } from "@/providers/authProvider";
+import { Spinner } from "@/components";
 
 const UserEditModal = ({ isOpen, onClose, userId, users, setUsers }) => {
   const [name, setName] = React.useState("");

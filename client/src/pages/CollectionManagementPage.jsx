@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Spinner,
   Stack,
   Text,
   Wrap,
@@ -34,6 +33,7 @@ import {
   CollectionEditModal,
   DeleteModal,
   CollectionItemsTable,
+  Spinner,
 } from "@/components";
 import {
   useCollectionFetch,
@@ -79,7 +79,7 @@ const CollectionManagementPage = () => {
   if (loading) {
     collectionManagementPage = (
       <Box>
-        <Spinner color='blue.500' />
+        <Spinner />
       </Box>
     );
   } else if (collection) {

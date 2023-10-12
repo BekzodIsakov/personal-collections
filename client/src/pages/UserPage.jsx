@@ -8,7 +8,6 @@ import {
   HStack,
   Heading,
   ListItem,
-  Spinner,
   Stack,
   Text,
   UnorderedList,
@@ -17,7 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { Link, CreateCollectionModal } from "@/components";
+import { Link, CreateCollectionModal, Spinner } from "@/components";
 import { useFetchUser } from "@/hooks/user";
 import { useFetchUserCollections } from "@/hooks/collections";
 import { useCurrentUser } from "@/providers/currentUserProvider";

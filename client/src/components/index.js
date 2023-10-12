@@ -24,6 +24,7 @@ import TagsCloud from "./TagsCloud";
 import UserEditModal from "./UserEditModal";
 import ItemEditModal from "./ItemEditModal";
 import Tags from "./Tags";
+import Spinner from "./Spinner";
 
 export {
   Header,
@@ -52,4 +53,5 @@ export {
   UserEditModal,
   ItemEditModal,
   Tags,
+  Spinner,
 };

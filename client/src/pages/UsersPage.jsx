@@ -5,14 +5,13 @@ import {
   Button,
   Heading,
   ListItem,
-  Spinner,
   UnorderedList,
   Wrap,
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useDeleteUser, useFetchUsers } from "@/hooks/user";
-import { Link, DeleteModal, UserEditModal } from "@/components";
+import { Link, DeleteModal, UserEditModal, Spinner } from "@/components";
 
 const UsersPage = () => {
   const { loading, fetchUsers, users, setUsers } = useFetchUsers();

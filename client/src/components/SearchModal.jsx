@@ -14,11 +14,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useSearchItems } from "@/hooks/items";
+import { Spinner } from "@/components";
 
 const SearchModal = ({ isOpen, onClose, onOpen }) => {
   const [searchText, setSearchText] = React.useState("");
@@ -56,9 +56,7 @@ const SearchModal = ({ isOpen, onClose, onOpen }) => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <InputRightElement>
-              {loading && <Spinner color='blue.400' />}
-            </InputRightElement>
+            <InputRightElement>{loading && <Spinner />}</InputRightElement>
           </InputGroup>
 
           <VStack alignItems={"stretch"} mt='6'>

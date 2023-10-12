@@ -13,13 +13,12 @@ import {
   List,
   ListItem,
   Skeleton,
-  Spinner,
   Text,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { SVG } from "@/components";
+import { SVG, Spinner } from "@/components";
 import CommentsSection from "@/components/comments-section/CommentsSection";
 import { useItemFetch } from "@/hooks/items";
 
