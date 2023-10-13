@@ -99,6 +99,9 @@ export const useCreateItem = () => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [createdItem, setCreatedItem] = React.useState(null);
 
+  console.log("useCreateItem");
+  console.log({ loading });
+
   async function createItem(item) {
     try {
       setLoading(true);

@@ -1,6 +1,6 @@
 import Header from "./header/Header";
 import CollectionEditModal from "./CollectionEditModal";
-import CollectionItemsTable from "./CollectionItemsTable";
+import ItemsTable from "./ItemsTable";
 import ColorSwitch from "./ColorSwitch";
 import CustomList from "./CustomList";
 import CustomListItem from "./CustomListItem";
@@ -29,7 +29,7 @@ import Spinner from "./Spinner";
 export {
   Header,
   CollectionEditModal,
-  CollectionItemsTable,
+  ItemsTable,
   ColorSwitch,
   Link,
   CreateCollectionModal,

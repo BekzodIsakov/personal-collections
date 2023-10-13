@@ -32,7 +32,7 @@ import {
   GoBackButton,
   CollectionEditModal,
   DeleteModal,
-  CollectionItemsTable,
+  ItemsTable,
   Spinner,
 } from "@/components";
 import {
@@ -65,13 +65,13 @@ const CollectionManagementPage = () => {
   const {
     isOpen: isEditModalOpen,
     onOpen: onEditModalOpen,
-    onClose: onEditModalClose,
+    onClose: closeEditModal,
   } = useDisclosure();
 
   const {
     isOpen: isDeleteModalOpen,
     onOpen: onDeleteModalOpen,
-    onClose: onDeleteModalClose,
+    onClose: closeDeleteModal,
   } = useDisclosure();
 
   let collectionManagementPage = null;
@@ -205,7 +205,7 @@ const CollectionManagementPage = () => {
 
   React.useEffect(() => {
     if (isDeleted) {
-      onDeleteModalClose();
+      closeDeleteModal();
       navigate(-1);
     }
   }, [isDeleted]);
@@ -244,12 +244,12 @@ const CollectionManagementPage = () => {
       )}
       <Box mb='10'>{collectionManagementPage}</Box>
 
-      <CollectionItemsTable collectionId={collection?._id} />
+      <ItemsTable collectionId={collection?._id} />
 
       {isEditModalOpen && (
         <CollectionEditModal
           isOpen={isEditModalOpen}
-          onClose={onEditModalClose}
+          onClose={closeEditModal}
           collection={collection}
           setCollection={setCollection}
         />
@@ -257,7 +257,7 @@ const CollectionManagementPage = () => {
       {isDeleteModalOpen && (
         <DeleteModal
           isOpen={isDeleteModalOpen}
-          onClose={onDeleteModalClose}
+          onClose={closeDeleteModal}
           onDelete={() => deleteCollection(params.collectionId)}
           modalTitle={t("global.deleteCollection")}
           isLoading={isDeleting}
