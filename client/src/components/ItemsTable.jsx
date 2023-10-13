@@ -40,8 +40,6 @@ const ItemsTable = ({ collectionId }) => {
     deleteItem,
   } = useItemDelete();
 
-  console.log({ deletingItem, itemDeleted });
-
   const [data, setData] = React.useState([]);
 
   const columnHelper = createColumnHelper();

@@ -84,7 +84,6 @@ const deleteComment = async (commentId) => {
 
 const likeUnlikeComment = async (commentId, userId) => {
   try {
-    console.log({ userId });
     const comment = await Comment.findById(commentId);
 
     if (comment.likes.includes(userId)) {

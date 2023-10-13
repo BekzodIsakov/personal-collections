@@ -73,8 +73,6 @@ const Comment = ({
     setContent(comment);
   }, [comment]);
 
-  console.log({ likes });
-
   return (
     <HStack alignItems='flex-start'>
       <Avatar src={src} size='sm' name={name} />

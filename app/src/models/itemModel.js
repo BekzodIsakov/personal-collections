@@ -48,10 +48,7 @@ itemSchema.index({ name: "text" });
 //     //   itemsLength: { $inc: -1 },
 //     // });
 
-//     // console.log(currentItem.parentCollection);
-
 //     const collection = await Collection.findById("65279018f9a55745082c5832");
-//     console.log({ collection });
 //   }
 // );
 
