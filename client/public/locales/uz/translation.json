@@ -17,7 +17,8 @@
     "latestItems": "Eng so'ngi elementlar",
     "topFiveCollections": "Top 5 kolleksiyalar",
     "tagsCloud": "Teglar to'plami",
-    "items": "Element"
+    "items": "Element",
+    "item": "Element"
   },
   "userPage": {
     "myCollections": "Mening kolleksiyalarim"
@@ -32,7 +33,6 @@
     "usersPage": "Foydalanuvchi sahifasi"
   },
   "global": {
-    "items": "Elementlar",
     "nonExistant": "Mavjud emas!",
     "empty": "Bo'sh",
     "somethingWentWrong": "Xatolik yuz berdi!",

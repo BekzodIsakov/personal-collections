@@ -17,7 +17,8 @@
     "latestItems": "Latest items",
     "topFiveCollections": "Top five collections",
     "tagsCloud": "Tags cloud",
-    "items": "Items"
+    "items": "Items",
+    "item": "Item"
   },
   "userPage": {
     "myCollections": "My collections"
@@ -32,7 +33,6 @@
     "usersPage": "Users page"
   },
   "global": {
-    "items": "Elementlar",
     "nonExistant": "Not available!",
     "empty": "Empty",
     "somethingWentWrong": "Something went wrong!",
