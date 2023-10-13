@@ -33,7 +33,14 @@ const ItemsTable = ({ collectionId }) => {
   const { collection, setCollection, fetchCollection } =
     useFetchCollectionItems();
 
-  const { loading: deletingItem, itemDeleted, deleteItem } = useItemDelete();
+  const {
+    loading: deletingItem,
+    itemDeleted,
+    setItemDeleted,
+    deleteItem,
+  } = useItemDelete();
+
+  console.log({ deletingItem, itemDeleted });
 
   const [data, setData] = React.useState([]);
 
@@ -41,19 +48,20 @@ const ItemsTable = ({ collectionId }) => {
 
   const {
     isOpen: isDeleteModalOpen,
-    onOpen: onDeleteModalOpen,
-    onClose: onDeleteModalClose,
-  } = useDisclosure();
-  const {
-    isOpen: isEditModalOpen,
-    onOpen: onEditModalOpen,
-    onClose: onEditModalClose,
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
   } = useDisclosure();
 
   const {
-    isOpen: isNewItemModalOpen,
-    onOpen: onNewItemModalOpen,
-    onClose: onNewItemModalClose,
+    isOpen: isEditModalOpen,
+    onOpen: openEditModal,
+    onClose: closeEditModal,
+  } = useDisclosure();
+
+  const {
+    isOpen: isCreateModalOpen,
+    onOpen: openCreateModal,
+    onClose: closeCreateModal,
   } = useDisclosure();
 
   function getRowId(row) {
@@ -68,7 +76,7 @@ const ItemsTable = ({ collectionId }) => {
 
   React.useEffect(() => {
     if (itemDeleted) {
-      onDeleteModalClose();
+      closeDeleteModal();
       const updatedCollection = {
         ...collection,
       };
@@ -77,6 +85,7 @@ const ItemsTable = ({ collectionId }) => {
       );
       setCollection(updatedCollection);
       setSelectedRow({});
+      setItemDeleted(false);
     }
   }, [itemDeleted]);
 
@@ -177,7 +186,7 @@ const ItemsTable = ({ collectionId }) => {
             leftIcon={<AddIcon />}
             size='xs'
             colorScheme='telegram'
-            onClick={onNewItemModalOpen}
+            onClick={openCreateModal}
           >
             {t("global.newItem")}
           </Button>
@@ -186,7 +195,7 @@ const ItemsTable = ({ collectionId }) => {
             size='xs'
             isDisabled={!selectedItemId}
             colorScheme='telegram'
-            onClick={onEditModalOpen}
+            onClick={openEditModal}
           >
             {t("global.edit")}
           </Button>
@@ -195,7 +204,7 @@ const ItemsTable = ({ collectionId }) => {
             size='xs'
             isDisabled={!selectedItemId}
             colorScheme='red'
-            onClick={onDeleteModalOpen}
+            onClick={openDeleteModal}
           >
             {t("global.delete")}
           </Button>
@@ -209,10 +218,10 @@ const ItemsTable = ({ collectionId }) => {
         getRowId={getRowId}
       />
 
-      {isNewItemModalOpen && (
+      {isCreateModalOpen && (
         <CreateItemModal
-          isOpen={isNewItemModalOpen}
-          onClose={onNewItemModalClose}
+          isOpen={isCreateModalOpen}
+          onClose={closeCreateModal}
           optionalItemFields={
             collection?.optionalItemFields &&
             JSON.parse(collection.optionalItemFields)
@@ -224,7 +233,7 @@ const ItemsTable = ({ collectionId }) => {
       {isEditModalOpen && (
         <ItemEditModal
           isOpen={isEditModalOpen}
-          onClose={onEditModalClose}
+          onClose={closeEditModal}
           optionalItemFields={
             collection?.optionalItemFields &&
             JSON.parse(collection.optionalItemFields)
@@ -237,7 +246,7 @@ const ItemsTable = ({ collectionId }) => {
       {isDeleteModalOpen && (
         <DeleteModal
           isOpen={isDeleteModalOpen}
-          onClose={onDeleteModalClose}
+          onClose={closeDeleteModal}
           onDelete={() => deleteItem(selectedItemId)}
           isLoading={deletingItem}
           modalTitle={t("global.deleteItem")}
