@@ -18,12 +18,14 @@ const getCollections = async (req, res) => {
 
 const getTopFiveCollections = async (req, res) => {
   try {
-    const collections = await Collection.find({})
-      .sort({ itemsLength: -1 })
-      .limit(5);
-    // const collections = await Collection.aggregate([
-    //   { $sort: { "itemsLength": -1 } },
-    // ]);
+    let collections = await Collection.aggregate()
+      .addFields({
+        arrLength: {
+          $size: "$items",
+        },
+      })
+      .sort({ arrLength: -1 });
+
     res.send(collections);
   } catch (error) {
     res.status(500).send(error);
