@@ -188,7 +188,11 @@ const CreateItemModal = ({
             <VStack spacing='3' mb='7'>
               <FormControl>
                 <FormLabel>{t("global.name")}</FormLabel>
-                <Input value={name} onChange={(e) => setName(e.target.value)} />
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoFocus
+                />
               </FormControl>
               {optionalFieldsElements}
               <FormControl>
