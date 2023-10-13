@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Item } = require("../models/itemModel");
+const Item = require("./itemModel");
 
 const collectionSchema = new mongoose.Schema({
   title: {

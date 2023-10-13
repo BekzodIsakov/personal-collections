@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Collection = require("../models/collectionModel");
 
 const itemSchema = new mongoose.Schema(
   {
@@ -37,7 +36,7 @@ const itemSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// itemSchema.index({ name: "text" });
+itemSchema.index({ name: "text" });
 // commentSchema.index({ comment: "text" });
 
 // itemSchema.pre(
