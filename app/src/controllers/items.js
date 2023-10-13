@@ -85,7 +85,7 @@ const createNewItem = async (req, res) => {
       { _id: req.body.parentCollection },
       {
         $push: { items: item._id },
-        // $inc: { itemsLength: 1 }
+        $inc: { itemsLength: 1 },
       }
     );
     await item.populate("tags");
@@ -124,11 +124,27 @@ const deleteItem = async (req, res) => {
 
     if (isUnauthorized(req.user, item.author, res)) return;
 
+    await Collection.updateOne(
+      { _id: item.parentCollection },
+      {
+        $pull: { items: item.id },
+        $inc: { itemsLength: -1 },
+      }
+    );
+
+    // await Collection.updateOne(
+    //   { _id: req.body.parentCollection },
+    //   {
+    //     $push: { items: item._id },
+    //     $inc: { itemsLength: 1 },
+    //   }
+    // );
+
     await item.deleteOne();
 
-    const collection = await Collection.findById(item.parentCollection);
-    collection.items.pull({ _id: item._id });
-    collection.save();
+    // const collection = await Collection.findById(item.parentCollection);
+    // collection.items.pull({ _id: item._id });
+    // collection.save();
 
     res.status(204).send();
   } catch (error) {

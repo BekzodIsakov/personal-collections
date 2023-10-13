@@ -33,6 +33,10 @@ const collectionSchema = new mongoose.Schema({
   },
   optionalItemFields: [{ name: "String", type: "String" }],
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
+  itemsLength: {
+    type: Number,
+    default: 0,
+  },
 });
 
 collectionSchema.index({ title: "text" });
