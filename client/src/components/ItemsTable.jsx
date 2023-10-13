@@ -22,7 +22,7 @@ import {
 import { useFetchCollectionItems } from "@/hooks/collections";
 import { useItemDelete } from "@/hooks/items";
 
-const CollectionItemsTable = ({ collectionId }) => {
+const ItemsTable = ({ collectionId }) => {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [columns, setColumns] = React.useState([]);
 
@@ -247,4 +247,4 @@ const CollectionItemsTable = ({ collectionId }) => {
   );
 };
 
-export default CollectionItemsTable;
+export default ItemsTable;
