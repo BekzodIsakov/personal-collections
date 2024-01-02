@@ -5,7 +5,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import ParentRoute from "./ParentRoute";
 import MainPage from "../pages/MainPage";
-import CollectionPage from "../pages/CollectionPage";
+import CollectionPage from "../pages/collection-page/CollectionPage";
 import CollectionManagementPage from "../pages/CollectionManagementPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import UsersPage from "../pages/UsersPage";

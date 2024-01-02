@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useCollectionFetch } from "../../hooks/collections";
 import {
   Badge,
   Box,
@@ -13,22 +13,22 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { CustomList, GoBackButton } from "@/components";
-import { useCollectionFetch } from "@/hooks/collections";
+import { CustomList } from "@/components";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-const CollectionPage = () => {
-  const params = useParams();
-
-  const { t } = useTranslation();
-
+const Collection = () => {
   const { loading, errorMessage, collection, fetchCollection } =
     useCollectionFetch();
+  const { t } = useTranslation();
+  const params = useParams();
 
-  let collectionResult = null;
+  useEffect(() => {
+    fetchCollection(params.collectionId);
+  }, [params.collectionId, fetchCollection]);
 
   if (loading) {
-    collectionResult = (
+    return (
       <Flex h='165' border='solid' borderColor='gray.200' rounded='md'>
         <Skeleton w={{ base: "100%", sm: "200px" }} h='100%' />
         <Box h={"100%"} flex='1' px='20px' py='15'>
@@ -37,7 +37,7 @@ const CollectionPage = () => {
       </Flex>
     );
   } else if (collection) {
-    collectionResult = (
+    return (
       <Box>
         <Card
           direction={{ base: "column", sm: "row" }}
@@ -92,19 +92,8 @@ const CollectionPage = () => {
       </Box>
     );
   } else if (errorMessage) {
-    collectionResult = <Text color='orange'>{errorMessage}</Text>;
+    return <Text color='orange'>{errorMessage}</Text>;
   }
-
-  React.useEffect(() => {
-    fetchCollection(params.collectionId);
-  }, [params.collectionId]);
-
-  return (
-    <Box>
-      <GoBackButton />
-      {collectionResult}
-    </Box>
-  );
 };
 
-export default CollectionPage;
+export default Collection;
