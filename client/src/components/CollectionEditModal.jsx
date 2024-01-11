@@ -26,6 +26,8 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { useCollectionEdit } from "@/hooks/collections";
 import { useTranslation } from "react-i18next";
 import useForm from "@/hooks/useForm";
+import { useMutation } from "@tanstack/react-query";
+import { updateCollection } from "../utils/data";
 
 const EditCollectionModal = ({
   isOpen,
@@ -53,11 +55,19 @@ const EditCollectionModal = ({
 
   const params = useParams();
 
-  const {
-    updatedCollection,
-    updateCollection,
-    loading: updatingCollection,
-  } = useCollectionEdit();
+  // const {
+  //   updatedCollection,
+  //   updateCollection,
+  //   loading: updatingCollection,
+  // } = useCollectionEdit();
+
+  const edit = useMutation({
+    mutationFn: (formData) => updateCollection(params.collectionId, formData),
+    onSuccess: () => {
+      onClose();
+      setPreview("");
+    },
+  });
 
   const dragNDropBg = useColorModeValue("white", "gray.800");
   const dragNDropBorderColor = useColorModeValue("gray.300", "gray.500");
@@ -74,7 +84,7 @@ const EditCollectionModal = ({
       formData.append("image", selectedImage);
     }
 
-    updateCollection(params.collectionId, formData);
+    edit.mutate(formData);
   }
 
   function handleImageSelect(e) {
@@ -107,13 +117,13 @@ const EditCollectionModal = ({
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedImage]);
 
-  React.useEffect(() => {
-    if (updatedCollection) {
-      setCollection(updatedCollection);
-      onClose();
-      setPreview("");
-    }
-  }, [updatedCollection]);
+  // React.useEffect(() => {
+  //   if (updatedCollection) {
+  //     setCollection(updatedCollection);
+  //     onClose();
+  //     setPreview("");
+  //   }
+  // }, [updatedCollection]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
@@ -250,7 +260,7 @@ const EditCollectionModal = ({
             <Button
               type='submit'
               colorScheme='telegram'
-              isLoading={updatingCollection}
+              isLoading={edit.isPending}
             >
               {t("global.done")}
             </Button>

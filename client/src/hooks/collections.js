@@ -1,33 +1,33 @@
 import axios from "axios";
 import React from "react";
 
-export const useCollectionFetch = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [collection, setCollection] = React.useState(null);
+// export const useCollectionFetch = () => {
+//   const [loading, setLoading] = React.useState(false);
+//   const [errorMessage, setErrorMessage] = React.useState("");
+//   const [collection, setCollection] = React.useState(null);
 
-  async function fetchCollection(id) {
-    try {
-      setLoading(true);
-      const result = await axios.get(
-        `${import.meta.env.VITE_URL}/collections/${id}`
-      );
-      setCollection(result.data);
-    } catch (error) {
-      setErrorMessage(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+//   async function fetchCollection(id) {
+//     try {
+//       setLoading(true);
+//       const result = await axios.get(
+//         `${import.meta.env.VITE_URL}/collections/${id}`
+//       );
+//       setCollection(result.data);
+//     } catch (error) {
+//       setErrorMessage(error.response.data.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
 
-  return {
-    loading,
-    errorMessage,
-    collection,
-    setCollection,
-    fetchCollection,
-  };
-};
+//   return {
+//     loading,
+//     errorMessage,
+//     collection,
+//     setCollection,
+//     fetchCollection,
+//   };
+// };
 
 export const useFetchUserCollection = () => {
   const [loading, setLoading] = React.useState(false);

@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useCollectionFetch } from "../../hooks/collections";
 import {
   Badge,
   Box,
@@ -13,21 +12,21 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { CustomList } from "@/components";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { fetchCollection } from "../../utils/data";
 
 const Collection = () => {
-  const { loading, errorMessage, collection, fetchCollection } =
-    useCollectionFetch();
   const { t } = useTranslation();
-  const params = useParams();
+  const { collectionId } = useParams();
 
-  useEffect(() => {
-    fetchCollection(params.collectionId);
-  }, [params.collectionId, fetchCollection]);
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: [collectionId],
+    queryFn: () => fetchCollection(collectionId),
+  });
 
-  if (loading) {
+  if (isPending) {
     return (
       <Flex h='165' border='solid' borderColor='gray.200' rounded='md'>
         <Skeleton w={{ base: "100%", sm: "200px" }} h='100%' />
@@ -36,7 +35,15 @@ const Collection = () => {
         </Box>
       </Flex>
     );
-  } else if (collection) {
+  }
+
+  if (isError) {
+    return <Text color='orange'>{error}</Text>;
+  }
+
+  if (data) {
+    const collection = data.data;
+
     return (
       <Box>
         <Card
@@ -56,20 +63,17 @@ const Collection = () => {
               <Heading size='md' as='h1'>
                 {collection.title}
               </Heading>
-
               <Text py='2'>{collection.description}</Text>
-
               <Box mb='2'>
                 <Text fontWeight={"semibold"} as={"b"}>
                   {t("global.author")}:
-                </Text>{" "}
+                </Text>
                 {collection.author?.name}
               </Box>
-
               <Box mb={2}>
                 <Text fontWeight='semibold' as='b'>
                   {t("global.topic")}:
-                </Text>{" "}
+                </Text>
                 <Badge rounded='sm' fontWeight='semibold' colorScheme='blue'>
                   {collection.topic.title}
                 </Badge>
@@ -82,17 +86,10 @@ const Collection = () => {
           <Heading as='h2' fontSize='md' fontWeight='semibold' mb='3'>
             {t("global.collectionItems")}
           </Heading>
-          <CustomList
-            loading={loading}
-            list={collection.items}
-            errorMessage={errorMessage}
-            showDetails={false}
-          />
+          <CustomList list={collection.items} showDetails={false} />
         </Box>
       </Box>
     );
-  } else if (errorMessage) {
-    return <Text color='orange'>{errorMessage}</Text>;
   }
 };
 

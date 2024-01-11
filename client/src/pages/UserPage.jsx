@@ -21,6 +21,9 @@ import { useFetchUser } from "@/hooks/user";
 import { useFetchUserCollections } from "@/hooks/collections";
 import { useCurrentUser } from "@/providers/currentUserProvider";
 
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserCollections } from "../utils/data";
+
 const UserPage = () => {
   const { t } = useTranslation();
 
@@ -30,11 +33,17 @@ const UserPage = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    loading: userCollectionsLoading,
-    collections: userCollections,
-    fetchUserCollections,
-  } = useFetchUserCollections();
+  // const {
+  //   loading: userCollectionsLoading,
+  //   collections: userCollections,
+  //   fetchUserCollections,
+  // } = useFetchUserCollections();
+
+  const { isPending, isError, error, data } = useQuery({
+    queryKey: ["use_collections", currentUser?._id],
+    queryFn: () => fetchUserCollections(currentUser?._id),
+    enabled: !!currentUser?._id,
+  });
 
   React.useEffect(() => {
     fetchUser();
@@ -50,12 +59,12 @@ const UserPage = () => {
     }
   }, [user]);
 
-  if (loading) {
+  if (isPending) {
     return <Spinner />;
   }
 
-  if (errorMessage) {
-    return <Text color={"orange"}>{errorMessage}</Text>;
+  if (isError) {
+    return <Text color={"orange"}>{error}</Text>;
   }
 
   if (user) {
@@ -81,9 +90,7 @@ const UserPage = () => {
                 <WrapItem>
                   <Heading size='md'>{t("userPage.myCollections")}</Heading>
                 </WrapItem>
-                <WrapItem>
-                  {userCollectionsLoading && <Spinner size='sm' />}
-                </WrapItem>
+                <WrapItem>{isPending && <Spinner size='sm' />}</WrapItem>
               </Wrap>
               <Button
                 size='sm'
@@ -96,7 +103,7 @@ const UserPage = () => {
             </Stack>
 
             <UnorderedList>
-              {userCollections.map((collection) => (
+              {data?.data.map((collection) => (
                 <ListItem key={collection._id} mb={2}>
                   <Link to={`collections/${collection._id}`}>
                     {collection.title}

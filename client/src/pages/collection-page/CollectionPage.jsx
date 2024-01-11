@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react";
 import { GoBackButton } from "@/components";
-import Collection from "./Collection";
+// import Collection from "./Collection";
 
-const CollectionPage = () => {
+const CollectionPage = ({ children }) => {
   return (
     <Box>
       <GoBackButton />
-      <Collection />
+      {children}
     </Box>
   );
 };
