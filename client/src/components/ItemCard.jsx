@@ -105,12 +105,12 @@ const ItemCard = ({ itemId }) => {
         <Card variant='outline'>
           <CardBody p='3'>
             <List>
-              <ListItem mb='1'>
+              <ListItem mb='2'>
                 <Text as='b'>{t("global.author")}</Text>: {item.author.name}
               </ListItem>
               {item.optionalFields[0] &&
                 JSON.parse(item.optionalFields).map((field, index) => (
-                  <ListItem key={index} mb='1'>
+                  <ListItem key={index} mb='2'>
                     <Text as='b' textTransform={"capitalize"}>
                       {field.name}
                     </Text>

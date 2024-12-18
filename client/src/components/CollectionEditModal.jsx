@@ -23,11 +23,11 @@ import {
 import { useParams } from "react-router-dom";
 import { useFetchTopics } from "@/hooks/topics";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useCollectionEdit } from "@/hooks/collections";
+// import { useCollectionEdit } from "@/hooks/collections";
 import { useTranslation } from "react-i18next";
 import useForm from "@/hooks/useForm";
 import { useMutation } from "@tanstack/react-query";
-import { updateCollection } from "../utils/data";
+import { editCollection } from "../utils/data";
 
 const EditCollectionModal = ({
   isOpen,
@@ -62,7 +62,7 @@ const EditCollectionModal = ({
   // } = useCollectionEdit();
 
   const edit = useMutation({
-    mutationFn: (formData) => updateCollection(params.collectionId, formData),
+    mutationFn: (formData) => editCollection(params.collectionId, formData),
     onSuccess: () => {
       onClose();
       setPreview("");

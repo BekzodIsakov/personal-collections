@@ -18,7 +18,7 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { Link, CreateCollectionModal, Spinner } from "@/components";
 import { useFetchUser } from "@/hooks/user";
-import { useFetchUserCollections } from "@/hooks/collections";
+// import { useFetchUserCollections } from "@/hooks/collections";
 import { useCurrentUser } from "@/providers/currentUserProvider";
 
 import { useQuery } from "@tanstack/react-query";
@@ -39,7 +39,7 @@ const UserPage = () => {
   //   fetchUserCollections,
   // } = useFetchUserCollections();
 
-  const { isPending, isError, error, data } = useQuery({
+  const { isPending, isError, error, data, refetch } = useQuery({
     queryKey: ["use_collections", currentUser?._id],
     queryFn: () => fetchUserCollections(currentUser?._id),
     enabled: !!currentUser?._id,
@@ -117,7 +117,7 @@ const UserPage = () => {
           <CreateCollectionModal
             isOpen={isOpen}
             onClose={onClose}
-            fetchUserCollections={fetchUserCollections}
+            fetchUserCollections={refetch}
           />
         )}
       </>

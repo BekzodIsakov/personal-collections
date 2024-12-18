@@ -24,8 +24,11 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import { OptionalFieldGenerator } from "@/components";
 import { useFetchTopics } from "@/hooks/topics";
-import { useCreateCollection } from "@/hooks/collections";
+// import { useCreateCollection } from "@/hooks/collections";
 import { useCurrentUser } from "@/providers/currentUserProvider";
+import { useMutation } from "@tanstack/react-query";
+
+import { createCollection } from "../utils/data";
 
 const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
   const [title, setTitle] = React.useState("");
@@ -43,7 +46,17 @@ const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
 
   const { topics, fetchTopics } = useFetchTopics();
 
-  const { createCollection, loading, collection } = useCreateCollection();
+  // const { createCollection, loading, collection } = useCreateCollection();
+
+  const newCollection = useMutation({
+    mutationKey: ["createCollection"],
+    mutationFn: createCollection,
+    onSuccess: () => {
+      fetchUserCollections(currentUser._id);
+      // console.log("success");
+      onClose();
+    },
+  });
 
   const dragNDropBg = useColorModeValue("white", "gray.800");
   const dragNDropBorderColor = useColorModeValue("gray.300", "gray.500");
@@ -71,10 +84,14 @@ const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
     formData.append("topic", selectedTopic);
     formData.append("author", currentUser._id);
     formData.append("optionalItemFields", JSON.stringify(optionalItemFields));
+
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
-    createCollection(formData);
+
+    newCollection.mutate(formData);
+
+    // createCollection(formData);
   }
 
   React.useEffect(() => {
@@ -99,12 +116,12 @@ const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
     }
   }, [topics]);
 
-  React.useEffect(() => {
-    if (collection) {
-      fetchUserCollections(currentUser._id);
-      onClose();
-    }
-  }, [collection]);
+  // React.useEffect(() => {
+  //   if (collection) {
+  //     fetchUserCollections(currentUser._id);
+  //     onClose();
+  //   }
+  // }, [collection]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
@@ -249,7 +266,11 @@ const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
                 setOptionalItemFields={setOptionalItemFields}
               />
             </Stack>
-            <Button type='submit' colorScheme='telegram' isLoading={loading}>
+            <Button
+              type='submit'
+              colorScheme='telegram'
+              isLoading={newCollection.isLoading}
+            >
               {t("global.done")}
             </Button>
           </form>

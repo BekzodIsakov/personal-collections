@@ -22,7 +22,7 @@ export async function deleteCollection(id) {
   // }
 }
 
-export async function updateCollection(id, formData) {
+export async function editCollection(id, formData) {
   // async function updateCollection(id, formData) {
   //   try {
   //     setLoading(true);
@@ -52,6 +52,45 @@ export async function fetchUserCollections(userId) {
   try {
     const data = await axios.get(
       `${import.meta.env.VITE_URL}/collections?getBy=author_${userId}`
+    );
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createCollection(formData) {
+  try {
+    const data = await axios.post(
+      `${import.meta.env.VITE_URL}/collections/new`,
+      formData,
+      {
+        headers: { "content-type": "multipart/form-data" },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchTopCollections() {
+  try {
+    const data = await axios.get(
+      `${import.meta.env.VITE_URL}/collections/topFive`
+    );
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchLatestItems(limit = 10) {
+  try {
+    const data = await axios.get(
+      `${import.meta.env.VITE_URL}/items?sortBy=updatedAt_desc&limit=${limit}`
     );
     return data;
   } catch (error) {

@@ -34,7 +34,7 @@ import {
 } from "@/components";
 import {
   // useCollectionFetch,
-  useDeleteCollection,
+  // useDeleteCollection,
   useDeleteCollectionImage,
 } from "@/hooks/collections";
 
@@ -42,7 +42,6 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   deleteCollection as deleteCollectionById,
   fetchCollection as fetchCollectionById,
-  updateCollection,
 } from "../utils/data";
 
 const CollectionManagement = () => {
