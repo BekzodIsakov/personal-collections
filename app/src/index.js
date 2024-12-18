@@ -88,7 +88,7 @@ app.use(tagsRouter);
 app.use(itemsRouter);
 app.use(commentsRouter);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || process.env.LOCALHOST_PORT;
 httpServer.listen(port, () => {
   console.log("Server is live on port " + port);
 });
