@@ -12,7 +12,6 @@ const LanguageSelect = () => {
         i18n.changeLanguage(e.target.value);
       }}
       display={{ base: "none", xs: "block" }}
-      rounded='md'
     >
       {Object.keys(locales).map((locale) => (
         <option key={locale} value={locale}>
