@@ -14,6 +14,23 @@ const breakpoints = {
   "2xl": "96em", // 1536px
 };
 
-const theme = extendTheme({ config, breakpoints });
+const globalStyles = {};
+
+const theme = extendTheme({
+  config,
+  breakpoints,
+  styles: globalStyles,
+  components: {
+    Link: {
+      baseStyle: {
+        color: "blue.500",
+        fontWeight: "medium",
+        _hover: {
+          color: "blue.400",
+        },
+      },
+    },
+  },
+});
 
 export default theme;
