@@ -23,7 +23,7 @@ const Header = () => {
       zIndex='docked'
       top='0'
       boxShadow='md'
-      bg={useColorModeValue("gray.50", "gray.700")}
+      bg={useColorModeValue("gray.100", "gray.700")}
     >
       <Flex h='14' px='4' alignItems='center' justifyContent='space-between'>
         <Navigation />
