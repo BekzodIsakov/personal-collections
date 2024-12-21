@@ -3,16 +3,16 @@ import {
   Flex,
   HStack,
   Link as ChakraLink,
-  useColorModeValue,
+  // useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
   ColorSwitch,
-  UserProfile,
   SearchModal,
   SearchButton,
   LanguageSelect,
 } from "@/components";
+import Persona from "../Persona";
 import Navigation from "./Navigations/Navigation";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../providers/authProvider";
@@ -31,24 +31,29 @@ const Header = () => {
       boxShadow='md'
       // bg={useColorModeValue("gray.100", "gray.700")}
     >
-      <Flex px='4' py="2" alignItems='center' justifyContent='space-between'>
+      <Flex px={{base: "2", md: "4"}} py='2' alignItems='center' justifyContent='space-between'>
         <Navigation />
 
-        <HStack gap={"12px"}>
-          <LanguageSelect />
-          <ColorSwitch />
-          <SearchButton onOpen={onOpen} />
+        <HStack gap={{ base: "12px", xs: "20px" }}>
+          <HStack gap={"12px"}>
+            <LanguageSelect />
+            <ColorSwitch />
+            <SearchButton onOpen={onOpen} />
+          </HStack>
+
           {token ? (
-            <UserProfile />
+            <Persona />
           ) : (
-            <ChakraLink as={NavLink} whiteSpace={"nowrap"} variant={""} to='/signin'>
+            <ChakraLink
+              as={NavLink}
+              whiteSpace={"nowrap"}
+              variant={""}
+              to='/signin'
+            >
               {t("auth.signIn")}
             </ChakraLink>
           )}
         </HStack>
-        <>
-        
-        </>
       </Flex>
 
       {isOpen && (
