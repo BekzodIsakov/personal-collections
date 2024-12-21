@@ -25,16 +25,10 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
             <PopoverTrigger>
               <ChakraLink
                 as={NavLink}
-                _activeLink={{ color: "blue.400", textDecoration: "none" }}
-                p='2'
+                // _activeLink={{ color: "blue.400", textDecoration: "underline" }}
+                // p='2'
                 to={navItem.to}
-                fontSize='md'
-                fontWeight={navItem.children ? "600" : "500"}
-                color={linkColor}
-                _hover={{
-                  color: linkHoverColor,
-                  textDecoration: "none",
-                }}
+                // color={linkColor}
               >
                 {navItem.label}
               </ChakraLink>

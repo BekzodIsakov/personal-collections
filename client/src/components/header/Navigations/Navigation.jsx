@@ -12,7 +12,6 @@ import {
 import { useNavData } from "./navData";
 import MobileNav from "./MobileNav";
 import DesktopNav from "./DesktopNav";
-import LanguageSelect from "@/components/LanguageSelect";
 
 const Navigation = () => {
   const { navData } = useNavData();
@@ -53,16 +52,11 @@ const Navigation = () => {
                 borderTopRadius='0'
                 closeOnSelect={true}
               >
-                <HStack justifyContent='space-between' alignItems='flex-start'>
-                  <MobileNav
-                    navItems={navData}
-                    linkColor={linkColor}
-                    linkHoverColor={linkHoverColor}
-                  />
-                  <Box p='4' mr='2'>
-                    <LanguageSelect />
-                  </Box>
-                </HStack>
+                <MobileNav
+                  navItems={navData}
+                  linkColor={linkColor}
+                  linkHoverColor={linkHoverColor}
+                />
               </MenuList>
             </>
           )}

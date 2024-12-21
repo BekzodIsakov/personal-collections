@@ -11,7 +11,7 @@ const LanguageSelect = () => {
       onChange={(e) => {
         i18n.changeLanguage(e.target.value);
       }}
-      display={{ base: "none", xs: "block" }}
+      // display={{ base: "none", xs: "block" }}
     >
       {Object.keys(locales).map((locale) => (
         <option key={locale} value={locale}>
