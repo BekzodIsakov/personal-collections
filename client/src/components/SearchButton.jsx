@@ -6,12 +6,8 @@ const SearchButton = ({ onOpen }) => {
     <IconButton
       onClick={onOpen}
       icon={<SVG iconId='search' />}
-      variant='ghost'
-      size='sm'
       aria-label='Search database'
       title='Search'
-      _hover={{ bg: "transparent" }}
-      mr='2'
     />
   );
 };

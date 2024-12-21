@@ -7,8 +7,6 @@ const ColorSwitch = () => {
   return (
     <IconButton
       onClick={toggleColorMode}
-      variant='ghost'
-      size='sm'
       icon={
         colorMode === "light" ? (
           <SVG iconId='moon' />
