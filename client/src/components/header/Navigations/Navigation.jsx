@@ -34,7 +34,6 @@ const Navigation = () => {
               display={{ base: "flex", md: "none" }}
               as={IconButton}
               size='md'
-              variant={"ghost"}
               icon={
                 isOpen ? (
                   <CloseIcon w='3' h='3' />

@@ -10,17 +10,21 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const MobileNav = ({ navItems = [], linkColor }) => {
   return (
-    <Stack px='4' py='2' display={{ md: "none" }}>
+    <VStack p='4' gap={"6"} align={"start"} display={{ base: "flex", md: "none" }}>
       {navItems.map((navItem, index) => (
-        <MobileNavItem key={index} {...navItem} linkColor={linkColor} />
+        // <MobileNavItem key={index} {...navItem} linkColor={linkColor} />
+        <Link as={NavLink} key={index} to={navItem.to}>
+          {navItem.label}
+        </Link>
       ))}
-    </Stack>
+    </VStack>
   );
 };
 
