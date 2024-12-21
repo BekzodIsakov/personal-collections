@@ -11,10 +11,7 @@ const LanguageSelect = () => {
       onChange={(e) => {
         i18n.changeLanguage(e.target.value);
       }}
-      ml='15'
-      size='sm'
       display={{ base: "none", xs: "block" }}
-      variant='filled'
       rounded='md'
     >
       {Object.keys(locales).map((locale) => (
