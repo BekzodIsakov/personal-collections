@@ -22,47 +22,47 @@ const Navigation = () => {
 
   return (
     <>
-      <Flex
+      {/* <Flex
         flex={{ base: 1, md: "auto" }}
         ml={{ base: -2 }}
         display={{ base: "flex", md: "none" }}
-      >
-        <Menu offset={[-8, 12]}>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                as={IconButton}
-                isActive={false}
-                size='sm'
-                colorScheme='gray'
-                icon={
-                  isOpen ? (
-                    <CloseIcon w='3' h='3' />
-                  ) : (
-                    <HamburgerIcon w='5' h='5' />
-                  )
-                }
+      > */}
+      <Menu>
+        {({ isOpen }) => (
+          <>
+            <MenuButton
+              display={{ base: "flex", md: "none" }}
+              as={IconButton}
+              size='md'
+              variant={"ghost"}
+              icon={
+                isOpen ? (
+                  <CloseIcon w='3' h='3' />
+                ) : (
+                  <HamburgerIcon w='5' h='5' />
+                )
+              }
+            />
+            <MenuList
+              // p='0'
+              w='100vw'
+              boxShadow='2xl'
+              border='none'
+              bg={menuBg}
+              borderTopRadius='0'
+              closeOnSelect={true}
+            >
+              <MobileNav
+                navItems={navData}
+                linkColor={linkColor}
+                linkHoverColor={linkHoverColor}
               />
-              <MenuList
-                p='0'
-                w='100vw'
-                boxShadow='xl'
-                border='none'
-                bg={menuBg}
-                borderTopRadius='0'
-                closeOnSelect={true}
-              >
-                <MobileNav
-                  navItems={navData}
-                  linkColor={linkColor}
-                  linkHoverColor={linkHoverColor}
-                />
-              </MenuList>
-            </>
-          )}
-        </Menu>
-      </Flex>
-      <Flex display={{ base: "none", md: "flex" }} ml='3'>
+            </MenuList>
+          </>
+        )}
+      </Menu>
+      {/* </Flex> */}
+      <Flex display={{ base: "none", md: "flex" }}>
         <DesktopNav
           navItems={navData}
           linkColor={linkColor}
