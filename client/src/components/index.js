@@ -14,7 +14,6 @@ import Link from "./Link";
 import CreateCollectionModal from "./CreateCollectionModal";
 import UserPage from "../pages/UserPage";
 import SVG from "./SVG";
-import UserProfile from "./UserProfile";
 import CreateItemModal from "./CreateItemModal";
 import OptionalFieldGenerator from "./OptionalFieldGenerator";
 import ReactTable from "./ReactTable";
@@ -34,7 +33,6 @@ export {
   Link,
   CreateCollectionModal,
   SVG,
-  UserProfile,
   CreateItemModal,
   SearchModal,
   CustomList,
