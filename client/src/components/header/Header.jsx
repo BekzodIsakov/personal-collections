@@ -5,6 +5,7 @@ import {
   Link as ChakraLink,
   // useColorModeValue,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   ColorSwitch,
@@ -29,7 +30,7 @@ const Header = () => {
       zIndex='docked'
       top='0'
       boxShadow='md'
-      // bg={useColorModeValue("gray.100", "gray.700")}
+      bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Flex px={{base: "2", md: "4"}} py='2' alignItems='center' justifyContent='space-between'>
         <Navigation />
