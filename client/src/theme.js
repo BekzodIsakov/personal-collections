@@ -14,12 +14,16 @@ const breakpoints = {
   "2xl": "96em", // 1536px
 };
 
-const globalStyles = {};
-
 const theme = extendTheme({
   config,
   breakpoints,
-  styles: globalStyles,
+  styles: {
+    global: {
+      body: {
+        overflowX: "hidden",
+      },
+    },
+  },
   components: {
     Link: {
       baseStyle: {

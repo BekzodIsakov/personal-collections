@@ -17,12 +17,19 @@ import { NavLink } from "react-router-dom";
 
 const MobileNav = ({ navItems = [], linkColor }) => {
   return (
-    <VStack p='4' gap={"6"} align={"start"} display={{ base: "flex", md: "none" }}>
+    <VStack
+      p='2'
+      gap={"2"}
+      align={"start"}
+      display={{ base: "flex", md: "none" }}
+    >
       {navItems.map((navItem, index) => (
         // <MobileNavItem key={index} {...navItem} linkColor={linkColor} />
-        <Link as={NavLink} key={index} to={navItem.to}>
-          {navItem.label}
-        </Link>
+        <MenuItem key={index} bg="transparent">
+          <Link as={NavLink} to={navItem.to}>
+            {navItem.label}
+          </Link>
+        </MenuItem>
       ))}
     </VStack>
   );

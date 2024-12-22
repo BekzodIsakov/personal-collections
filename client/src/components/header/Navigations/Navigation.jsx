@@ -18,7 +18,7 @@ const Navigation = () => {
 
   const linkColor = useColorModeValue("gray.500", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
-  const menuBg = useColorModeValue("white", "gray.700");
+  const menuBg = useColorModeValue("gray.50", "gray.700");
 
   return (
     <>
@@ -43,12 +43,15 @@ const Navigation = () => {
               }
             />
             <MenuList
-              // p='0'
-              w='100vw'
-              boxShadow='2xl'
-              border='none'
-              bg={menuBg}
-              borderTopRadius='0'
+              sx={{
+                position: "fixed",
+                left: "-2",
+                width: "100vw",
+                boxShadow: "2xl",
+                border: "none",
+                borderTopRadius: "0",
+                bg: menuBg,
+              }}
               closeOnSelect={true}
             >
               <MobileNav
