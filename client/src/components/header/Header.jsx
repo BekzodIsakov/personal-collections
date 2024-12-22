@@ -30,9 +30,14 @@ const Header = () => {
       zIndex='docked'
       top='0'
       boxShadow='md'
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("gray.50", "gray.900")}
     >
-      <Flex px={{base: "2", md: "4"}} py='2' alignItems='center' justifyContent='space-between'>
+      <Flex
+        px={{ base: "2", sm: "4", md: "8" }}
+        py='2'
+        alignItems='center'
+        justifyContent='space-between'
+      >
         <Navigation />
 
         <HStack gap={{ base: "12px", xs: "20px" }}>

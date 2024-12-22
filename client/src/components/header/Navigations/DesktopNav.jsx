@@ -12,23 +12,26 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  HStack,
 } from "@chakra-ui/react";
+import { Boxes } from "lucide-react";
 
 const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
   const popoverContentBgColor = useColorModeValue("white", "gray.600");
 
   return (
-    <Stack direction={"row"} spacing='4'>
+    <HStack>
+      <ChakraLink as={NavLink} to={"/"}>
+        <Boxes size={"40"} />
+      </ChakraLink>
       {navItems.map((navItem, index) => (
         <Box key={index}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
               <ChakraLink
                 as={NavLink}
-                // _activeLink={{ color: "blue.400", textDecoration: "underline" }}
-                // p='2'
                 to={navItem.to}
-                // color={linkColor}
+                // _activeLink={{ color: "blue.400", textDecoration: "underline" }}
               >
                 {navItem.label}
               </ChakraLink>
@@ -53,7 +56,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
           </Popover>
         </Box>
       ))}
-    </Stack>
+    </HStack>
   );
 };
 
