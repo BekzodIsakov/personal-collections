@@ -28,9 +28,9 @@
     "goToMainPage": "Go to main page"
   },
   "nav": {
-    "mainPage": "Main page",
+    "mainPage": "Main",
     "myPage": "My page",
-    "usersPage": "Users page"
+    "usersPage": "Users"
   },
   "global": {
     "nonExistant": "Not available!",
