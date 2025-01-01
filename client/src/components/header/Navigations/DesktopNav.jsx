@@ -22,7 +22,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
   return (
     <HStack gap={"6"}>
       <ChakraLink as={NavLink} to={"/"}>
-        <Boxes size={"40"} />
+        <Boxes size={33} color='black' strokeWidth={1} />
       </ChakraLink>
       {navItems.map((navItem, index) => (
         <Box key={index}>
@@ -31,7 +31,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
               <ChakraLink
                 as={NavLink}
                 to={navItem.to}
-                // _activeLink={{ color: "blue.400", textDecoration: "underline" }}
+                _activeLink={{ textDecoration: "underline" }}
               >
                 {navItem.label}
               </ChakraLink>
