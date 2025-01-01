@@ -41,7 +41,7 @@ const Header = () => {
         <Navigation />
 
         <HStack gap={{ base: "12px", xs: "20px" }}>
-          <HStack gap={"12px"}>
+          <HStack gap={{base: "5px", xs: "8px", md:"12px"}}>
             <LanguageSelect />
             <ColorSwitch />
             <SearchButton onOpen={onOpen} />
