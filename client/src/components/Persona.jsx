@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserSignOut } from "../hooks/user";
 import { useTranslation } from "react-i18next";
 
-const Profile = () => {
+const Persona = () => {
   const { setToken, setUser, user } = useAuth();
   const { loading, signOut } = useUserSignOut();
 
@@ -65,6 +65,7 @@ const Profile = () => {
               isLoading={loading}
               loadingText={t("auth.signOut")}
               colorScheme='red'
+              variant="outline"
               size='sm'
             >
               {t("auth.signOut")}
@@ -76,4 +77,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Persona;
