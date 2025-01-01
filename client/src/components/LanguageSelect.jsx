@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Select } from "@chakra-ui/react";
 import { locales } from "@/constants";
 
-const LanguageSelect = () => {
+const LanguageSelect = (props) => {
   const { i18n } = useTranslation();
 
   return (
@@ -11,6 +11,7 @@ const LanguageSelect = () => {
       onChange={(e) => {
         i18n.changeLanguage(e.target.value);
       }}
+      {...props}
       // display={{ base: "none", xs: "block" }}
     >
       {Object.keys(locales).map((locale) => (
