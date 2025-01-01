@@ -20,7 +20,7 @@ const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
   const popoverContentBgColor = useColorModeValue("white", "gray.600");
 
   return (
-    <HStack>
+    <HStack gap={"6"}>
       <ChakraLink as={NavLink} to={"/"}>
         <Boxes size={"40"} />
       </ChakraLink>
