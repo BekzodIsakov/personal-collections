@@ -14,15 +14,18 @@ import {
   LanguageSelect,
 } from "@/components";
 import Persona from "../Persona";
-import Navigation from "./Navigations/Navigation";
+// import Navigation from "./Navigations/Navigation";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../providers/authProvider";
 import { NavLink } from "react-router-dom";
+import { Boxes } from "lucide-react";
+import { useNavData } from "./Navigations/navData";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { token } = useAuth();
   const { t } = useTranslation();
+  const { navData } = useNavData();
 
   return (
     <Box
@@ -38,11 +41,29 @@ const Header = () => {
         alignItems='center'
         justifyContent='space-between'
       >
-        <Navigation />
+        <HStack gap={33}>
+          <ChakraLink as={NavLink} to={"/"} color={"blue.400"}>
+            <Boxes size={33} strokeWidth={1} />
+          </ChakraLink>
+          {/* <Navigation /> */}
+
+          <HStack gap={25} display={{ base: "none", sm2: "flex" }}>
+            {navData.map((link, index) => (
+              <ChakraLink
+                key={index}
+                as={NavLink}
+                to={link.to}
+                _activeLink={{ textDecoration: "underline" }}
+              >
+                {link.label}
+              </ChakraLink>
+            ))}
+          </HStack>
+        </HStack>
 
         <HStack gap={{ base: "12px", xs: "20px" }}>
-          <HStack gap={{base: "5px", xs: "8px", md:"12px"}}>
-            <LanguageSelect />
+          <HStack gap={{ base: "5px", xs: "8px", md: "12px" }}>
+            <LanguageSelect display={{ base: "none", sm2: "flex" }} />
             <ColorSwitch />
             <SearchButton onOpen={onOpen} />
           </HStack>

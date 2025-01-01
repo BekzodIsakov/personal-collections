@@ -14,16 +14,16 @@ import {
   useColorModeValue,
   HStack,
 } from "@chakra-ui/react";
-import { Boxes } from "lucide-react";
+// import { Boxes } from "lucide-react";
 
 const DesktopNav = ({ navItems = [], linkColor, linkHoverColor }) => {
   const popoverContentBgColor = useColorModeValue("white", "gray.600");
 
   return (
     <HStack gap={"6"}>
-      <ChakraLink as={NavLink} to={"/"}>
+      {/* <ChakraLink as={NavLink} to={"/"}>
         <Boxes size={33} color='black' strokeWidth={1} />
-      </ChakraLink>
+      </ChakraLink> */}
       {navItems.map((navItem, index) => (
         <Box key={index}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
