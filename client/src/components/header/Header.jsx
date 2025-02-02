@@ -6,7 +6,10 @@ import {
   // useColorModeValue,
   useDisclosure,
   useColorModeValue,
+  Button,
 } from "@chakra-ui/react";
+import { X, Menu } from "lucide-react";
+
 import {
   ColorSwitch,
   SearchModal,
@@ -20,12 +23,21 @@ import { useAuth } from "../../providers/authProvider";
 import { NavLink } from "react-router-dom";
 import { Boxes } from "lucide-react";
 import { useNavData } from "./Navigations/navData";
+import { useRef } from "react";
+import ChakraDrawer from "../Drawer";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose,
+  } = useDisclosure();
+
   const { token } = useAuth();
   const { t } = useTranslation();
   const { navData } = useNavData();
+  const drawerBtnRef = useRef();
 
   return (
     <Box
@@ -36,14 +48,22 @@ const Header = () => {
       bg={useColorModeValue("gray.50", "gray.900")}
     >
       <Flex
-        px={{ base: "2", sm: "4", md: "8" }}
+        px={{ base: "2", md: "8" }}
         py='2'
         alignItems='center'
         justifyContent='space-between'
+        gap={8}
       >
         <HStack gap={33}>
-          <ChakraLink as={NavLink} to={"/"} color={"blue.400"}>
-            <Boxes size={33} strokeWidth={1} />
+          <ChakraLink
+            as={NavLink}
+            to={"/"}
+            color={"inherit"}
+            backgroundColor={"blue.400"}
+            borderRadius={"md"}
+            p={1}
+          >
+            <Boxes size={30} strokeWidth={1.1} color='white' />
           </ChakraLink>
           {/* <Navigation /> */}
 
@@ -80,6 +100,18 @@ const Header = () => {
               {t("auth.signIn")}
             </ChakraLink>
           )}
+
+          <Box display={{ sm2: "none" }}>
+            <Button ref={drawerBtnRef} onClick={onDrawerOpen}>
+              {isDrawerOpen ? <X /> : <Menu />}
+            </Button>
+            <ChakraDrawer
+              isOpen={isDrawerOpen}
+              onClose={onDrawerClose}
+              drawerBtnRef={drawerBtnRef}
+              onSearchBarOpen={onOpen}
+            />
+          </Box>
         </HStack>
       </Flex>
 

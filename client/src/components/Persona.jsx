@@ -37,9 +37,9 @@ const Persona = () => {
           <Text
             fontWeight={"medium"}
             whiteSpace='nowrap'
-            display={{ base: "none", sm: "block" }}
+            display={{ base: "none", md: "block" }}
           >
-            {user.name}
+            {user.name.split(' ')[0]}
           </Text>
           <Avatar name={user.name} size='sm' />
         </HStack>
@@ -65,7 +65,7 @@ const Persona = () => {
               isLoading={loading}
               loadingText={t("auth.signOut")}
               colorScheme='red'
-              variant="outline"
+              variant='outline'
               size='sm'
             >
               {t("auth.signOut")}
