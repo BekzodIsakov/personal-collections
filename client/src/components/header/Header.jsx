@@ -48,79 +48,80 @@ const Header = () => {
       px={{ base: "3", md: "8" }}
       py='2'
     >
-      <Flex alignItems='center' justifyContent='space-between' gap={8}>
-        <HStack gap={33}>
-          <ChakraLink
-            as={NavLink}
-            to={"/"}
-            color={"inherit"}
-            // backgroundColor={"blue.400"}
-            border={"solid gray"}
-            borderRadius={"md"}
-            p={1}
+      <Box maxW={"960px"} mx={"auto"}>
+        <Flex alignItems='center' justifyContent='space-between' gap={8}>
+          <HStack gap={33}>
+            <ChakraLink
+              as={NavLink}
+              to={"/"}
+              color={"inherit"}
+              border={"solid gray"}
+              borderRadius={"md"}
+              p={1}
+            >
+              <Boxes size={35} fill='black' strokeWidth={1.1} color='white' />
+            </ChakraLink>
+
+            <HStack gap={25} display={{ base: "none", sm2: "flex" }}>
+              {navData.map((link, index) => (
+                <ChakraLink
+                  key={index}
+                  as={NavLink}
+                  to={link.to}
+                  _activeLink={{ textDecoration: "underline" }}
+                >
+                  {link.label}
+                </ChakraLink>
+              ))}
+            </HStack>
+          </HStack>
+
+          <HStack gap={{ base: "12px", xs: "20px" }}>
+            <HStack gap={{ base: "8px", md: "12px" }}>
+              {token ? (
+                <Persona />
+              ) : (
+                <Button
+                  as={NavLink}
+                  whiteSpace={"nowrap"}
+                  variant={"outline"}
+                  to='/signin'
+                >
+                  {t("auth.signIn")}
+                </Button>
+              )}
+            </HStack>
+          </HStack>
+        </Flex>
+
+        <Divider my={3} display={{ base: "block", sm2: "block" }} />
+
+        <HStack justifyContent={"space-between"}>
+          <Button
+            ref={drawerBtnRef}
+            onClick={onDrawerOpen}
+            display={{ base: "initial", sm2: "none" }}
           >
-            <Boxes size={35} fill='black' strokeWidth={1.1} color='white' />
-          </ChakraLink>
+            {isDrawerOpen ? <X /> : <Menu />}
+          </Button>
+          <ChakraDrawer
+            isOpen={isDrawerOpen}
+            onClose={onDrawerClose}
+            drawerBtnRef={drawerBtnRef}
+            onSearchBarOpen={onOpen}
+          />
 
-          <HStack gap={25} display={{ base: "none", sm2: "flex" }}>
-            {navData.map((link, index) => (
-              <ChakraLink
-                key={index}
-                as={NavLink}
-                to={link.to}
-                _activeLink={{ textDecoration: "underline" }}
-              >
-                {link.label}
-              </ChakraLink>
-            ))}
-          </HStack>
-        </HStack>
-
-        <HStack gap={{ base: "12px", xs: "20px" }}>
           <HStack gap={{ base: "8px", md: "12px" }}>
-            {token ? (
-              <Persona />
-            ) : (
-              <Button
-                as={NavLink}
-                whiteSpace={"nowrap"}
-                variant={"outline"}
-                to='/signin'
-              >
-                {t("auth.signIn")}
-              </Button>
-            )}
+            <LanguageSelect />
+            <ColorSwitch />
+            <SearchButton onOpen={onOpen} />
           </HStack>
         </HStack>
-      </Flex>
 
-      <Divider my={3} display={{ base: "block", sm2: "block" }} />
-
-      <HStack justifyContent={"space-between"}>
-        <Button
-          ref={drawerBtnRef}
-          onClick={onDrawerOpen}
-          display={{ base: "initial", sm2: "none" }}
-        >
-          {isDrawerOpen ? <X /> : <Menu />}
-        </Button>
-        <ChakraDrawer
-          isOpen={isDrawerOpen}
-          onClose={onDrawerClose}
-          drawerBtnRef={drawerBtnRef}
-          onSearchBarOpen={onOpen}
-        />
-
-        <HStack gap={{ base: "8px", md: "12px" }}>
-          <LanguageSelect />
-          <ColorSwitch />
-          <SearchButton onOpen={onOpen} />
-        </HStack>
-      </HStack>
-
-      {isOpen && (
-        <SearchModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
-      )}
+        {isOpen && (
+          <SearchModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+        )}
+      </Box>
     </Box>
   );
 };
