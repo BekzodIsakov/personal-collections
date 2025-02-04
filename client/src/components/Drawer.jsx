@@ -17,7 +17,6 @@ import {
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { SearchIcon } from "lucide-react";
 
-import Persona from "./Persona";
 import ColorSwitch from "./ColorSwitch";
 import LanguageSelect from "./LanguageSelect";
 
@@ -111,7 +110,7 @@ const ChakraDrawer = ({
 
           <DrawerFooter>
             <VStack align={"right"} alignItems={"flex-end"}>
-              <ColorSwitch />
+              {/* <ColorSwitch />
 
               <Button
                 leftIcon={<SearchIcon />}
@@ -121,7 +120,7 @@ const ChakraDrawer = ({
                 Search
               </Button>
 
-              <LanguageSelect />
+              <LanguageSelect /> */}
               {user && (
                 <Button
                   onClick={handleSignOut}

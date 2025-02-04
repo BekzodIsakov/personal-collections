@@ -3,10 +3,10 @@ import {
   Flex,
   HStack,
   Link as ChakraLink,
-  // useColorModeValue,
   useDisclosure,
   useColorModeValue,
   Button,
+  Divider,
 } from "@chakra-ui/react";
 import { X, Menu } from "lucide-react";
 
@@ -17,7 +17,6 @@ import {
   LanguageSelect,
 } from "@/components";
 import Persona from "../Persona";
-// import Navigation from "./Navigations/Navigation";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../providers/authProvider";
 import { NavLink } from "react-router-dom";
@@ -46,26 +45,22 @@ const Header = () => {
       top='0'
       boxShadow='md'
       bg={useColorModeValue("gray.50", "gray.900")}
+      px={{ base: "3", md: "8" }}
+      py='2'
     >
-      <Flex
-        px={{ base: "2", md: "8" }}
-        py='2'
-        alignItems='center'
-        justifyContent='space-between'
-        gap={8}
-      >
+      <Flex alignItems='center' justifyContent='space-between' gap={8}>
         <HStack gap={33}>
           <ChakraLink
             as={NavLink}
             to={"/"}
             color={"inherit"}
-            backgroundColor={"blue.400"}
+            // backgroundColor={"blue.400"}
+            border={"solid gray"}
             borderRadius={"md"}
             p={1}
           >
-            <Boxes size={30} strokeWidth={1.1} color='white' />
+            <Boxes size={35} fill='black' strokeWidth={1.1} color='white' />
           </ChakraLink>
-          {/* <Navigation /> */}
 
           <HStack gap={25} display={{ base: "none", sm2: "flex" }}>
             {navData.map((link, index) => (
@@ -82,38 +77,46 @@ const Header = () => {
         </HStack>
 
         <HStack gap={{ base: "12px", xs: "20px" }}>
-          <HStack gap={{ base: "5px", xs: "8px", md: "12px" }}>
-            <LanguageSelect display={{ base: "none", sm2: "flex" }} />
-            <ColorSwitch />
-            <SearchButton onOpen={onOpen} />
+          <HStack gap={{ base: "8px", md: "12px" }}>
+            {token ? (
+              <Persona />
+            ) : (
+              <Button
+                as={NavLink}
+                whiteSpace={"nowrap"}
+                variant={"outline"}
+                to='/signin'
+              >
+                {t("auth.signIn")}
+              </Button>
+            )}
           </HStack>
-
-          {token ? (
-            <Persona />
-          ) : (
-            <ChakraLink
-              as={NavLink}
-              whiteSpace={"nowrap"}
-              variant={""}
-              to='/signin'
-            >
-              {t("auth.signIn")}
-            </ChakraLink>
-          )}
-
-          <Box display={{ sm2: "none" }}>
-            <Button ref={drawerBtnRef} onClick={onDrawerOpen}>
-              {isDrawerOpen ? <X /> : <Menu />}
-            </Button>
-            <ChakraDrawer
-              isOpen={isDrawerOpen}
-              onClose={onDrawerClose}
-              drawerBtnRef={drawerBtnRef}
-              onSearchBarOpen={onOpen}
-            />
-          </Box>
         </HStack>
       </Flex>
+
+      <Divider my={3} display={{ base: "block", sm2: "block" }} />
+
+      <HStack justifyContent={"space-between"}>
+        <Button
+          ref={drawerBtnRef}
+          onClick={onDrawerOpen}
+          display={{ base: "initial", sm2: "none" }}
+        >
+          {isDrawerOpen ? <X /> : <Menu />}
+        </Button>
+        <ChakraDrawer
+          isOpen={isDrawerOpen}
+          onClose={onDrawerClose}
+          drawerBtnRef={drawerBtnRef}
+          onSearchBarOpen={onOpen}
+        />
+
+        <HStack gap={{ base: "8px", md: "12px" }}>
+          <LanguageSelect />
+          <ColorSwitch />
+          <SearchButton onOpen={onOpen} />
+        </HStack>
+      </HStack>
 
       {isOpen && (
         <SearchModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />

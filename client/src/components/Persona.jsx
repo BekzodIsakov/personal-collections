@@ -37,7 +37,7 @@ const Persona = () => {
           <Text
             fontWeight={"medium"}
             whiteSpace='nowrap'
-            display={{ base: "none", md: "block" }}
+            display={{ base: "none", sm: "block" }}
           >
             {user.name.split(' ')[0]}
           </Text>
