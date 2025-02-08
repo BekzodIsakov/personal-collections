@@ -48,14 +48,14 @@ const Header = () => {
       px={{ base: "3", md: "8" }}
       py='2'
     >
-      <Box maxW={"960px"} mx={"auto"}>
+      <Box maxW={1200} mx={"auto"}>
         <Flex alignItems='center' justifyContent='space-between' gap={8}>
           <HStack gap={33}>
             <ChakraLink
               as={NavLink}
               to={"/"}
               color={"inherit"}
-              border={"solid gray"}
+              border={"2px solid gray"}
               borderRadius={"md"}
               p={1}
             >
