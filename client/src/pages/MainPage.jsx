@@ -7,6 +7,17 @@ import {
   Spinner as ChakraSpinner,
   UnorderedList,
   VStack,
+  Card,
+  CardBody,
+  Image,
+  Stack,
+  Text,
+  Divider,
+  CardFooter,
+  ButtonGroup,
+  Button,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import Spinner from "../components/Spinner";
 import { fetchTopFiveCollections } from "@/store/slices/topCollectionsSlice";
@@ -14,9 +25,10 @@ import { fetchTopFiveCollections } from "@/store/slices/topCollectionsSlice";
 import { TagsCloud, CustomList } from "@/components";
 import TopCollections from "../components/TopCollections";
 
-import { fetchLatestItems } from "../utils/data";
+import { fetchCollections, fetchLatestItems } from "../utils/data";
 
 import { useQuery } from "@tanstack/react-query";
+import CollectionsCards from "../components/CollectionsCards";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -27,7 +39,7 @@ const MainPage = () => {
   const latestItems = useQuery({
     queryKey: ["fetchLatestItems"],
     queryFn: () => fetchLatestItems(10),
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
     refetchInterval: 2000 * 60,
   });
 
@@ -44,31 +56,34 @@ const MainPage = () => {
   }, [dispatch]);
 
   return (
-    <VStack spacing='8' align='stretch'>
-      <Box>
-        <Heading as='h2' fontSize='2xl' mb='4'>
-          {t("main.latestItems")}
-          {latestItems.isFetching && <Spinner marginLeft='20px' />}
-        </Heading>
-        <UnorderedList>
-          <CustomList
-            loading={latestItems.status === "pending"}
-            list={latestItems.data?.data}
-            errorMessage={latestItems.error}
-          />
-        </UnorderedList>
-      </Box>
+    // <VStack spacing='8' align='stretch'>
+    //   <Box>
+    //     <Heading as='h2' fontSize='2xl' mb='4'>
+    //       {t("main.latestItems")}
+    //       {latestItems.isFetching && <Spinner marginLeft='20px' />}
+    //     </Heading>
+    //     <UnorderedList>
+    //       <CustomList
+    //         loading={latestItems.status === "pending"}
+    //         list={latestItems.data?.data}
+    //         errorMessage={latestItems.error}
+    //       />
+    //     </UnorderedList>
+    //   </Box>
 
-      <Box>
-        <Heading as='h2' fontSize='2xl' mb='4'>
-          {t("main.topFiveCollections")}
-        </Heading>
+    //   <Box>
+    //     <Heading as='h2' fontSize='2xl' mb='4'>
+    //       {t("main.topFiveCollections")}
+    //     </Heading>
 
-        <TopCollections />
-      </Box>
+    //     <TopCollections />
+    //   </Box>
 
-      <TagsCloud />
-    </VStack>
+    //   <TagsCloud />
+    // </VStack>
+    <div>
+      <CollectionsCards />
+    </div>
   );
 };
 
