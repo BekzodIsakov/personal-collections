@@ -15,6 +15,7 @@
   },
   "main": {
     "latestItems": "Latest items",
+    "collections": "Collections",
     "topFiveCollections": "Top five collections",
     "tagsCloud": "Tags cloud",
     "items": "Items",
