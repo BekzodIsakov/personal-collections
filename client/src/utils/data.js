@@ -1,5 +1,9 @@
 import axios from "axios";
 
+export async function fetchCollections() {
+  return await axios.get(`${import.meta.env.VITE_URL}/collections`);
+}
+
 export async function fetchCollection(id) {
   const data = await axios.get(`${import.meta.env.VITE_URL}/collections/${id}`);
   return data;
