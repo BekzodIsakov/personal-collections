@@ -9,7 +9,7 @@ const getCollections = async (req, res) => {
   }
 
   try {
-    const collections = await Collection.find(query);
+    const collections = await Collection.find(query).populate("author");
     res.send(collections);
   } catch (error) {
     res.status(500).send(error);
