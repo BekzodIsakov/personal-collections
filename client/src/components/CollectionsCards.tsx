@@ -17,20 +17,24 @@ import {
   Grid,
   GridItem,
   Spinner,
+  Skeleton,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCollections } from "../utils/data";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import CollectionCardSkeleton from "./CollectionCardSkeleton";
 
 const CollectionsCards = () => {
   const {
     data: collections,
     isFetching,
+    isLoading,
   } = useQuery({
     queryKey: ["collections"],
     queryFn: () => fetchCollections(),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false, // remove this line for deployment
     refetchInterval: 2000 * 60,
   });
 
@@ -45,6 +49,18 @@ const CollectionsCards = () => {
         {t("main.collections")}
         {isFetching && <Spinner marginLeft='20px' />}
       </Heading>
+
+      {isLoading && (
+        <SimpleGrid
+          templateColumns='repeat(auto-fill, minmax(240px, 1fr))'
+          spacing={6}
+        >
+          {[1, 2, 3, 4].map((i) => (
+            <CollectionCardSkeleton key={i} />
+          ))}
+        </SimpleGrid>
+      )}
+
       <Grid
         templateColumns='repeat(auto-fill, minmax(240px, 1fr))'
         rowGap={8}
