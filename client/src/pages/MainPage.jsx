@@ -81,9 +81,14 @@ const MainPage = () => {
 
     //   <TagsCloud />
     // </VStack>
-    <div>
+    <Stack direction={"column"} spacing={24}>
       <CollectionsCards />
-    </div>
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde aperiam
+        asperiores illo corporis, modi magni nihil animi quisquam praesentium
+        ratione.
+      </div>
+    </Stack>
   );
 };
 
