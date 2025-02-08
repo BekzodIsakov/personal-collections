@@ -5,7 +5,7 @@ const { uploadImage } = require("../middlewares/uploadImage");
 
 const collections = require("../controllers/collection");
 
-router.get("/collections", checkAuth, collections.getCollections);
+router.get("/collections", collections.getCollections);
 
 router.get("/collections/topFive", collections.getTopFiveCollections);
 
