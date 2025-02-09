@@ -1,16 +1,16 @@
 {
   "auth": {
-    "signIn": "Sign in",
-    "signUp": "Sign up",
+    "login": "Login",
+    "register": "Register",
     "signOut": "Sign out",
     "emailAddress": "Email address",
     "password": "Password",
     "name": "Name",
-    "noAccountYet?": "Don't have an account yet?",
+    "hasNoAccount?": "Don't have an account yet?",
     "hasAccount?": "Already have an account?",
     "headings": {
-      "signIn": "Sign in to your account",
-      "signUp": "Create your account"
+      "login": "Login to your account",
+      "register": "Create your account"
     }
   },
   "main": {

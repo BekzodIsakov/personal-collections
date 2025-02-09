@@ -1,16 +1,16 @@
 {
   "auth": {
-    "signIn": "Kirish",
-    "signUp": "Ro'yxatdan o'tish",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
     "signOut": "Chiqish",
-    "emailAddress": "E-pochta manzili",
+    "emailAddress": "Elektron pochta",
     "password": "Parol",
     "name": "Ism",
-    "noAccountYet?": "Hali ro'yxatdan o'tmadingizmi?",
+    "hasNoAccount?": "Hali ro'yxatdan o'tmadingizmi?",
     "hasAccount?": "Ro'yxatdan o'tib bolganmisiz?",
     "headings": {
-      "signIn": "Akkauntga kirish",
-      "signUp": "Ro'yxatdan o'tish"
+      "login": "Akkauntga kirish",
+      "register": "Ro'yxatdan o'tish"
     }
   },
   "main": {
