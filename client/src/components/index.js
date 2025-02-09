@@ -1,7 +1,7 @@
 export * from "./header/Header";
 import CollectionEditModal from "./CollectionEditModal";
 import ItemsTable from "./ItemsTable";
-import ColorSwitch from "./ColorSwitch";
+export * from "./ThemeSwitcher";
 import CustomList from "./CustomList";
 import CustomListItem from "./CustomListItem";
 import DeleteModal from "./DeleteModal";
@@ -28,7 +28,6 @@ import Spinner from "./Spinner";
 export {
   CollectionEditModal,
   ItemsTable,
-  ColorSwitch,
   Link,
   CreateCollectionModal,
   SVG,

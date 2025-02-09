@@ -1,5 +1,6 @@
 import { useRef } from "react";
-
+import { NavLink, useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   Drawer,
@@ -14,8 +15,6 @@ import {
   Link as ChakraLink,
   Avatar,
 } from "@chakra-ui/react";
-import { NavLink, useNavigate, Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 import { useAuth } from "../providers/authProvider";
 import { useNavData } from "./header/navData";
@@ -77,7 +76,7 @@ const ChakraDrawer = ({
                 variant={""}
                 to='/signin'
               >
-                {t("auth.signIn")}
+                {t("auth.login")}
               </ChakraLink>
             )}
           </DrawerHeader>
