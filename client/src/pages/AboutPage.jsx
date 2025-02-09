@@ -9,8 +9,8 @@ import {
   SimpleGrid,
   Divider,
   useColorModeValue,
+  Link,
 } from "@chakra-ui/react";
-
 import {
   Package,
   Users,
@@ -25,8 +25,8 @@ import {
   Server,
   Layout,
   Layers,
+  Goal,
 } from "lucide-react";
-
 import { GitHubLink } from "../components/GithubLink";
 
 const TechItem = ({ icon, name, color }) => (
@@ -39,7 +39,7 @@ const TechItem = ({ icon, name, color }) => (
     spacing={3}
     shadow='sm'
   >
-    <Icon as={icon} className='w-5 h-5' color={color} />
+    <Icon as={icon} fontSize={18} color={color} />
     <Text fontWeight='medium'>{name}</Text>
   </HStack>
 );
@@ -65,36 +65,60 @@ const AboutPage = () => {
               Create collections. Share. Connect.
             </Text>
             <GitHubLink>Github</GitHubLink>
+            <Link href='https://bekzodisakov.vercel.app/' fontWeight='bold'>
+              My portfolio
+            </Link>
           </VStack>
 
-          {/* Purpose Section */}
           <Box p={8} bg={sectionBg} borderRadius='xl' shadow='lg'>
             <VStack spacing={6} align='stretch'>
               <HStack spacing={3}>
-                <Icon as={Lightbulb} className='w-6 h-6' color='yellow.500' />
+                <Icon as={Lightbulb} fontSize={20} color='yellow.500' />
+                <Heading size='lg'>About</Heading>
+              </HStack>
+              <VStack spacing={3}>
+                <Text>
+                  This is a collections app where users can register and create
+                  collections of their favorite items, such as coins, shoes,
+                  books, or anything else they collect. Each collection includes
+                  a name, an image, a list of items, and various other details
+                  to make it more informative.
+                </Text>
+                <Text>
+                  Users can interact by liking and commenting on collections and
+                  individual items. However, commenting requires
+                  registration—guests can only browse collections. Each user has
+                  full control over their own collections, allowing them to
+                  manage and update them as needed.
+                </Text>
+                <Text>
+                  The app also features an admin system. Admins can be assigned
+                  or blocked by other admins and have the ability to view and
+                  edit user collections to maintain order and moderation.
+                </Text>
+              </VStack>
+            </VStack>
+          </Box>
+
+          <Box p={8} bg={sectionBg} borderRadius='xl' shadow='lg'>
+            <VStack spacing={6} align='stretch'>
+              <HStack spacing={3}>
+                <Icon as={Goal} fontSize={20} color='green.500' />
                 <Heading size='lg'>Purpose</Heading>
               </HStack>
               <Text>
-                This platform serves as a showcase of modern web development
-                capabilities while providing collectors with a space to share
-                their passions. It demonstrates the implementation of real-time
-                features, cloud storage solutions, and responsive design
-                principles, all while creating a meaningful application for
-                collection enthusiasts.{" "}
-                <strong>
-                  I have built this project to showcase my skills in web
-                  development and to play around with new features I am
-                  learning.
-                </strong>
+                I&apos;ve built this project to showcase my skills, experiment
+                with new technologies, and explore different features I&apos;ve
+                been learning. It serves as both a learning experience and a
+                portfolio piece to demonstrate my abilities.
               </Text>
             </VStack>
           </Box>
 
-          {/* Features Section */}
           <Box p={8} bg={sectionBg} borderRadius='xl' shadow='lg'>
             <VStack spacing={8} align='stretch'>
               <HStack spacing={3}>
-                <Icon as={Layout} className='w-6 h-6' color='blue.500' />
+                <Icon as={Layout} fontSize={20} color='blue.500' />
                 <Heading size='lg'>Key Features</Heading>
               </HStack>
 
@@ -108,7 +132,7 @@ const AboutPage = () => {
                   align='start'
                   spacing={3}
                 >
-                  <Icon as={Package} className='w-5 h-5' color='purple.500' />
+                  <Icon as={Package} fontSize={18} color='purple.500' />
                   <Text fontWeight='bold'>Collection Management</Text>
                   <Text>
                     Create and organize collections of any type - books, coins,
@@ -125,7 +149,7 @@ const AboutPage = () => {
                   align='start'
                   spacing={3}
                 >
-                  <Icon as={Users} className='w-5 h-5' color='green.500' />
+                  <Icon as={Users} fontSize={18} color='green.500' />
                   <Text fontWeight='bold'>Social Interaction</Text>
                   <Text>
                     Like and comment on collections in real-time using Socket.io
@@ -141,7 +165,7 @@ const AboutPage = () => {
                   align='start'
                   spacing={3}
                 >
-                  <Icon as={Globe} className='w-5 h-5' color='blue.500' />
+                  <Icon as={Globe} fontSize={18} color='blue.500' />
                   <Text fontWeight='bold'>Internationalization</Text>
                   <Text>
                     Multi-language support with i18next for global accessibility
@@ -157,7 +181,7 @@ const AboutPage = () => {
                   align='start'
                   spacing={3}
                 >
-                  <Icon as={Moon} className='w-5 h-5' color='yellow.500' />
+                  <Icon as={Moon} fontSize={18} color='yellow.500' />
                   <Text fontWeight='bold'>Customization</Text>
                   <Text>
                     Light/Dark mode support and responsive design across all
@@ -168,11 +192,10 @@ const AboutPage = () => {
             </VStack>
           </Box>
 
-          {/* Technology Stack */}
           <Box p={8} bg={sectionBg} borderRadius='xl' shadow='lg'>
             <VStack spacing={8} align='stretch'>
               <HStack spacing={3}>
-                <Icon as={Code} className='w-6 h-6' color='green.500' />
+                <Icon as={Code} fontSize={20} color='green.500' />
                 <Heading size='lg'>Technology Stack</Heading>
               </HStack>
 
@@ -195,7 +218,11 @@ const AboutPage = () => {
                     color='red.500'
                   />
                   <TechItem icon={Globe} name='i18next' color='green.500' />
-                  <TechItem icon={Layers} name='Tanstack-query' color='green.500' />
+                  <TechItem
+                    icon={Layers}
+                    name='Tanstack-query'
+                    color='green.500'
+                  />
                 </SimpleGrid>
 
                 <Divider />
@@ -212,25 +239,24 @@ const AboutPage = () => {
             </VStack>
           </Box>
 
-          {/* Additional Features */}
           <Box p={8} bg={sectionBg} borderRadius='xl' shadow='lg'>
             <VStack spacing={6} align='stretch'>
               <Heading size='lg'>Additional Features</Heading>
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
                 <HStack spacing={3}>
-                  <Icon as={Heart} className='w-5 h-5' color='red.500' />
+                  <Icon as={Heart} fontSize={18} color='red.500' />
                   <Text>Real-time likes and comments</Text>
                 </HStack>
                 <HStack spacing={3}>
-                  <Icon as={Database} className='w-5 h-5' color='blue.500' />
+                  <Icon as={Database} fontSize={18} color='blue.500' />
                   <Text>Cloud image storage</Text>
                 </HStack>
                 <HStack spacing={3}>
-                  <Icon as={Users} className='w-5 h-5' color='green.500' />
+                  <Icon as={Users} fontSize={18} color='green.500' />
                   <Text>Role-based access control</Text>
                 </HStack>
                 <HStack spacing={3}>
-                  <Icon as={Monitor} className='w-5 h-5' color='purple.500' />
+                  <Icon as={Monitor} fontSize={18} color='purple.500' />
                   <Text>Responsive design</Text>
                 </HStack>
               </SimpleGrid>
