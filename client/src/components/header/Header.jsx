@@ -55,9 +55,9 @@ const Header = () => {
               as={NavLink}
               to={"/"}
               color={"inherit"}
-              border={"2px solid gray"}
               borderRadius={"md"}
               p={1}
+              backgroundColor={useColorModeValue("gray.100", "gray.700")}
             >
               <Boxes size={35} fill='black' strokeWidth={1.1} color='white' />
             </ChakraLink>
