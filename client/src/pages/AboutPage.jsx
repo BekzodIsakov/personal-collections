@@ -24,6 +24,7 @@ import {
   Code,
   Server,
   Layout,
+  Layers,
 } from "lucide-react";
 
 import { GitHubLink } from "../components/GithubLink";
@@ -194,6 +195,7 @@ const AboutPage = () => {
                     color='red.500'
                   />
                   <TechItem icon={Globe} name='i18next' color='green.500' />
+                  <TechItem icon={Layers} name='Tanstack-query' color='green.500' />
                 </SimpleGrid>
 
                 <Divider />
