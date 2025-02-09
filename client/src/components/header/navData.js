@@ -10,7 +10,7 @@ export const useNavData = () => {
   const { token, user } = useAuth();
 
   const publicNavItems = React.useMemo(
-    () => [{ label: t("nav.mainPage"), to: "/" }],
+    () => [{ label: t("nav.mainPage"), to: "/" }, { label: t("nav.aboutPage"), to: "/about" }],
     [i18n.resolvedLanguage]
   );
 

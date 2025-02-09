@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Flex,
@@ -17,13 +20,11 @@ import {
   LanguageSelect,
 } from "@/components";
 import Persona from "../Persona";
-import { useTranslation } from "react-i18next";
 import { useAuth } from "../../providers/authProvider";
-import { NavLink } from "react-router-dom";
 import { Boxes } from "lucide-react";
 import { useNavData } from "./navData";
-import { useRef } from "react";
 import ChakraDrawer from "../Drawer";
+import { GitHubLink } from "../GithubLink";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -112,6 +113,9 @@ const Header = () => {
           />
 
           <HStack gap={{ base: "8px", md: "12px" }}>
+            <Button variant={"outline"}>
+              <GitHubLink />
+            </Button>
             <LanguageSelect />
             <ColorSwitch />
             <SearchButton onOpen={onOpen} />

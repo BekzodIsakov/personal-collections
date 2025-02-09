@@ -12,6 +12,7 @@ import UsersPage from "../pages/UsersPage";
 import UserPage from "../pages/UserPage";
 import CurrentUserProvider from "../providers/currentUserProvider";
 import ItemPage from "../pages/ItemPage";
+import AboutPage from "../pages/AboutPage";
 
 const Routes = () => {
   const { token, user } = useAuth();
@@ -72,6 +73,7 @@ const Routes = () => {
       element: <ParentRoute />,
       children: [
         { path: "/", element: <MainPage /> },
+        { path: "/about", element: <AboutPage /> },
         { path: "/collections/:collectionId", element: <CollectionView /> },
         { path: "/items/:itemId", element: <ItemPage /> },
         ...(token ? routesForAuthenticated : []),

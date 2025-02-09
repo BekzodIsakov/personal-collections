@@ -31,7 +31,8 @@
   "nav": {
     "mainPage": "Main",
     "myPage": "My page",
-    "usersPage": "Users"
+    "usersPage": "Users",
+    "aboutPage": "About"
   },
   "global": {
     "nonExistant": "Not available!",

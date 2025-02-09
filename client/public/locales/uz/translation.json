@@ -31,7 +31,8 @@
   "nav": {
     "mainPage": "Asosiy",
     "myPage": "Sahifam",
-    "usersPage": "Foydalanuvchi"
+    "usersPage": "Foydalanuvchi",
+    "aboutPage": "Loyiha haqida"
   },
   "global": {
     "nonExistant": "Mavjud emas!",
