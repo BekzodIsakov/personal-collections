@@ -1,4 +1,7 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import {
   Box,
   Button,
@@ -12,28 +15,26 @@ import {
   Stack,
   useColorModeValue,
   Text,
+  Link as ChakraLink,
+  HStack,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
 import { useAuth } from "@/providers/authProvider";
 import { useUserSignIn } from "@/hooks/user";
-import LanguageSelect from "@/components/LanguageSelect";
+import { LanguageSelect, ThemeSwitcher } from "@/components";
 import useForm from "@/hooks/useForm";
-import Link from "@/components/Link";
 
 const SignIn = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [values, handleChange] = useForm({ email: "", password: "" });
-
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
-
   const { setToken, setUser } = useAuth();
   const { data, loading, errorMessage, onSignIn } = useUserSignIn();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const handlePasswordShowClick = () => {
+  const { email, password } = values;
+
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
@@ -42,7 +43,7 @@ const SignIn = () => {
     onSignIn({ email: values.email, password: values.password });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
       setToken(data.token);
       setUser({
@@ -64,29 +65,30 @@ const SignIn = () => {
       <Stack
         spacing={8}
         mx='auto'
-        width={{ base: "100%", sm: "430px" }}
-        py='12'
-        px='6'
+        width={{ base: "100%", twSM: "450px" }}
+        py={12}
+        px={6}
       >
-        <Stack align='center'>
-          <Heading fontSize='4xl'>{t("auth.headings.signIn")}</Heading>
-        </Stack>
+        <Heading as={"h1"} fontSize='4xl' textAlign={"center"}>
+          {t("auth.headings.login")}
+        </Heading>
 
         <Box
-          p={8}
-          rounded='lg'
-          boxShadow='lg'
+          rounded='md'
           bg={useColorModeValue("white", "gray.700")}
+          boxShadow='lg'
+          px={{ base: 6, twSM: 8 }}
+          py={{ base: 8, twSM: 10 }}
         >
           <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
+            <Stack spacing={5}>
               <FormControl id='email'>
                 <FormLabel>{t("auth.emailAddress")}</FormLabel>
                 <Input
                   type='email'
                   required
                   name='email'
-                  value={values.email}
+                  value={email}
                   onChange={handleChange}
                 />
               </FormControl>
@@ -97,43 +99,46 @@ const SignIn = () => {
                     type={showPassword ? "text" : "password"}
                     required
                     name='password'
-                    value={values.password}
+                    value={password}
                     onChange={handleChange}
                   />
-                  <InputRightElement mr='1'>
-                    <Button size='sm' onClick={handlePasswordShowClick}>
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  <InputRightElement mr={1}>
+                    <Button size='sm' onClick={togglePasswordVisibility}>
+                      {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <Stack spacing={1}>
-                <Text color={"tomato"} fontSize={"sm"}>
-                  {errorMessage}
-                </Text>
+              <Stack spacing={3}>
+                <Text color='red.400'>{errorMessage}</Text>
                 <Button
+                  type='submit'
                   isLoading={loading}
                   loadingText='Submitting'
-                  type='submit'
-                  colorScheme='telegram'
+                  colorScheme='blue'
                 >
-                  {t("auth.signIn")}
+                  {t("auth.login")}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
-        <Box color='gray.500'>
-          {t("auth.noAccountYet?")}&nbsp;&nbsp;
-          <Link to='/signup' color='blue.500'>
-            {t("auth.signUp")}
-          </Link>
-        </Box>
-      </Stack>
+        <Text>
+          {t("auth.hasNoAccount?")}&nbsp;&nbsp;
+          <ChakraLink as={RouterLink} to='/signup'>
+            {t("auth.register")}
+          </ChakraLink>{" "}
+          |{" "}
+          <ChakraLink as={RouterLink} to='/'>
+            {t("nav.mainPage")}
+          </ChakraLink>
+        </Text>
 
-      <Box pos='fixed' right='12' bottom='12'>
-        <LanguageSelect />
-      </Box>
+        <HStack pos='fixed' right='12' bottom='12'>
+          <LanguageSelect />
+          <ThemeSwitcher />
+        </HStack>
+      </Stack>
     </Flex>
   );
 };
