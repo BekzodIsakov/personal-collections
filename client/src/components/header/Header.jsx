@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { X, Menu, Boxes } from "lucide-react";
 import {
   Box,
   Flex,
@@ -11,17 +12,15 @@ import {
   Button,
   Divider,
 } from "@chakra-ui/react";
-import { X, Menu } from "lucide-react";
 
 import {
-  ColorSwitch,
+  ThemeSwitcher,
   SearchModal,
   SearchButton,
   LanguageSelect,
 } from "@/components";
 import Persona from "../Persona";
 import { useAuth } from "../../providers/authProvider";
-import { Boxes } from "lucide-react";
 import { useNavData } from "./navData";
 import ChakraDrawer from "../Drawer";
 import { GitHubLink } from "../GithubLink";
@@ -46,11 +45,11 @@ const Header = () => {
       top='0'
       boxShadow='md'
       bg={useColorModeValue("gray.50", "gray.900")}
-      px={{ base: "3", md: "8" }}
-      py='2'
+      px={{ base: 3, md: 8 }}
+      py={2}
     >
       <Box maxW={1200} mx={"auto"}>
-        <Flex alignItems='center' justifyContent='space-between' gap={8}>
+        <Flex alignItems='center' justifyContent='space-between' gap={"8px"}>
           <HStack gap={33}>
             <ChakraLink
               as={NavLink}
@@ -69,7 +68,7 @@ const Header = () => {
                   key={index}
                   as={NavLink}
                   to={link.to}
-                  _activeLink={{ textDecoration: "underline" }}
+                  _activeLink={{ fontWeight: "extrabold", color: 'blue.600' }}
                 >
                   {link.label}
                 </ChakraLink>
@@ -88,7 +87,7 @@ const Header = () => {
                   variant={"outline"}
                   to='/signin'
                 >
-                  {t("auth.signIn")}
+                  {t("auth.login")}
                 </Button>
               )}
             </HStack>
@@ -117,7 +116,7 @@ const Header = () => {
               <GitHubLink />
             </Button>
             <LanguageSelect />
-            <ColorSwitch />
+            <ThemeSwitcher />
             <SearchButton onOpen={onOpen} />
           </HStack>
         </HStack>
