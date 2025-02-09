@@ -22,13 +22,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { OptionalFieldGenerator } from "@/components";
-import { useFetchTopics } from "@/hooks/topics";
-// import { useCreateCollection } from "@/hooks/collections";
-import { useCurrentUser } from "@/providers/currentUserProvider";
 import { useMutation } from "@tanstack/react-query";
 
 import { createCollection } from "../utils/data";
+import { OptionalFieldGenerator } from "@/components";
+import { useFetchTopics } from "@/hooks/topics";
+import { useCurrentUser } from "@/providers/currentUserProvider";
 
 const CreateCollectionModal = ({ isOpen, onClose, fetchUserCollections }) => {
   const [title, setTitle] = React.useState("");

@@ -8,13 +8,11 @@ import {
   WrapItem,
   useColorModeValue,
 } from "@chakra-ui/react";
-// import { useFetchAllTags } from "@/hooks/tags";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const Tags = ({ onTagSelect, tagId }) => {
   const { t } = useTranslation();
-  // const [tagId, setTagId] = useState(null);
 
   async function fetchTags() {
     try {
@@ -25,7 +23,6 @@ const Tags = ({ onTagSelect, tagId }) => {
     }
   }
 
-  // const { loading, errorMessage, tags, fetchTags } = useFetchAllTags();
   const tagColor = useColorModeValue("BlackAlpha.50", "gray.700");
 
   const tags = useQuery({ queryKey: ["tags"], queryFn: fetchTags });

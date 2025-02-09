@@ -5,7 +5,6 @@ const CollectionManagementPage = () => {
   return (
     <CollectionPage>
       <CollectionManagement />
-      {/* <h1>Manage</h1> */}
     </CollectionPage>
   );
 };

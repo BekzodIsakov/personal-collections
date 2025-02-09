@@ -7,8 +7,9 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useAuth } from "@/providers/authProvider";
 import { useTranslation } from "react-i18next";
+
+import { useAuth } from "@/providers/authProvider";
 import Comment from "./Comment";
 import Compose from "./Compose";
 

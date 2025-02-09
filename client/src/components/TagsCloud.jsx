@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Heading } from "@chakra-ui/react";
-import { CustomList, Tags } from "@/components";
-// import { useItemsFetchByTag } from "@/hooks/items";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+
+import { CustomList, Tags } from "@/components";
 
 const TagsCloud = () => {
   const [tagId, setTagId] = React.useState(null);

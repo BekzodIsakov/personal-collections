@@ -15,15 +15,11 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { NavLink, useNavigate, Link } from "react-router-dom";
-import { SearchIcon } from "lucide-react";
-
-import ColorSwitch from "./ColorSwitch";
-import LanguageSelect from "./LanguageSelect";
+import { useTranslation } from "react-i18next";
 
 import { useAuth } from "../providers/authProvider";
-import { useNavData } from "./header/Navigations/navData";
+import { useNavData } from "./header/navData";
 import { useUserSignOut } from "../hooks/user";
-import { useTranslation } from "react-i18next";
 
 const ChakraDrawer = ({
   isOpen,

@@ -10,10 +10,11 @@ import {
   Button,
   PopoverFooter,
 } from "@chakra-ui/react";
-import { useAuth } from "@/providers/authProvider";
 import { useNavigate } from "react-router-dom";
-import { useUserSignOut } from "../hooks/user";
 import { useTranslation } from "react-i18next";
+
+import { useAuth } from "@/providers/authProvider";
+import { useUserSignOut } from "../hooks/user";
 
 const Persona = () => {
   const { setToken, setUser, user } = useAuth();

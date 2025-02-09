@@ -18,10 +18,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+
 import { SVG, Spinner } from "@/components";
 import CommentsSection from "@/components/comments-section/CommentsSection";
 import { useItemFetch } from "@/hooks/items";
-
 import { CloseIcon, WarningIcon } from "@chakra-ui/icons";
 import { useAuth } from "@/providers/authProvider";
 import { useFetchComments } from "@/hooks/comments";

@@ -1,4 +1,4 @@
-import Header from "./header/Header";
+export * from "./header/Header";
 import CollectionEditModal from "./CollectionEditModal";
 import ItemsTable from "./ItemsTable";
 import ColorSwitch from "./ColorSwitch";
@@ -26,7 +26,6 @@ import Tags from "./Tags";
 import Spinner from "./Spinner";
 
 export {
-  Header,
   CollectionEditModal,
   ItemsTable,
   ColorSwitch,

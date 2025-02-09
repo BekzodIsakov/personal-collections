@@ -4,8 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import ParentRoute from "./ParentRoute";
-import MainPage from "../pages/MainPage";
-// import CollectionPage from "../pages/collection-page/CollectionPage";
+import MainPage from "../pages/main-page/MainPage";
 import CollectionView from "../pages/collection-page/CollectionView";
 import CollectionManagementPage from "../pages/CollectionManagementPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -32,7 +31,6 @@ const Routes = () => {
         },
         {
           path: "/me/collections/:collectionId",
-          // element: <h1>Collection management</h1>,
           element: <CollectionManagementPage />,
         },
       ],

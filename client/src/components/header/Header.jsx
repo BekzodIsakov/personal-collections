@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../providers/authProvider";
 import { NavLink } from "react-router-dom";
 import { Boxes } from "lucide-react";
-import { useNavData } from "./Navigations/navData";
+import { useNavData } from "./navData";
 import { useRef } from "react";
 import ChakraDrawer from "../Drawer";
 
@@ -62,7 +62,7 @@ const Header = () => {
               <Boxes size={35} fill='black' strokeWidth={1.1} color='white' />
             </ChakraLink>
 
-            <HStack gap={25} display={{ base: "none", sm2: "flex" }}>
+            <HStack gap={25} display={{ base: "none", twSM: "flex" }}>
               {navData.map((link, index) => (
                 <ChakraLink
                   key={index}
@@ -94,13 +94,13 @@ const Header = () => {
           </HStack>
         </Flex>
 
-        <Divider my={3} display={{ base: "block", sm2: "block" }} />
+        <Divider my={3} display={{ base: "block", twSM: "block" }} />
 
         <HStack justifyContent={"space-between"}>
           <Button
             ref={drawerBtnRef}
             onClick={onDrawerOpen}
-            display={{ base: "initial", sm2: "none" }}
+            display={{ base: "initial", twSM: "none" }}
           >
             {isDrawerOpen ? <X /> : <Menu />}
           </Button>

@@ -21,12 +21,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useFetchTopics } from "@/hooks/topics";
-import { CloseIcon } from "@chakra-ui/icons";
-// import { useCollectionEdit } from "@/hooks/collections";
-import { useTranslation } from "react-i18next";
-import useForm from "@/hooks/useForm";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { CloseIcon } from "@chakra-ui/icons";
+
+import { useFetchTopics } from "@/hooks/topics";
+import useForm from "@/hooks/useForm";
 import { editCollection } from "../utils/data";
 
 const EditCollectionModal = ({

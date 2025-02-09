@@ -26,17 +26,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+
 import {
   CollectionEditModal,
   DeleteModal,
   ItemsTable,
   Spinner,
 } from "@/components";
-import {
-  // useCollectionFetch,
-  // useDeleteCollection,
-  useDeleteCollectionImage,
-} from "@/hooks/collections";
+import { useDeleteCollectionImage } from "@/hooks/collections";
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
@@ -69,17 +66,7 @@ const CollectionManagement = () => {
     },
   });
 
-  // const update = useMutation({
-  //   mutationFn: () => updateCollection(collectionId, )
-  // })
-
   const { t } = useTranslation();
-
-  // const {
-  //   loading: isDeleting,
-  //   deleteCollection,
-  //   isDeleted,
-  // } = useDeleteCollection();
 
   const {
     loading: deletingCollectionImage,
@@ -269,81 +256,6 @@ const CollectionManagement = () => {
       </Box>
     );
   }
-
-  // React.useEffect(() => {
-  //   fetchCollection(params.collectionId);
-  // }, []);
-
-  // React.useEffect(() => {
-  //   if (collectionWithoutImage) {
-  //     setCollection(collectionWithoutImage);
-  //   }
-  // }, [collectionWithoutImage]);
-
-  // React.useEffect(() => {
-  //   if (isDeleted) {
-  //     closeDeleteModal();
-  //     navigate(-1);
-  //   }
-  // }, [isDeleted]);
-
-  // const collection = data?.data;
-  // console.log({ collection });
-
-  // return (
-  //   <Box>
-  //     {collection && (
-  //       <Stack
-  //         justifyContent='space-between'
-  //         mb='2'
-  //         direction={{ base: "column", sm: "row" }}
-  //       >
-  //         <Heading as='h1' size='lg' wordBreak='break-all'>
-  //           {collection.title}
-  //         </Heading>
-  //         <Wrap spacing='2'>
-  //           <Button
-  //             onClick={onEditModalOpen}
-  //             size='xs'
-  //             leftIcon={<EditIcon />}
-  //             colorScheme='telegram'
-  //           >
-  //             {t("global.edit")}
-  //           </Button>
-  //           <Button
-  //             onClick={onDeleteModalOpen}
-  //             size='xs'
-  //             leftIcon={<DeleteIcon />}
-  //             colorScheme='red'
-  //           >
-  //             {t("global.delete")}
-  //           </Button>
-  //         </Wrap>
-  //       </Stack>
-  //     )}
-  //     <Box mb='10'>{collectionManagementPage}</Box>
-
-  //     <ItemsTable collectionId={collection?._id} />
-
-  //     {isEditModalOpen && (
-  //       <CollectionEditModal
-  //         isOpen={isEditModalOpen}
-  //         onClose={closeEditModal}
-  //         collection={collection}
-  //         setCollection={setCollection}
-  //       />
-  //     )}
-  //     {isDeleteModalOpen && (
-  //       <DeleteModal
-  //         isOpen={isDeleteModalOpen}
-  //         onClose={closeDeleteModal}
-  //         onDelete={() => deleteCollection(params.collectionId)}
-  //         modalTitle={t("global.deleteCollection")}
-  //         isLoading={isDeleting}
-  //       />
-  //     )}
-  //   </Box>
-  // );
 };
 
 export default CollectionManagement;

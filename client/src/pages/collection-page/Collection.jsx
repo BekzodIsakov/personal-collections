@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
   Badge,
@@ -12,9 +14,8 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+
 import { CustomList } from "@/components";
-import { useParams } from "react-router-dom";
 import { fetchCollection } from "../../utils/data";
 
 const Collection = () => {

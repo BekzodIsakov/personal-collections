@@ -7,6 +7,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+
 import { ItemCard } from "@/components";
 
 const ItemViewModal = ({ isOpen, onClose, itemId, setItemId, itemName }) => {

@@ -22,7 +22,6 @@ const CustomList = ({
   list,
   type,
   loading,
-  // isFetching,
   errorMessage,
   showDetails = true,
 }) => {

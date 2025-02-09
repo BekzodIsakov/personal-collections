@@ -15,33 +15,9 @@ export async function deleteCollection(id) {
   );
 
   return data;
-
-  // try {
-  //   setLoading(true);
-  //   if ( 200 <= result.status || result.status < 300) setIsDeleted(true);
-  // } catch (error) {
-  //   setErrorMessage(error.response.data.message);
-  // } finally {
-  //   setLoading(false);
-  // }
 }
 
 export async function editCollection(id, formData) {
-  // async function updateCollection(id, formData) {
-  //   try {
-  //     setLoading(true);
-  //     const result = await axios.patch(
-  //       `${import.meta.env.VITE_URL}/collections/${id}`,
-  //       formData,
-  //       { headers: { "content-type": "multipart/form-data" } }
-  //     );
-  //     setUpdatedCollection(result.data);
-  //   } catch (error) {
-  //     setErrorMessage(error.response.data.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
 
   const data = await axios.patch(
     `${import.meta.env.VITE_URL}/collections/${id}`,

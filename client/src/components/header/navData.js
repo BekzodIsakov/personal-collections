@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../../../providers/authProvider";
+import { useAuth } from "../../providers/authProvider";
 import { useTranslation } from "react-i18next";
 
 export const useNavData = () => {
