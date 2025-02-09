@@ -1,5 +1,44 @@
 # Personal collections app
 
+📦 Collections App
+A web application that allows users to create, manage, and explore collections of various items. Users can register, interact with collections, and customize items with additional details. The app also includes an admin system for managing users and ensuring smooth moderation.
+
+🚀 Features
+User Roles
+Unauthenticated Users: Can browse collections but cannot interact (like, comment, or create collections).
+Authenticated Users: Can create, update, and delete their own collections and items.
+Admin Users: Can authorize other users, enable/disable admins, and block/unblock users.
+Collections & Items
+Each collection includes:
+Name
+Author
+Description
+Image
+List of items
+Each item includes:
+Name
+Type
+Tags
+Optional fields with custom values
+Interactions
+Users can like and comment on collections and items (registration required for commenting).
+Admins can edit and moderate collections.
+Responsive Design
+The app adapts to different viewport sizes for a seamless user experience across devices.
+🎯 Purpose
+This project was built to:
+✅ Showcase my skills in web development
+✅ Experiment with new technologies and features
+✅ Serve as a portfolio piece for potential employers
+
+⚙️ Tech Stack
+(Include the technologies used, e.g., Next.js, TypeScript, MongoDB, etc.)
+
+🛠️ Installation & Setup
+(Provide setup instructions if needed, e.g., how to run the app locally.)
+
+-------
+
 Collection app that lets create, update and delete collections of different
 items. There're 3 types of users. Anauthenticated users can only view
 collections. Authenticated users can control their collection while admin users
@@ -8,6 +47,16 @@ blocking/unblocking users. The app also responds to different viewport sizes.
 
 Each collection has a name, author, description and items. Each items has a
 name, type and tags. Optional fields and values can be added to each item.
+
+About This Project
+This is a collections app where users can register and create collections of their favorite items, such as coins, shoes, books, or anything else they collect. Each collection includes a name, an image, a list of items, and various other details to make it more informative.
+
+Users can interact by liking and commenting on collections and individual items. However, commenting requires registration—guests can only browse collections. Each user has full control over their own collections, allowing them to manage and update them as needed.
+
+The app also features an admin system. Admins can be assigned or blocked by other admins and have the ability to view and edit user collections to maintain order and moderation.
+
+Purpose
+I built this project to showcase my skills, experiment with new technologies, and explore different features I’ve been learning. It serves as both a learning experience and a portfolio piece to demonstrate my abilities to potential employers.
 
 [App link](https://personal-collections-app.netlify.app/ "Netlify")
 
